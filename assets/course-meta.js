@@ -9,8 +9,8 @@ window.CANYONS = {
     targetHours: 17.5,
     cutoffHours: 20,
     basePlanHours: 17.5,
-    crewStopMinutes: 1.5,
-    soloStopMinutes: 0.5,
+    crewStopMinutes: 10,
+    soloStopMinutes: 5,
   },
   // crew: true = crew-accessible per the April 21, 2026 official aid chart
   aidMeta: {
@@ -288,8 +288,8 @@ window.CANYONS = {
   function dwellMinutesForAid(aid, idx, total, options = {}) {
     const flags = resolveAidFlags(aid, idx, total);
     if (flags.start || flags.finish) return 0;
-    const crewStopMinutes = Number.isFinite(options.crewStopMinutes) ? options.crewStopMinutes : (CM.meta.crewStopMinutes ?? 1.5);
-    const soloStopMinutes = Number.isFinite(options.soloStopMinutes) ? options.soloStopMinutes : (CM.meta.soloStopMinutes ?? 0.5);
+    const crewStopMinutes = Number.isFinite(options.crewStopMinutes) ? options.crewStopMinutes : (CM.meta.crewStopMinutes ?? 10);
+    const soloStopMinutes = Number.isFinite(options.soloStopMinutes) ? options.soloStopMinutes : (CM.meta.soloStopMinutes ?? 5);
     return flags.crew ? crewStopMinutes : soloStopMinutes;
   }
 
