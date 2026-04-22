@@ -1388,7 +1388,7 @@
       <div class="cell"><div class="lab">Carbs</div><div class="val">${c.totCarbs.toLocaleString()}<small>g</small></div><div class="sub">${(c.totCarbs/elapsedHr).toFixed(0)} g/hr avg</div></div>
       <div class="cell"><div class="lab">Sodium</div><div class="val">${(c.totNa/1000).toFixed(1)}<small>g</small></div><div class="sub">${(c.totNa/elapsedHr).toFixed(0)} mg/hr avg · ${Math.round(c.totNa / (c.totFluid/1000))} mg/L</div></div>
       <div class="cell"><div class="lab">Fluid · ${FLUID_LAB[HEAT]}</div><div class="val">${fmtFluid(c.totFluid)}</div><div class="sub">${fluidSub}</div></div>
-      <div class="cell"><div class="lab">Bottles drained</div><div class="val" style="font-size:18px">${Math.round(skBottles*100)/100}× <small>A</small> · ${Math.round(h2oBottles*100)/100}× <small>B</small> · ${Math.round(cBottles*100)/100}× <small>C</small></div><div class="sub">${c.totSk} scoops · ${c.totGels} gels · ${c.totSalt} salt</div></div>
+      <div class="cell"><div class="lab">Bottles drained</div><div class="val" style="font-size:18px">${Math.round(skBottles*100)/100}× <small>A</small> · ${Math.round(h2oBottles*100)/100}× <small>B</small> · ${Math.round(cBottles*100)/100}× <small>C</small></div><div class="sub">${c.totSk} scoops carbs · ${c.totGels} gels · ${c.totSalt} salt tabs</div></div>
     `;
   }
 
