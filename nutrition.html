@@ -927,7 +927,6 @@
 </header>
 
 <section class="hero">
-  <div class="kicker" id="heroKicker">§ Nutrition plan</div>
   <h1>Fuel plan.</h1>
   <div class="time-card">
     <div class="time-slider-wrap">
@@ -1465,7 +1464,6 @@
   function renderHeaderSummary(c) {
     const pace = fmtPace(c.totalElapsedHr * 60 / c.totMi) + fmtPaceUnit();
     timeSlider.value = String(TARGET_MINUTES);
-    document.getElementById('heroKicker').textContent = `§ Nutrition plan`;
     document.getElementById('timeTargetVal').textContent = hhmm(c.totalElapsedHr);
     document.getElementById('timeFinishVal').textContent = addClock(START_HOUR, c.totalElapsedHr);
     document.getElementById('timePaceVal').textContent = pace;
