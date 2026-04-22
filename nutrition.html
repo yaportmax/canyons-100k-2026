@@ -408,14 +408,87 @@
   .seg-table .pill.salt { background: rgba(46, 93, 122, 0.12); border-color: var(--crew); color: var(--crew); }
   .seg-table .pill.caf { background: rgba(91, 58, 110, 0.14); border-color: var(--dusk); color: var(--dusk); }
   .seg-table .pill.warn { background: rgba(42, 31, 23, 0.06); border-color: var(--line); color: var(--ink-2); }
-  .bot-cell { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; min-width: 92px; }
-  .bot-row { display: flex; align-items: center; gap: 5px; font-size: 10.5px; font-family: var(--mono); white-space: nowrap; }
-  .bot-row .lab2 { color: var(--muted); width: 22px; text-align: right; }
-  .bot-row .val2 { color: var(--ink); font-weight: 600; min-width: 56px; text-align: right; }
+  .bot-cell { display: flex; flex-direction: column; gap: 4px; align-items: stretch; min-width: 148px; }
+  .bot-row {
+    display: grid;
+    grid-template-columns: minmax(64px, auto) 50px 52px;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+  .bot-row .lab2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    min-width: 0;
+  }
+  .bot-row .lab2 .fid {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--line-soft);
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .bot-row .lab2 .fname {
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .bot-row .val2 { color: var(--ink); font-weight: 600; min-width: 52px; text-align: right; }
   .bot-bar { width: 50px; height: 4px; background: var(--bg); border: 1px solid var(--line-soft); position: relative; }
   .bot-bar i { position: absolute; left: 0; top: 0; bottom: 0; }
   .bot-bar.sk i { background: var(--gold); }
   .bot-bar.h2o i { background: var(--crew); opacity: 0.55; }
+  .bot-cell.totals { min-width: 170px; }
+  .bot-cell.totals .bot-row {
+    grid-template-columns: minmax(64px, auto) minmax(0, 1fr);
+  }
+  .bot-cell.totals .val2 {
+    min-width: 0;
+    text-align: left;
+  }
+  .mobile-legs .m-bottle-card {
+    margin-top: 12px;
+    padding: 12px 12px 10px;
+    background: rgba(251, 246, 234, 0.72);
+    border: 1px solid var(--line-soft);
+  }
+  .mobile-legs .m-bottle-hd {
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mobile-legs .m-bottle-card .bot-cell {
+    min-width: 0;
+    gap: 7px;
+  }
+  .mobile-legs .m-bottle-card .bot-row {
+    grid-template-columns: minmax(82px, auto) minmax(0, 1fr) 44px;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .mobile-legs .m-bottle-card .bot-row .lab2 .fid {
+    width: 18px;
+    height: 18px;
+  }
+  .mobile-legs .m-bottle-card .bot-row .lab2 .fname {
+    font-size: 10px;
+  }
+  .mobile-legs .m-bottle-card .bot-bar {
+    width: auto;
+    height: 6px;
+  }
 
   /* Aid cards */
   .aid-grid {
@@ -764,9 +837,9 @@
   <div class="mobile-legs" id="mobileLegs"></div>
 
   <div class="legend-row">
-    <span class="l-sk"><i></i>Flask SK · Skratch Super High-Carb (500 ml flask; 1 scoop = 15 g carbs · 57 mg Na; 7 scoops = 105 g carbs · 399 mg Na)</span>
-    <span class="l-h2o"><i></i>Flask H₂O (500 ml plain water)</span>
-    <span class="l-h2o"><i></i>Flask C (600 ml backup water — long/hot legs only)</span>
+    <span class="l-sk"><i></i>Flask A · Carbs (500 ml flask; 1 scoop = 15 g carbs · 57 mg Na; 7 scoops = 105 g carbs · 399 mg Na)</span>
+    <span class="l-h2o"><i></i>Flask B · H2O (500 ml plain water)</span>
+    <span class="l-h2o"><i></i>Flask C · H2O (600 ml backup water — long/hot legs only)</span>
     <span class="l-gel"><i></i>Gel (22 g · 40 mg Na)</span>
     <span class="l-salt"><i></i>SaltStick caps (215 mg Na/cap)</span>
     <span class="l-caf"><i></i>5-Hour Energy (200 mg caffeine · on demand)</span>
@@ -803,10 +876,10 @@
     </div>
     <div class="assume-card">
       <h3>Flask system</h3>
-      <div class="row"><span class="k">Flask SK · 500 ml</span><span class="v">Skratch Super High-Carb (pre-portioned bag)</span></div>
-      <div class="row"><span class="k">Flask H₂O · 500 ml</span><span class="v">Plain water</span></div>
-      <div class="row"><span class="k">Flask C · 600 ml</span><span class="v">Backup water — carry on long/hot legs</span></div>
-      <div class="row"><span class="k">Total carry capacity</span><span class="v">1 L base · 1.6 L w/ Flask C</span></div>
+      <div class="row"><span class="k">Flask A · 500 ml</span><span class="v">Carbs (pre-portioned Skratch bag)</span></div>
+      <div class="row"><span class="k">Flask B · 500 ml</span><span class="v">H2O</span></div>
+      <div class="row"><span class="k">Flask C · 600 ml</span><span class="v">H2O backup — carry on long/hot legs</span></div>
+      <div class="row"><span class="k">Total carry capacity</span><span class="v">1.0 L base · 1.6 L with Flask C</span></div>
       <div class="row"><span class="k">Gels</span><span class="v">Front pockets</span></div>
       <div class="row"><span class="k">SaltStick caps</span><span class="v">Right hip / small vial</span></div>
       <div class="row"><span class="k">5-Hour Energy</span><span class="v">With crew — take when needed</span></div>
@@ -876,6 +949,11 @@
   const GEL_CARBS = 22, GEL_NA = 40;
   const SS_NA = 215;  // SaltStick FastChews / caps
   const CARB_HR = 80;
+  const FLASK_UI = {
+    carb: { code: 'A', name: 'Carbs', full: 'Flask A · Carbs', chip: 'A · Carbs', bag: 'Carb bag' },
+    water: { code: 'B', name: 'H2O', full: 'Flask B · H2O', chip: 'B · H2O' },
+    backup: { code: 'C', name: 'H2O', full: 'Flask C · H2O', chip: 'C · H2O' },
+  };
   // Salty-sweater sodium model:
   // Use the larger of a per-hour floor and a per-liter floor so hotter settings don't
   // simply add plain water and dilute sodium density. Moderate/hot are intentionally
@@ -1116,21 +1194,38 @@
       <div class="cell"><div class="lab">Carbs</div><div class="val">${c.totCarbs.toLocaleString()}<small>g</small></div><div class="sub">${(c.totCarbs/c.totHr).toFixed(0)} g/hr avg</div></div>
       <div class="cell"><div class="lab">Sodium</div><div class="val">${(c.totNa/1000).toFixed(1)}<small>g</small></div><div class="sub">${(c.totNa/c.totHr).toFixed(0)} mg/hr avg · ${Math.round(c.totNa / (c.totFluid/1000))} mg/L</div></div>
       <div class="cell"><div class="lab">Fluid · ${FLUID_LAB[HEAT]}</div><div class="val">${fmtFluid(c.totFluid)}</div><div class="sub">${fluidSub}</div></div>
-      <div class="cell"><div class="lab">Bottles drained</div><div class="val" style="font-size:18px">${Math.round(skBottles*100)/100}× <small>SK</small> · ${Math.round(h2oBottles*100)/100}× <small>H₂O</small> · ${Math.round(cBottles*100)/100}× <small>C</small></div><div class="sub">${c.totSk} scoops · ${c.totGels} gels · ${c.totSalt} salt</div></div>
+      <div class="cell"><div class="lab">Bottles drained</div><div class="val" style="font-size:18px">${Math.round(skBottles*100)/100}× <small>A</small> · ${Math.round(h2oBottles*100)/100}× <small>B</small> · ${Math.round(cBottles*100)/100}× <small>C</small></div><div class="sub">${c.totSk} scoops · ${c.totGels} gels · ${c.totSalt} salt</div></div>
     `;
   }
 
-  function bottleCell(r) {
+  function bottleLabelHtml(code, name) {
+    return `<span class="lab2"><span class="fid">${code}</span><span class="fname">${name}</span></span>`;
+  }
+  function bottleCell(r, mode = 'table') {
     // % = fraction of each (full) bottle consumed on this leg.
     const skPct = Math.round((r.skMl / SK_FLASK_ML) * 100);
     const h2oPct = Math.round((r.h2oMl / H2O_FLASK_ML) * 100);
     const cPct = r.hasC ? Math.round((r.cMl / C_FLASK_ML) * 100) : 0;
     const cLabel = r.hasC ? cPct + '%' : '—';
-    return `<div class="bot-cell">
-      <div class="bot-row"><span class="lab2">SK</span><div class="bot-bar sk"><i style="width:${Math.min(100,skPct)}%"></i></div><span class="val2">${skPct}%</span></div>
-      <div class="bot-row"><span class="lab2">H₂O</span><div class="bot-bar h2o"><i style="width:${Math.min(100,h2oPct)}%"></i></div><span class="val2">${h2oPct}%</span></div>
-      <div class="bot-row" style="${r.hasC?'':'opacity:0.35'}"><span class="lab2">C</span><div class="bot-bar h2o"><i style="width:${Math.min(100,cPct)}%"></i></div><span class="val2">${cLabel}</span></div>
+    const extraCls = mode === 'mobile' ? ' mobile' : '';
+    return `<div class="bot-cell${extraCls}">
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.carb.code, FLASK_UI.carb.name)}<div class="bot-bar sk"><i style="width:${Math.min(100,skPct)}%"></i></div><span class="val2">${skPct}%</span></div>
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.water.code, FLASK_UI.water.name)}<div class="bot-bar h2o"><i style="width:${Math.min(100,h2oPct)}%"></i></div><span class="val2">${h2oPct}%</span></div>
+      <div class="bot-row" style="${r.hasC?'':'opacity:0.35'}">${bottleLabelHtml(FLASK_UI.backup.code, FLASK_UI.backup.name)}<div class="bot-bar h2o"><i style="width:${Math.min(100,cPct)}%"></i></div><span class="val2">${cLabel}</span></div>
     </div>`;
+  }
+  function bottleTotalsCell(c) {
+    const totSkBot = c.totSkMl / SK_FLASK_ML;
+    const totH2oBot = c.totH2oMl / H2O_FLASK_ML;
+    const totCBot = c.totCMl / C_FLASK_ML;
+    return `<div class="bot-cell totals">
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.carb.code, FLASK_UI.carb.name)}<span class="val2">${totSkBot.toFixed(1)}× · ${fmtFluid(c.totSkMl)}</span></div>
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.water.code, FLASK_UI.water.name)}<span class="val2">${totH2oBot.toFixed(1)}× · ${fmtFluid(c.totH2oMl)}</span></div>
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.backup.code, FLASK_UI.backup.name)}<span class="val2">${totCBot.toFixed(1)}× · ${fmtFluid(c.totCMl)}</span></div>
+    </div>`;
+  }
+  function mobileBottleCard(r) {
+    return `<div class="m-bottle-card"><div class="m-bottle-hd">Flasks</div>${bottleCell(r, 'mobile')}</div>`;
   }
 
   // Build the "what to pack leaving [aid]" for a given leg.
@@ -1143,14 +1238,14 @@
     const bagSrc = isFirst ? 'from vest ziplock stash' : (isCrewBag ? 'from crew cooler' : 'from vest ziplock stash');
 
     if (z.useBag) {
-      parts.push(planItem('Flask SK', `dump 1 fresh ziplock and fill plain water`, `${bagSrc} · 105 g carbs`));
+      parts.push(planItem(FLASK_UI.carb.full, `dump 1 fresh ziplock and fill plain water`, `${bagSrc} · 105 g carbs`));
     } else {
       const leftScoops = Math.round(z.startCarbs / SK_CARBS_PER_SCOOP * 10) / 10;
-      parts.push(planItem('Flask SK', `keep the carry-over mix and top off plain water`, `~${z.startCarbs} g left · ${leftScoops} scoops remaining`));
+      parts.push(planItem(FLASK_UI.carb.full, `keep the carry-over mix and top off plain water`, `~${z.startCarbs} g left · ${leftScoops} scoops remaining`));
     }
-    parts.push(planItem('Flask H₂O', 'top off plain water', '500 ml'));
+    parts.push(planItem(FLASK_UI.water.full, 'top off plain water', '500 ml'));
     if (r.hasC) {
-      parts.push(planItem('Flask C', 'fill plain water', '600 ml · carry for the extra fluid load'));
+      parts.push(planItem(FLASK_UI.backup.full, 'fill plain water', '600 ml · carry for the extra fluid load'));
     }
     if (r.reloadGels > 0 || r.reloadSalt > 0) {
       const reload = [];
@@ -1172,9 +1267,9 @@
     const L = r.L;
     const carbsFromSk = Math.round(r.skCarbsDrunk);
     const rows = [];
-    rows.push(planItem('Sip SK', `drink ${fmtFluid(r.skMl)} · ${drinkCue(r.skMl, SK_FLASK_ML)}`, `${leaveCue(r.skMl, SK_FLASK_ML)} · ~${carbsFromSk} g carbs from flask`));
-    if (r.h2oMl > 0) rows.push(planItem('H₂O', `drink ${fmtFluid(r.h2oMl)} · ${drinkCue(r.h2oMl, H2O_FLASK_ML)}`, `${leaveCue(r.h2oMl, H2O_FLASK_ML)} · plain water`));
-    if (r.cMl > 0) rows.push(planItem('Flask C', `drink ${fmtFluid(r.cMl)} · ${drinkCue(r.cMl, C_FLASK_ML)}`, `${leaveCue(r.cMl, C_FLASK_ML)} · plain water`, ''));
+    rows.push(planItem(FLASK_UI.carb.full, `drink ${fmtFluid(r.skMl)} · ${drinkCue(r.skMl, SK_FLASK_ML)}`, `${leaveCue(r.skMl, SK_FLASK_ML)} · ~${carbsFromSk} g carbs from flask`));
+    if (r.h2oMl > 0) rows.push(planItem(FLASK_UI.water.full, `drink ${fmtFluid(r.h2oMl)} · ${drinkCue(r.h2oMl, H2O_FLASK_ML)}`, `${leaveCue(r.h2oMl, H2O_FLASK_ML)} · plain water`));
+    if (r.cMl > 0) rows.push(planItem(FLASK_UI.backup.full, `drink ${fmtFluid(r.cMl)} · ${drinkCue(r.cMl, C_FLASK_ML)}`, `${leaveCue(r.cMl, C_FLASK_ML)} · plain water`, ''));
     if (r.gels > 0) rows.push(planItem(`${r.gels} gel${r.gels>1?'s':''}`, itemTimingCue('gel', r.gels, L.hr)));
     if (r.salt > 0) rows.push(planItem(`${r.salt} salt cap${r.salt>1?'s':''}`, itemTimingCue('salt', r.salt, L.hr)));
     if (r.fluidShort > 0) rows.push(planItem('Carry cap', `plan is still ~${fmtFluid(r.fluidShort)} short of the hourly fluid target`, `all available flask volume is already assigned on this leg`, 'muted'));
@@ -1193,17 +1288,6 @@
     if (r.fluidShort > 0) pills += `<span class="pill warn">⚠ carry cap · ${fmtFluid(r.fluidShort)} short</span>`;
     if (!pills) return '';
     return cls === 'mobile' ? `<div class="m-pills">${pills}</div>` : pills;
-  }
-
-  function bottleSummary(r) {
-    const parts = [
-      `SK ${Math.round((r.skMl / SK_FLASK_ML) * 100)}%`,
-      `H₂O ${Math.round((r.h2oMl / H2O_FLASK_ML) * 100)}%`
-    ];
-    if (r.hasC) {
-      parts.push(`C ${Math.round((r.cMl / C_FLASK_ML) * 100)}%`);
-    }
-    return parts.join(' · ');
   }
 
   function renderSegments(c) {
@@ -1263,15 +1347,12 @@
               <span class="subv">${r.totalNa} mg Na</span>
             </div>
             <div class="m-stat">
-              <span class="k">Bottles</span>
-              <span class="v">${bottleSummary(r)}</span>
-            </div>
-            <div class="m-stat">
               <span class="k">Clock</span>
               <span class="v">${addClock(START_HOUR, r.arrHr)}</span>
               <span class="subv">left ${addClock(START_HOUR, r.depHr)}</span>
             </div>
           </div>
+          ${mobileBottleCard(r)}
           ${legPillsHtml(r, z, 'mobile')}
           <div class="m-open">Tap for leaving + on-leg details</div>
         </summary>
@@ -1284,9 +1365,6 @@
         </div>
       </details>`;
     });
-    const totSkBot = c.totSkMl / SK_FLASK_ML;
-    const totH2oBot = c.totH2oMl / H2O_FLASK_ML;
-    const totCBot = c.totCMl / C_FLASK_ML;
     html += `<tr class="tot">
       <td>TOTAL — 10 legs</td>
       <td class="num-c">${fmtMi(c.totMi)}</td>
@@ -1296,11 +1374,7 @@
       <td class="num-c">${fmtPace(c.totHr*60/c.totMi)}${fmtPaceUnit()} avg</td>
       <td class="num-c">${c.totCarbs} g</td>
       <td class="num-c">${fmtFluid(c.totFluid)}</td>
-      <td class="num-c"><div class="bot-cell">
-        <div class="bot-row"><span class="lab2">SK</span><span class="val2">${totSkBot.toFixed(1)}× · ${fmtFluid(c.totSkMl)}</span></div>
-        <div class="bot-row"><span class="lab2">H₂O</span><span class="val2">${totH2oBot.toFixed(1)}× · ${fmtFluid(c.totH2oMl)}</span></div>
-        <div class="bot-row"><span class="lab2">C</span><span class="val2">${totCBot.toFixed(1)}× · ${fmtFluid(c.totCMl)}</span></div>
-      </div></td>
+      <td class="num-c">${bottleTotalsCell(c)}</td>
       <td class="num-c">${(c.totNa/1000).toFixed(1)} g</td>
       <td><span class="pill sk">${zactions.filter(z=>z.useBag).length} bags</span><span class="pill gel">${c.totGels} gels</span><span class="pill salt">${c.totSalt} salt</span></td>
     </tr>`;
@@ -1379,12 +1453,12 @@
       const flasks = [];
       if (z.useBag) {
         const src = isFirst ? 'from vest' : (isCrewBag ? 'from crew' : 'from vest');
-        flasks.push(`<span class="chip sk"><b>SK</b> ${isFirst ? 'start full' : 'refill with 1 bag'} · ${src}</span>`);
+        flasks.push(`<span class="chip sk"><b>${FLASK_UI.carb.chip}</b> ${isFirst ? 'start full' : 'refill with 1 bag'} · ${src}</span>`);
       } else {
-        flasks.push(`<span class="chip sk" style="opacity:0.75"><b>SK</b> top off only · ${z.startCarbs}g carry-over</span>`);
+        flasks.push(`<span class="chip sk" style="opacity:0.75"><b>${FLASK_UI.carb.chip}</b> top off only · ${z.startCarbs}g carry-over</span>`);
       }
-      flasks.push(`<span class="chip h2o"><b>H₂O</b> ${isFirst ? 'start full' : 'refill plain water'}</span>`);
-      if (r.hasC) flasks.push(`<span class="chip c"><b>Flask C</b> fill plain water</span>`);
+      flasks.push(`<span class="chip h2o"><b>${FLASK_UI.water.chip}</b> ${isFirst ? 'start full' : 'refill plain water'}</span>`);
+      if (r.hasC) flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
 
       // ==== POCKET RELOAD lane ====
       const pocket = [];
@@ -1393,7 +1467,7 @@
       const spareBags = Math.max(0, (isFirst ? startBags : (handoffs[i] || 0)) - (z.useBag ? 1 : 0));
       if (spareBags > 0) {
         const src = isFirst ? 'in vest' : 'from crew';
-        pocket.push(`<span class="chip sk"><b>take</b> ${fmtCount(spareBags, 'spare SK bag')} · ${src}</span>`);
+        pocket.push(`<span class="chip sk"><b>take</b> ${fmtCount(spareBags, `spare ${FLASK_UI.carb.bag}`)} · ${src}</span>`);
       }
       if (isFirst) pocket.push(`<span class="chip caf"><b>vest</b> 1× 5-Hour</span>`);
       if (!pocket.length) pocket.push(`<span class="chip optional">no pocket reload here</span>`);
