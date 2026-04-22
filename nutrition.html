@@ -171,7 +171,12 @@
   .heat-toggle button:hover:not(.active) { background: var(--bg-2); }
 
   .seg-table { background: var(--paper); border: 1px solid var(--line); overflow-x: auto; }
-  .seg-table table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1040px; }
+  .seg-table table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1080px; }
+  .seg-table thead th.col-leg,
+  .seg-table tbody tr:not(.leg-expand) > td.col-leg {
+    width: 31%;
+    min-width: 250px;
+  }
   .mobile-legs { display: none; }
   .mobile-legs .m-leg-card {
     background: var(--paper);
@@ -825,7 +830,7 @@
     <table>
       <thead>
         <tr>
-          <th style="width: 26%">Leg</th>
+          <th class="col-leg">Leg</th>
           <th class="num-c">Mi</th>
           <th class="num-c">Gain / loss</th>
           <th class="num-c">Time</th>
@@ -1331,7 +1336,7 @@
       const z = zactions[idx];
       const pills = legPillsHtml(r, z);
       html += `<tr class="${L.crew?'crew':''} leg-row" data-idx="${idx}">
-        <td>
+        <td class="col-leg">
           <div class="seg-from"><span class="chev">▸</span>${L.from} → ${L.to}${L.crew?'<span class="crew-dot">● crew</span>':''}</div>
         </td>
         <td class="num-c">${fmtMi(L.mi)}</td>
