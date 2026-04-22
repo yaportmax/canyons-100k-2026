@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GPX Compare · Canyons 100K 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+  body { min-height: 100vh; }
+
+  .hero {
+    padding: 48px 48px 20px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(34px, 5.6vw, 68px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    margin: 10px 0 14px;
+    max-width: 12ch;
+  }
+  .hero h1 em { font-style: italic; color: var(--ember-2); }
+  .hero p {
+    max-width: 72ch;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .page {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 48px 48px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.9fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .summary-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 20px 22px 18px;
+  }
+  .summary-card .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .summary-card h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 27px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 8px 0 14px;
+  }
+  .summary-card h2 .swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    vertical-align: -1px;
+    margin-right: 9px;
+    border: 1px solid var(--line);
+  }
+  .summary-card.local h2 .swatch { background: var(--ember); border-color: var(--ember); }
+  .summary-card.official h2 .swatch { background: var(--sierra); border-color: var(--sierra); }
+  .summary-card p {
+    margin: 0 0 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line-soft);
+    border-left: 1px solid var(--line-soft);
+  }
+  .metric {
+    padding: 12px 12px 11px;
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .metric .k {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .metric .v {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .metric .v small {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  .delta-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+      radial-gradient(circle at top right, rgba(212, 71, 138, 0.08), transparent 45%),
+      radial-gradient(circle at bottom left, rgba(59, 91, 58, 0.08), transparent 42%),
+      var(--paper);
+  }
+  .delta-card .delta-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-top: 1px solid var(--line-soft);
+  }
+  .delta-card .delta-row:first-of-type { border-top: 0; padding-top: 0; }
+  .delta-card .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .delta-card .value {
+    font-family: var(--serif);
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .delta-card .value.negative { color: var(--sierra); }
+  .delta-card .note {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .map-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .map-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(244, 237, 224, 0.75);
+  }
+  .map-topbar .title {
+    font-family: var(--serif);
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .map-topbar .sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .toggles {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .toggles label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .toggles input { accent-color: var(--ember); }
+  .swatch-line {
+    display: inline-block;
+    width: 22px;
+    height: 0;
+    border-top-width: 4px;
+    border-top-style: solid;
+  }
+
+  #map {
+    width: 100%;
+    height: 70vh;
+    min-height: 560px;
+    background: #e8dfcc;
+  }
+
+  .status {
+    margin: 18px 0 0;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .status.warn {
+    border-color: var(--ember);
+    background: #fce8f0;
+    color: var(--ember-2);
+  }
+  .status.error {
+    border-color: var(--line);
+    background: #f4ebd7;
+    color: var(--ink);
+  }
+
+  .leaflet-tooltip.compare-tip {
+    border-radius: 0;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: 3px 3px 0 rgba(42, 31, 23, 0.12);
+    padding: 8px 10px;
+    color: var(--ink);
+    font-family: var(--sans);
+  }
+  .leaflet-tooltip.compare-tip b {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 980px) {
+    .summary-grid { grid-template-columns: 1fr; }
+    .map-topbar { flex-direction: column; align-items: flex-start; }
+    .toggles { justify-content: flex-start; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 28px 18px 16px; }
+    .page { padding: 0 18px 24px; }
+    .hero h1 { max-width: 9ch; }
+    #map { min-height: 420px; height: 58vh; }
+  }
+</style>
+</head>
+<body class="topo-bg">
+
+<header class="nav">
+  <div class="brand"><span class="mark">Canyons · 100K · 2026</span></div>
+  <nav>
+    <a href="index.html">Route</a>
+    <a href="nutrition.html">Nutrition</a>
+    <a href="crew.html">Crew</a>
+    <a href="compare.html" class="active">GPX Compare</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="kicker">§ Quick Route Diff</div>
+  <h1>Original vs <em>alternate</em> GPX.</h1>
+  <p>
+    This page overlays the local `assets/canyons_2026.gpx` route with the official alternate GPX published on April 21, 2026.
+    Both routes share the same map so the reroute stands out around the Deadwood / Devil's Thumb section.
+  </p>
+</section>
+
+<main class="page">
+  <section class="summary-grid">
+    <article class="summary-card local">
+      <div class="eyebrow">Local File</div>
+      <h2><span class="swatch"></span>Original GPX</h2>
+      <p>Current workspace route data and the source behind the existing route, nutrition, and crew pages.</p>
+      <div class="metrics" id="localMetrics"></div>
+    </article>
+
+    <article class="summary-card official">
+      <div class="eyebrow">Official Update</div>
+      <h2><span class="swatch"></span>Alternate GPX · 04/21/2026</h2>
+      <p>Downloaded from the official Canyons by UTMB 100K page after the same-day course file replacement.</p>
+      <div class="metrics" id="officialMetrics"></div>
+    </article>
+
+    <article class="summary-card delta-card">
+      <div>
+        <div class="eyebrow">Change Summary</div>
+        <h2>Route Delta</h2>
+      </div>
+      <div class="delta-row">
+        <div class="label">Distance</div>
+        <div class="value negative" id="deltaDistance">-</div>
+      </div>
+      <div class="delta-row">
+        <div class="label">Climb</div>
+        <div class="value negative" id="deltaGain">-</div>
+      </div>
+      <div class="delta-row">
+        <div class="label">Descent</div>
+        <div class="value negative" id="deltaLoss">-</div>
+      </div>
+      <div class="note">
+        The visible reroute is concentrated mid-course. Your current local GPX keeps the older Devil's Thumb loop segment that the official alternate file removes.
+      </div>
+    </article>
+  </section>
+
+  <section class="map-card">
+    <div class="map-topbar">
+      <div>
+        <div class="title">Both routes on one map</div>
+        <div class="sub">Toggle layers to isolate the reroute</div>
+      </div>
+      <div class="toggles">
+        <label><input type="checkbox" data-layer="local" checked /><span class="swatch-line" style="border-color: var(--ember);"></span>Local original</label>
+        <label><input type="checkbox" data-layer="official" checked /><span class="swatch-line" style="border-color: var(--sierra);"></span>Official alternate</label>
+      </div>
+    </div>
+    <div id="map"></div>
+  </section>
+
+  <div id="status" class="status" hidden></div>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  const ROUTES = {
+    local: {
+      label: "Local original GPX",
+      path: "assets/canyons_2026.gpx",
+      color: "#d4478a"
+    },
+    official: {
+      label: "Official alternate GPX",
+      path: "assets/canyons_2026_official_alternate_2026-04-21.gpx",
+      color: "#3b5b3a"
+    }
+  };
+
+  const map = L.map("map", {
+    zoomControl: true,
+    attributionControl: true,
+    zoomSnap: 0.25,
+    wheelPxPerZoomLevel: 100
+  }).setView([39.05, -120.85], 10);
+
+  const base = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    {
+      maxZoom: 19,
+      attribution: "Tiles © Esri — Sources: Esri, USGS, NOAA",
+      className: "base-tiles"
+    }
+  ).addTo(map);
+
+  const routeLayers = {};
+  const allBounds = [];
+
+  function showStatus(message, cls) {
+    const el = document.getElementById("status");
+    el.hidden = false;
+    el.className = "status " + cls;
+    el.textContent = message;
+  }
+
+  function metersToMiles(meters) {
+    return meters / 1609.344;
+  }
+
+  function metersToFeet(meters) {
+    return meters * 3.28084;
+  }
+
+  function haversine(a, b) {
+    const R = 6371000;
+    const toRad = deg => deg * Math.PI / 180;
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lon - a.lon);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const h = Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  }
+
+  function parseGpx(xmlText) {
+    const xml = new DOMParser().parseFromString(xmlText, "application/xml");
+    const parserError = xml.getElementsByTagName("parsererror")[0] ||
+      xml.getElementsByTagNameNS("*", "parsererror")[0];
+    if (parserError) {
+      throw new Error("GPX parsing failed.");
+    }
+
+    const gpxNs = "http://www.topografix.com/GPX/1/1";
+    const nameNode = xml.getElementsByTagNameNS(gpxNs, "name")[0] ||
+      xml.getElementsByTagName("name")[0];
+    const trackNodes = [
+      ...xml.getElementsByTagNameNS(gpxNs, "trkpt"),
+      ...(!xml.getElementsByTagNameNS(gpxNs, "trkpt").length ? xml.getElementsByTagName("trkpt") : [])
+    ];
+    const points = trackNodes.map(node => {
+      const eleNode = node.getElementsByTagNameNS(gpxNs, "ele")[0] ||
+        node.getElementsByTagName("ele")[0];
+      return {
+        lat: Number(node.getAttribute("lat")),
+        lon: Number(node.getAttribute("lon")),
+        ele: Number(eleNode?.textContent || 0)
+      };
+    }).filter(point => Number.isFinite(point.lat) && Number.isFinite(point.lon));
+
+    if (points.length < 2) {
+      throw new Error("No track points found in GPX.");
+    }
+
+    let meters = 0;
+    let gain = 0;
+    let loss = 0;
+    for (let i = 1; i < points.length; i++) {
+      meters += haversine(points[i - 1], points[i]);
+      const diff = points[i].ele - points[i - 1].ele;
+      if (diff > 0) gain += diff;
+      else loss -= diff;
+    }
+
+    return {
+      name: nameNode?.textContent?.trim() || "Unnamed GPX",
+      points,
+      stats: {
+        distanceMiles: metersToMiles(meters),
+        gainFeet: metersToFeet(gain),
+        lossFeet: metersToFeet(loss),
+        pointCount: points.length
+      }
+    };
+  }
+
+  function renderMetrics(targetId, stats) {
+    const items = [
+      ["Distance", stats.distanceMiles.toFixed(2), "mi"],
+      ["Climb", Math.round(stats.gainFeet).toLocaleString(), "ft"],
+      ["Descent", Math.round(stats.lossFeet).toLocaleString(), "ft"],
+      ["Track Pts", stats.pointCount.toLocaleString(), ""]
+    ];
+
+    document.getElementById(targetId).innerHTML = items.map(([label, value, unit]) => `
+      <div class="metric">
+        <div class="k">${label}</div>
+        <div class="v">${value}${unit ? `<small>${unit}</small>` : ""}</div>
+      </div>
+    `).join("");
+  }
+
+  function renderDelta(localStats, officialStats) {
+    const dist = officialStats.distanceMiles - localStats.distanceMiles;
+    const gain = Math.round(officialStats.gainFeet - localStats.gainFeet);
+    const loss = Math.round(officialStats.lossFeet - localStats.lossFeet);
+
+    document.getElementById("deltaDistance").textContent = `${dist.toFixed(2)} mi`;
+    document.getElementById("deltaGain").textContent = `${gain.toLocaleString()} ft`;
+    document.getElementById("deltaLoss").textContent = `${loss.toLocaleString()} ft`;
+  }
+
+  function buildTooltip(route) {
+    const stats = route.stats;
+    return `
+      <b>${route.label}</b>
+      ${stats.distanceMiles.toFixed(2)} mi<br/>
+      ${Math.round(stats.gainFeet).toLocaleString()} ft up<br/>
+      ${Math.round(stats.lossFeet).toLocaleString()} ft down
+    `;
+  }
+
+  async function loadRoute(key) {
+    const route = ROUTES[key];
+    const response = await fetch(route.path);
+    if (!response.ok) {
+      throw new Error(`Could not load ${route.path}`);
+    }
+
+    const parsed = parseGpx(await response.text());
+    route.stats = parsed.stats;
+    route.points = parsed.points;
+    route.name = parsed.name;
+
+    const latLngs = parsed.points.map(p => [p.lat, p.lon]);
+    const layer = L.polyline(latLngs, {
+      color: route.color,
+      weight: key === "local" ? 6 : 5,
+      opacity: 0.88
+    }).bindTooltip(buildTooltip(route), {
+      sticky: true,
+      className: "compare-tip"
+    });
+
+    routeLayers[key] = layer;
+    allBounds.push(layer.getBounds());
+    layer.addTo(map);
+  }
+
+  function wireToggles() {
+    document.querySelectorAll("[data-layer]").forEach(input => {
+      input.addEventListener("change", event => {
+        const key = event.target.dataset.layer;
+        const layer = routeLayers[key];
+        if (!layer) return;
+        if (event.target.checked) layer.addTo(map);
+        else map.removeLayer(layer);
+      });
+    });
+  }
+
+  async function init() {
+    if (window.location.protocol === "file:") {
+      showStatus("If the map stays blank, serve this folder over HTTP before opening compare.html. Example: python3 -m http.server", "warn");
+    }
+
+    try {
+      await Promise.all([loadRoute("local"), loadRoute("official")]);
+      renderMetrics("localMetrics", ROUTES.local.stats);
+      renderMetrics("officialMetrics", ROUTES.official.stats);
+      renderDelta(ROUTES.local.stats, ROUTES.official.stats);
+
+      const combinedBounds = allBounds.reduce((acc, bounds) => acc.extend(bounds), allBounds[0]);
+      map.fitBounds(combinedBounds.pad(0.04));
+
+      L.marker(routeLayers.local.getLatLngs()[0]).addTo(map)
+        .bindTooltip("Shared start", { permanent: false, direction: "top", className: "compare-tip" });
+      L.marker(routeLayers.local.getLatLngs()[routeLayers.local.getLatLngs().length - 1]).addTo(map)
+        .bindTooltip("Shared finish", { permanent: false, direction: "top", className: "compare-tip" });
+
+      wireToggles();
+    } catch (error) {
+      console.error(error);
+      showStatus(`Could not render the GPX overlays: ${error.message} If you opened this page directly from Finder, start a local web server in this folder and reload.`, "error");
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>

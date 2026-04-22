@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Canyons 100K GPX Compare</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+  :root {
+    --bg: #f4ede0;
+    --bg-2: #ece2cf;
+    --paper: #fbf6ea;
+    --ink: #1b1410;
+    --ink-2: #4a3a2e;
+    --muted: #7a6a5a;
+    --line: #2a1f17;
+    --line-soft: rgba(42, 31, 23, 0.18);
+    --local: #d4478a;
+    --local-deep: #9e2a63;
+    --official: #3b5b3a;
+    --official-soft: #dfe8d7;
+    --gold: #c79f45;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(212, 71, 138, 0.06), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(59, 91, 58, 0.06), transparent 35%),
+      var(--bg);
+  }
+
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 28px 20px 36px;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    margin: 0 0 10px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(32px, 5.5vw, 66px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+
+  .hero p {
+    margin: 0;
+    max-width: 62ch;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    align-self: start;
+  }
+
+  .badge {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 8px 10px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.85fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 18px 18px 16px;
+  }
+
+  .card h2 {
+    margin: 0 0 10px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
+  .card p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .swatch {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: -1px;
+    border: 1px solid var(--line);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line-soft);
+    border-left: 1px solid var(--line-soft);
+  }
+
+  .metric {
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+    padding: 12px 10px 10px;
+  }
+
+  .metric .k {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .metric .v {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .metric .v small {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  .delta-card {
+    background:
+      linear-gradient(135deg, rgba(212, 71, 138, 0.05), transparent 40%),
+      linear-gradient(315deg, rgba(59, 91, 58, 0.07), transparent 35%),
+      var(--paper);
+  }
+
+  .delta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line-soft);
+    align-items: baseline;
+  }
+
+  .delta-row:first-of-type { border-top: 0; padding-top: 0; }
+
+  .delta-row .k {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .delta-row .v {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--official);
+  }
+
+  .delta-note {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .map-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .map-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(244, 237, 224, 0.82);
+  }
+
+  .map-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .map-sub {
+    margin-top: 5px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .controls {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .toggle input { accent-color: var(--local); }
+
+  .line-chip {
+    display: inline-block;
+    width: 22px;
+    height: 0;
+    border-top: 4px solid;
+  }
+
+  #map {
+    width: 100%;
+    height: min(76vh, 860px);
+    min-height: 520px;
+    background: #e8dfcc;
+  }
+
+  .footer-note {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .leaflet-container {
+    background: #e8dfcc;
+    font-family: inherit;
+  }
+
+  .leaflet-control-zoom a {
+    background: var(--paper) !important;
+    color: var(--ink) !important;
+    border-radius: 0 !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: none !important;
+  }
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-tooltip {
+    border-radius: 0;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: 3px 3px 0 rgba(42, 31, 23, 0.12);
+    color: var(--ink);
+  }
+
+  .leaflet-tooltip {
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .leaflet-popup-content {
+    margin: 12px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 980px) {
+    .hero,
+    .summary {
+      grid-template-columns: 1fr;
+    }
+
+    .badge-row,
+    .controls {
+      justify-content: flex-start;
+    }
+
+    .map-bar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 18px 12px 24px; }
+    .metrics { grid-template-columns: 1fr; }
+    #map { min-height: 420px; height: 60vh; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Canyons 100K 2026</div>
+      <h1>Original GPX vs official alternate GPX.</h1>
+      <p>
+        Standalone shareable compare page for the local original route and the official alternate route posted on April 21, 2026.
+        Both tracks are embedded directly in this file, so there is no local GPX fetch and no local asset dependency for the route lines.
+      </p>
+    </div>
+    <div class="badge-row">
+      <div class="badge">Single-file version</div>
+      <div class="badge">No local GPX fetch</div>
+      <div class="badge">Same start / finish</div>
+    </div>
+  </section>
+
+  <section class="summary">
+    <article class="card">
+      <div class="eyebrow">Local Route</div>
+      <h2><span class="swatch" style="background: var(--local); border-color: var(--local);"></span>Original GPX</h2>
+      <p>The current workspace route used by the existing local planning pages.</p>
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">Distance</div>
+          <div class="v">62.53<small>mi</small></div>
+        </div>
+        <div class="metric">
+          <div class="k">Climb</div>
+          <div class="v">13,942<small>ft</small></div>
+        </div>
+        <div class="metric">
+          <div class="k">Descent</div>
+          <div class="v">17,689<small>ft</small></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="eyebrow">Official Update</div>
+      <h2><span class="swatch" style="background: var(--official); border-color: var(--official);"></span>Alternate GPX · 04/21/2026</h2>
+      <p>The official same-day replacement GPX published on the Canyons by UTMB 100K page.</p>
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">Distance</div>
+          <div class="v">61.16<small>mi</small></div>
+        </div>
+        <div class="metric">
+          <div class="k">Climb</div>
+          <div class="v">13,648<small>ft</small></div>
+        </div>
+        <div class="metric">
+          <div class="k">Descent</div>
+          <div class="v">17,395<small>ft</small></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card delta-card">
+      <div class="eyebrow">Delta</div>
+      <h2>What changed</h2>
+      <div class="delta-row">
+        <div class="k">Distance</div>
+        <div class="v">-1.37 mi</div>
+      </div>
+      <div class="delta-row">
+        <div class="k">Climb</div>
+        <div class="v">-294 ft</div>
+      </div>
+      <div class="delta-row">
+        <div class="k">Descent</div>
+        <div class="v">-294 ft</div>
+      </div>
+      <div class="delta-note">
+        The visible reroute is concentrated in the Deadwood / Devil's Thumb section. The official alternate course removes the older mid-course loop segment while keeping the same start and finish.
+      </div>
+    </article>
+  </section>
+
+  <section class="map-card">
+    <div class="map-bar">
+      <div>
+        <div class="map-title">Both routes on one map</div>
+        <div class="map-sub">Toggle either route to isolate the reroute</div>
+      </div>
+      <div class="controls">
+        <label class="toggle">
+          <input type="checkbox" data-layer="local" checked />
+          <span class="line-chip" style="border-color: var(--local);"></span>
+          Local original
+        </label>
+        <label class="toggle">
+          <input type="checkbox" data-layer="official" checked />
+          <span class="line-chip" style="border-color: var(--official); border-top-style: dashed;"></span>
+          Official alternate
+        </label>
+      </div>
+    </div>
+    <div id="map"></div>
+  </section>
+
+  <p class="footer-note">
+    Open this file directly in a browser or host it anywhere as a static HTML page. The route data is embedded in the file; the only remote dependencies are Leaflet and the map tiles.
+  </p>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  const ROUTES = {
+    local: {
+      label: "Local original GPX",
+      color: "#d4478a",
+      dashArray: null,
+      distanceMi: 62.53,
+      gainFt: 13942,
+      lossFt: 17689,
+      encoded: "ew}mFptp_VlCd@hAaArHvJfEmHbK`Ahe@jVn]r^jO|Ix@xBd@|KfXbJvB^fIcAtQHdFgB|HwIZt@_@~DlDTHf@YjA{BzAHxEuCdHrA|@nOl@tOeFv@Pp@dC`DtDdEFrBvAtF`AfG}BfEbF?fBnA~CtB_IjIiBDdByDbEdEhBtEd@qEwDlBeAnAeD@cEcEeInAy@r@TqAgCnBc@jHxBbD|K|F[AvKdDf@rAvBlBR~@s@jAr@nBkC?uArAOz@aDfPObLjFpFfEvGYpBhFjDtCnJxMfEz@xE`EfEtAbCtCvJLzPkBpG~B~DRvAm@tAeAqGgAwMaNqCK|CmDjAJmA{A{CVE_AeAYbHmCxFd@sG{FkIiBrL_DwHyB_CyDjCh@tCqAx@}Cv@OxAyCkALYmDmEgGyAe@dCsB{B{AgEs@{BkCi@kCd@iFyDo[eS}Y_MgE{GiHqLcEaT}c@wF{HzAoD?_DaEoLcCo@zCuFfC}HBoBiCoK\\kEuB@p@kAOwBc@dAK}Gs@~@F_C~@OoAYTk@{AhAMvAEgCi@|A[sAIjAuCm@}B`AGp@m@wBaAjCk@aBq@`BQg@gB~AM{@oA`@FqBm@r@aCMY{@Xz@`CLl@s@GpBnAa@Lz@fB_BPf@p@aBj@`B`AkCl@vBFq@|BaAtCl@HkAZrAh@}A@fCpAyCtA|@_ANKfAFv@n@_ANbH^kALpCo@p@tBA]jEjCxMyEdOoA~AbCb@ZzAv@RjEIdFzBvKGfH`DhOuMx@nAdAfJvEbJa@fCb@vArEdD`JSxE~HlF`BbAdD_@jDr@zCd@aATZlAvKrC~HeCZg@~O_BgBuEaAhA|F@bGbAxBlEfDVnAeB|HqCpCF~B|BhG{AbCOxBzCzCfCEz@dC_@^qKqEwAwExBxFzGhB`FrHtHtEpCXm@v@kCT~@hArCl@fFwA~A\\jA|AqAYXt@|I`GzDh@|IdNhAfFxKzHdEU~BcBrChBdCbE|DGrB{BdEv@nClCbFd@lDw@x@dBpBKvGnMrIoD`EnFtHmAdAtEoBpDrClBd@lAWrB|@V`@vAnCy@hAbBc@xAx@VjEgCfDz@oBb@~ApBzFp@iCrCoABrAhA|B`@pEmChDNzDtFbGpAfApAu@tDzEvHy@hCXnC_@|M{@tB}ElC{BlFyCdByBvDbCeBbBPPf@s@UaB|AlBQxA|FlDCy@f@~CpA\\dFgB~EJtWtEhG~@`FzAfCgG`RaDhBdAdHJfMpB~CBlD^TdKJaBjJdEtGLnIvAAnA{BnE|CwAfG^lDaFfFQxF{AbBmDbAyAxN{AzA_FFnCnCxAnUxGnHfExMxCfVUrKu@jAhAr@u@|AlB`C?z@bCeBhC^lCxF}@^rCfBc@n@~@~Aq@D~At@WrAn@YcAhGVQ`AbHj@a@|@bCzAt@i@b@zI~OxAvMnBxBfA~HrAtDrC|AmErNx@rIcCjD`@jKlFfGzHpB`HtInBrH{ArFhF~HtOja@rGvLn@bFl@SP|Ac@XfHtl@rCOp@nDbOGtDu@fEdCEcAtAjDsBXDpA`C?fBcFxBWh@~BcAbDrI|GhDuA~@|@k@x@dAxCI`C{DPnDtBu@JJpF~@oBxDvCbC{De@fBJ`Ez@`A?gD`CrEk@tAbC_AYzA|Nz@zAiAjAaEjF}CxGdAzA`CdD_BfBNdAmDhFr@dGUdBzGxDnCgDnMtA~Cf@lJqAxE`@|@{A[hBbEtJoF~CzDpDa@lCpBdA{BzB{AfHbCxEsCpDAhCzGnBxAvFw@pBiExFvD~CsAfH~EfAnBiChFcF|DbC`HaEbCp@|DSnBgEzDqB_@iErEmAg@kB_FaAEmBtFoKbAlJbJgCzCoFdAg@v@nAzA]|Bf@h@lDpAzAs@pCJ`XbLfDfKtMrAqBzBwGjCyApC`YzGnBjFvAGlD`B|DoBxHqIfBoCqFpBvEyFnHbBwF}DgBLr@u@`KrB`CGaFsBbP^rB|Iv@mF`CwExJuB~BqBzI}CjEoD`DQx@x@v@jHyCuD`E`UrCXfB`DnFvCzFrA~Ii@|BtAa@~DgHfGa@pBkD~ChB~O?nHiGjW}@~SoB`PG~M}@bMqEdKqAdAqBpHeArTjA~IfFxKnBvDzEtEbKpT`GdH`@tCyBbGmEnk@kDjNEhI}AzEiHzJcGrQgKfNqBzGkDxWf@jOS`JaHjD]xDaD~HPpNr@`DuClJe@fGoE|D~Bp@fB`C|AoAjG@~BhInHeDbEnA|A`BlD\\wElKHzCu@nAgBb@eClEcU`CmGjJfADzFeDfAvAdCl@nAiCbBxChFlDtMxA|FcC~C}DhCHpCaAjAaCd@{MzA@jC`EiA`BpBhBjApDo@`F~@^dBm@~DfAvCy@S|CnAbBBnFdChAe@tD~BlDl@|IrB_@tCvElC|@|DnEoCdAeAnCaC\\{A~AeEm@iHjA_AdAMpEuBjBFzDyEfCeClGdFzG|AiBt@NrCtIhIn@dApBrDqHzBjF~D`A`CpFjCy@zAj@f@rBq@bD`Ah@`DrI|@OdB~AzHnAxBfC|Fa@@fAvApBXeB\\LZ|D_EfJtChEXzDoCvEI|DxBq@hB\\PdAcAbC|CzDKnBq@o@Yj@~@|@~ArN}A`GIlDhDzC\\}E|B_@~BbB@xB{CnGbCvLAtFjAP|BiAbAtAfJ|DjJgF?y@wBsAvDyBOaAtE`@|@jEjCqBrE[`D_GMkBjHaBxChEn@|D|BA~TnO|EnHHpHqBnEdE{Ab@NItAuCdBcBpEoD~AkAlCn@lA]`AqCo@_FReGzCgB{BR|EoAfF_ABgArEaA_Bo@zBBqB_@~@oCvMYjIl@?jBeGhDeDdNcH|AXfBvCH`HzAxEvAZbCwBbBlB`@lC_D`Gk@zCtDfCLvCy@bD|BzMe@tBrF|PIjEbCnAz@fDhEaA~EhAtFzZfB`Ex@tHEnGiA`G{E|B_EwBgCfC`BzUlCfFvJpGzEn@jCm@jJjEtH~@rCvElEbBjAhBYvBvBzF{A|F|AbA|ApF`AlA`FO`FxAbEnEnBrGdEpC~L~DNbA{Aq@rAfFhEq@n@x@dBg@hDrAbC?~J_KdBiGTlLqAlJsC~Gh@pH{ChDmK@_HjHgFlBuAdEFdCeDpBeBhFtD`HxB|@pArBq@~E}Aq@"
+    },
+    official: {
+      label: "Official alternate GPX",
+      color: "#3b5b3a",
+      dashArray: "14 10",
+      distanceMi: 61.16,
+      gainFt: 13648,
+      lossFt: 17395,
+      encoded: "ew}mFptp_VlCd@hAaArHvJfEmHbK`Ahe@jVn]r^jO|Ix@xBd@|KfXbJvB^fIcAtQHdFgB|HwIZt@_@~DlDTHf@YjA{BzAHxEuCdHrA|@nOl@tOeFv@Pp@dC`DtDdEFrBvAtF`AfG}BfEbF?fBnA~CtB_IjIiBDdByDbEdEhBtEd@qEwDlBeAnAeD@cEcEeInAy@r@TqAgCnBc@jHxBbD|K|F[AvKdDf@rAvBlBR~@s@jAr@nBkC?uArAOz@aDfPObLjFpFfEvGYpBhFjDtCnJxMfEz@xE`EfEtAbCtCvJLzPkBpG~B~DRvAm@tAeAqGgAwMaNqCK|CmDjAJmA{A{CVE_AeAYbHmCxFd@sG{FkIiBrL_DwHyB_CyDjCh@tCqAx@}Cv@OxAyCkALYmDgEaG_Bk@dCsB{B{AgEs@{BkCi@kCd@iFyDo[eS}Y_MgE{GiHqLcEaT}c@wF{HzAoD?_DaEoLcCo@zCuFfC}HBoBiCoK\\kEuB@p@kAOwBc@dAK}Gs@~@F_C~@OoAYTk@{AhAMvAEgCi@|A[sAIjAuCm@}B`AGp@m@wBaAjCk@aBq@`BQg@gB~AM{@oA`@FqBm@r@kCOMu@Lt@jCNl@s@GpBnAa@Lz@fB_BPf@p@aBj@`B`AkCl@vBFq@|BaAtCl@HkAZrAh@}A@fCpAyCtA|@_ANKfAFv@n@_ANbH^kALpCo@p@tBA]jEjCxMyEdOoA~AbCb@`EnL?~C{AnDvFzH`T|c@xMbFrFhGhAvCtItAzFtIdDpChDfLXrFxEjL^vCe@hFvAtEtJvDhDfGzFrDjEz@m@v@kCTnBhB~IiAvCzBqAYXt@|I`GzDh@|IdNhAfFxKzHdEU~BcBrChBdCbE|DGrB{BdEv@nClCbFd@lDw@x@dBpBKvGnMrIoD`EnFtHmAdAtEoBpDrClBd@lAWrB|@V`@vAnCy@hAbBc@xAx@VjEgCfDz@oBb@~ApBzFp@iCrCoABrAhA|B`@pEmChDNzDtFbGpAfApAu@tDzEvHy@hCXnC_@|M{@tB}ElC{BlFyCdByBvDbCeBbBPPf@s@UaB|AlBQxA|FlDCy@f@~CpA\\dFgB~EJtWtEhG~@`FzAfCgG`RaDhBdAdHJfMpB~CBlD^TdKJaBjJdEtGLnIvAAnA{BnE|CwAfG^lDaFfFQxF{AbBmDbAyAxN{AzA_FFnCnCxAnUxGnHfExMxCfVUrKu@jAhAr@u@|AlB`C?z@bCeBhC^lCxF}@^rCfBc@n@~@~Aq@D~At@WrAn@YcAhGVQ`AbHj@a@|@bCzAt@i@b@zI~OxAvMnBxBfA~HrAtDrC|AmErNx@rIcCjD`@jKlFfGzHpB`HtInBrH{ArFhF~HtOja@rGvLn@bFl@SP|Ac@XfHtl@rCOp@nDbOGtDu@fEdCEcAtAjDsBXDpA`C?fBcFxBWh@~BcAbDrI|GhDuA~@|@k@x@dAxCI`C{DPnDtBu@JJpF~@oBxDvCbC{De@fBJ`Ez@`A?gD`CrEk@tAbC_AYzA|Nz@zAiAjAaEjF}CxGdAzA`CdD_BfBNdAmDhFr@dGUdBzGxDnCgDnMtA~Cf@lJqAxE`@|@{A[hBbEtJoF~CzDpDa@lCpBdA{BzB{AfHbCxEsCpDAhCzGnBxAvFw@pBiExFvD~CsAfH~EfAnBiChFcF|DbC`HaEbCp@|DSnBgEzDqB_@iErEmAg@kB_FaAEmBtFoKbAlJbJgCzCoFdAg@v@nAzA]|Bf@h@lDpAzAs@pCJ`XbLfDfKtMrAqBzBwGjCyApC`YzGnBjFvAGlD`B|DoBxHqIfBoCqFpBvEyFnHbBwF}DgBLr@u@`KrB`CGaFsBbP^rB|Iv@mF`CwExJuB~BqBzI}CjEoD`DQx@x@v@jHyCuD`E`UrCXfB`DnFvCzFrA~Ii@|BtAa@~DgHfGa@pBkD~ChB~O?nHiGjW}@~SoB`PG~M}@bMqEdKqAdAqBpHeArTjA~IfFxKnBvDzEtEbKpT`GdH`@tCyBbGmEnk@kDjNEhI}AzEiHzJcGrQgKfNqBzGkDxWf@jOS`JaHjD]xDaD~HPpNr@`DuClJe@fGoE|D~Bp@fB`C|AoAjG@~BhInHeDbEnA|A`BlD\\wElKHzCu@nAgBb@eClEcU`CmGjJfADzFeDfAvAdCl@nAiCbBxChFlDtMxA|FcC~C}DhCHpCaAjAaCd@{MzA@jC`EiA`BpBhBjApDo@`F~@^dBm@~DfAvCy@S|CnAbBBnFdChAe@tD~BlDl@|IrB_@tCvElC|@|DnEoCdAeAnCaC\\{A~AeEm@iHjA_AdAMpEuBjBFzDyEfCeClGdFzG|AiBt@NrCtIhIn@dApBrDqHzBjF~D`A`CpFjCy@zAj@f@rBq@bD`Ah@`DrI|@OdB~AzHnAxBfC|Fa@@fAvApBXeB\\LZ|D_EfJtChEXzDoCvEI|DxBq@hB\\PdAcAbC|CzDKnBq@o@Yj@~@|@~ArN}A`GIlDhDzC\\}E|B_@~BbB@xB{CnGbCvLAtFjAP|BiAbAtAfJ|DjJgF?y@wBsAvDyBOaAtE`@|@jEjCqBrE[`D_GMkBjHaBxChEn@|D|BA~TnO|EnHHpHqBnEdE{Ab@NItAuCdBcBpEoD~AkAlCn@lA]`AqCo@_FReGzCgB{BR|EoAfF_ABgArEaA_Bo@zBBqB_@~@oCvMYjIl@?jBeGhDeDdNcH|AXfBvCH`HzAxEvAZbCwBbBlB`@lC_D`Gk@zCtDfCLvCy@bD|BzMe@tBrF|PIjEbCnAz@fDhEaA~EhAtFzZfB`Ex@tHEnGiA`G{E|B_EwBgCfC`BzUlCfFvJpGzEn@jCm@jJjEtH~@rCvElEbBjAhBYvBvBzF{A|F|AbA|ApF`AlA`FO`FxAbEnEnBrGdEpC~L~DNbA{Aq@rAfFhEq@n@x@dBg@hDrAbC?~J_KdBiGTlLqAlJsC~Gh@pH{ChDmK@_HjHgFlBuAdEFdCeDpBeBhFtD`HxB|@pArBq@~E}Aq@"
+    }
+  };
+
+  function decodePolyline(encoded, precision = 5) {
+    let index = 0;
+    let lat = 0;
+    let lng = 0;
+    const coordinates = [];
+    const factor = Math.pow(10, precision);
+
+    while (index < encoded.length) {
+      let result = 0;
+      let shift = 0;
+      let byte = null;
+      do {
+        byte = encoded.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+      const deltaLat = (result & 1) ? ~(result >> 1) : (result >> 1);
+      lat += deltaLat;
+
+      result = 0;
+      shift = 0;
+      do {
+        byte = encoded.charCodeAt(index++) - 63;
+        result |= (byte & 0x1f) << shift;
+        shift += 5;
+      } while (byte >= 0x20);
+      const deltaLng = (result & 1) ? ~(result >> 1) : (result >> 1);
+      lng += deltaLng;
+
+      coordinates.push([lat / factor, lng / factor]);
+    }
+
+    return coordinates;
+  }
+
+  const map = L.map("map", {
+    zoomControl: true,
+    attributionControl: true,
+    zoomSnap: 0.25,
+    wheelPxPerZoomLevel: 100
+  }).setView([39.05, -120.85], 10);
+
+  L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+    {
+      maxZoom: 18,
+      attribution: "Tiles © Esri, USGS, NOAA"
+    }
+  ).addTo(map);
+
+  const routeLayers = {};
+
+  function buildRouteLayer(route) {
+    const latLngs = decodePolyline(route.encoded);
+    const halo = L.polyline(latLngs, {
+      color: "#fff8ef",
+      weight: route.dashArray ? 10 : 11,
+      opacity: 0.92,
+      lineCap: "round",
+      lineJoin: "round"
+    });
+
+    const core = L.polyline(latLngs, {
+      color: route.color,
+      weight: route.dashArray ? 5 : 6,
+      opacity: 0.96,
+      lineCap: "round",
+      lineJoin: "round",
+      dashArray: route.dashArray
+    }).bindTooltip(
+      `<b>${route.label}</b><br>${route.distanceMi.toFixed(2)} mi<br>${route.gainFt.toLocaleString()} ft up<br>${route.lossFt.toLocaleString()} ft down`
+    );
+
+    return {
+      latLngs,
+      layer: L.layerGroup([halo, core])
+    };
+  }
+
+  const localBuilt = buildRouteLayer(ROUTES.local);
+  const officialBuilt = buildRouteLayer(ROUTES.official);
+  routeLayers.local = localBuilt.layer.addTo(map);
+  routeLayers.official = officialBuilt.layer.addTo(map);
+
+  const bounds = L.latLngBounds(localBuilt.latLngs);
+  bounds.extend(officialBuilt.latLngs);
+  map.fitBounds(bounds.pad(0.05));
+
+  const start = localBuilt.latLngs[0];
+  const finish = localBuilt.latLngs[localBuilt.latLngs.length - 1];
+
+  L.circleMarker(start, {
+    radius: 8,
+    weight: 2,
+    color: "#1b1410",
+    fillColor: "#1b1410",
+    fillOpacity: 1
+  }).addTo(map).bindPopup("<b>Shared start</b><br>China Wall");
+
+  L.circleMarker(finish, {
+    radius: 8,
+    weight: 2,
+    color: "#1b1410",
+    fillColor: "#c79f45",
+    fillOpacity: 1
+  }).addTo(map).bindPopup("<b>Shared finish</b><br>Downtown Auburn");
+
+  L.circleMarker([39.091, -120.675], {
+    radius: 7,
+    weight: 2,
+    color: "#3b5b3a",
+    fillColor: "#fbf6ea",
+    fillOpacity: 0.95
+  }).addTo(map).bindPopup(
+    "<b>Mid-course reroute</b><br>The official alternate GPX removes the older loop section around Deadwood / Devil's Thumb."
+  );
+
+  document.querySelectorAll("[data-layer]").forEach((input) => {
+    input.addEventListener("change", (event) => {
+      const key = event.target.dataset.layer;
+      const layer = routeLayers[key];
+      if (!layer) return;
+      if (event.target.checked) {
+        layer.addTo(map);
+      } else {
+        map.removeLayer(layer);
+      }
+    });
+  });
+</script>
+</body>
+</html>

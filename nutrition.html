@@ -1,0 +1,1590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Nutrition · Canyons 100K 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+  .hero { padding: 44px 48px 18px; max-width: 1320px; margin: 0 auto; }
+  .hero .kicker { margin-bottom: 10px; }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(32px, 4.6vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+  }
+  .hero h1 em { font-style: italic; color: var(--ember); font-weight: 400; }
+  .hero p.lede {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 640px;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .time-card {
+    margin-top: 18px;
+    max-width: 900px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(240px, 0.95fr);
+    gap: 18px 24px;
+    align-items: start;
+  }
+  .time-slider-wrap { min-width: 0; }
+  .time-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .time-head .lab,
+  .time-meta .k {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .time-head .val {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--serif);
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 0.95;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .time-head .delta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 1.4;
+    text-align: right;
+  }
+  .time-slider {
+    width: 100%;
+    margin: 0;
+    accent-color: var(--ember);
+  }
+  .time-scale {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .time-note {
+    margin: 10px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+  .time-note + .time-note { margin-top: 6px; }
+  .time-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+  .time-meta .meta {
+    padding-top: 9px;
+    border-top: 1px solid var(--line-soft);
+    min-width: 0;
+  }
+  .time-meta .v {
+    display: block;
+    margin-top: 5px;
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    word-break: break-word;
+  }
+
+  .totals {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .totals .cell {
+    padding: 20px 18px;
+    border-right: 1px solid var(--line-soft);
+  }
+  .totals .cell:last-child { border-right: 0; }
+  .totals .lab { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .totals .val { font-family: var(--serif); font-size: 28px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+  .totals .val small { font-family: var(--sans); font-size: 11px; letter-spacing: 0.04em; color: var(--muted); margin-left: 5px; font-weight: 500; }
+  .totals .sub { font-size: 10.5px; color: var(--muted); margin-top: 5px; font-family: var(--mono); }
+
+  .panel {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 44px 48px;
+  }
+  .panel h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .panel h2 .num { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; color: var(--muted); font-weight: 500; }
+  .panel .sub { font-size: 13px; color: var(--ink-2); margin: 0 0 22px; max-width: 720px; line-height: 1.5; }
+
+  .heat-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+  .toggle-group { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .toggle-group--units { margin-left: auto; }
+  .heat-row .lab { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .heat-toggle { display: inline-flex; background: var(--paper); border: 1px solid var(--line); }
+  .heat-toggle button {
+    background: transparent; border: 0;
+    padding: 8px 14px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink); cursor: pointer;
+    border-right: 1px solid var(--line-soft);
+  }
+  .heat-toggle button:last-child { border-right: 0; }
+  .heat-toggle button.active { background: var(--ink); color: var(--paper); }
+  .heat-toggle button:hover:not(.active) { background: var(--bg-2); }
+
+  .seg-table { background: var(--paper); border: 1px solid var(--line); overflow-x: auto; }
+  .seg-table table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1040px; }
+  .mobile-legs { display: none; }
+  .mobile-legs .m-leg-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    margin-bottom: 12px;
+  }
+  .mobile-legs .m-leg-card:last-child { margin-bottom: 0; }
+  .mobile-legs .m-leg-card.crew { box-shadow: inset 4px 0 0 var(--ember); }
+  .mobile-legs .m-leg-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 16px 14px;
+  }
+  .mobile-legs .m-leg-card summary::-webkit-details-marker { display: none; }
+  .mobile-legs .m-leg-card[open] summary {
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .mobile-legs .m-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .mobile-legs .m-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    font-weight: 500;
+  }
+  .mobile-legs .m-title .crew-dot { color: var(--ember); font-size: 10px; margin-left: 4px; }
+  .mobile-legs .m-sub {
+    margin-top: 5px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .mobile-legs .m-open {
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mobile-legs .m-leg-card[open] .m-open { color: var(--ember); }
+  .mobile-legs .m-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    margin-top: 14px;
+  }
+  .mobile-legs .m-stat {
+    padding-top: 8px;
+    border-top: 1px solid var(--line-soft);
+    min-width: 0;
+  }
+  .mobile-legs .m-stat .k {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .mobile-legs .m-stat .v {
+    display: block;
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    word-break: break-word;
+  }
+  .mobile-legs .m-stat .subv {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .mobile-legs .m-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 12px;
+  }
+  .mobile-legs .pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 7px; background: var(--bg);
+    border: 1px solid var(--line-soft);
+    font-family: var(--mono); font-size: 10.5px; line-height: 1;
+    white-space: normal;
+  }
+  .mobile-legs .pill.sk { background: rgba(199, 159, 69, 0.18); border-color: var(--gold); }
+  .mobile-legs .pill.gel { background: rgba(212, 71, 138, 0.12); border-color: var(--ember); color: var(--ember-2); }
+  .mobile-legs .pill.salt { background: rgba(46, 93, 122, 0.12); border-color: var(--crew); color: var(--crew); }
+  .mobile-legs .pill.warn { background: rgba(42, 31, 23, 0.06); border-color: var(--line); color: var(--ink-2); }
+  .mobile-legs .m-body {
+    padding: 14px 16px 16px;
+    background: var(--bg-2);
+  }
+  .mobile-legs .m-body .expand-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .seg-table thead th {
+    text-align: left;
+    padding: 12px 10px;
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+    white-space: nowrap;
+  }
+  .seg-table tbody td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .seg-table tbody tr:last-child td { border-bottom: 0; }
+  .seg-table .leg-row { cursor: pointer; transition: background 0.12s; }
+  .seg-table .leg-row:hover { background: var(--bg-2); }
+  .seg-table .leg-row .chev {
+    display: inline-block;
+    color: var(--muted);
+    font-size: 11px;
+    margin-right: 6px;
+    transition: transform 0.15s;
+  }
+  .seg-table .leg-row.open .chev { transform: rotate(90deg); color: var(--ember); }
+  .seg-table .leg-row.open { background: var(--bg-2); }
+  .seg-table .leg-expand { display: none; }
+  .seg-table .leg-expand.open { display: table-row; }
+  .seg-table .leg-expand td {
+    padding: 18px 22px 22px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .expand-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr;
+    gap: 22px;
+    max-width: 100%;
+  }
+  .pack-list { }
+  .pack-list .pack-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .pack-list .pack-aid {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink);
+    text-transform: none;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+  .pack-list ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .pack-list li {
+    position: relative;
+    padding: 6px 0 6px 14px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--ink);
+    border-bottom: 1px dotted var(--line-soft);
+  }
+  .pack-list li:last-child { border-bottom: 0; }
+  .pack-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 6px;
+    height: 1px;
+    background: var(--muted);
+  }
+  .pack-list li .item-k {
+    font-weight: 700;
+  }
+  .pack-list li .item-sub {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+  }
+  .pack-list li.muted {
+    color: var(--muted);
+  }
+  .seg-table tbody tr.tot td {
+    background: var(--bg-2);
+    font-weight: 600;
+    border-top: 1px solid var(--line);
+    border-bottom: 0;
+  }
+  .seg-table tbody tr.crew td { border-left: 0; }
+  .seg-table tbody tr.crew td:first-child { box-shadow: inset 4px 0 0 var(--ember); }
+  .seg-table .seg-from { font-family: var(--serif); font-size: 14px; font-weight: 500; line-height: 1.2; }
+  .seg-table .seg-from .crew-dot { color: var(--ember); font-size: 10px; margin-left: 4px; }
+  .seg-table .seg-meta { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 3px; letter-spacing: 0.02em; }
+  .seg-table .num-c { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .seg-table .grade-bar {
+    display: inline-block; width: 36px; height: 5px; background: var(--bg); border: 1px solid var(--line-soft); position: relative; vertical-align: middle; margin-left: 4px;
+  }
+  .seg-table .grade-bar i { position: absolute; top: 0; bottom: 0; background: var(--sierra); }
+  .seg-table .pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 6px; background: var(--bg);
+    border: 1px solid var(--line-soft);
+    font-family: var(--mono); font-size: 10.5px; line-height: 1;
+    margin-right: 3px; margin-bottom: 3px;
+    white-space: nowrap;
+  }
+  .seg-table .pill.sk { background: rgba(199, 159, 69, 0.18); border-color: var(--gold); }
+  .seg-table .pill.h2o { background: var(--bg-2); border-color: var(--line); color: var(--ink-2); }
+  .seg-table .pill.gel { background: rgba(212, 71, 138, 0.12); border-color: var(--ember); color: var(--ember-2); }
+  .seg-table .pill.salt { background: rgba(46, 93, 122, 0.12); border-color: var(--crew); color: var(--crew); }
+  .seg-table .pill.caf { background: rgba(91, 58, 110, 0.14); border-color: var(--dusk); color: var(--dusk); }
+  .seg-table .pill.warn { background: rgba(42, 31, 23, 0.06); border-color: var(--line); color: var(--ink-2); }
+  .bot-cell { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; min-width: 92px; }
+  .bot-row { display: flex; align-items: center; gap: 5px; font-size: 10.5px; font-family: var(--mono); white-space: nowrap; }
+  .bot-row .lab2 { color: var(--muted); width: 22px; text-align: right; }
+  .bot-row .val2 { color: var(--ink); font-weight: 600; min-width: 56px; text-align: right; }
+  .bot-bar { width: 50px; height: 4px; background: var(--bg); border: 1px solid var(--line-soft); position: relative; }
+  .bot-bar i { position: absolute; left: 0; top: 0; bottom: 0; }
+  .bot-bar.sk i { background: var(--gold); }
+  .bot-bar.h2o i { background: var(--crew); opacity: 0.55; }
+
+  /* Aid cards */
+  .aid-grid {
+    display: grid; grid-template-columns: 1fr;
+    border: 1px solid var(--line); background: var(--paper);
+  }
+  .aid-card.compact {
+    padding: 16px 22px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
+    display: grid;
+    grid-template-columns: minmax(220px, 1.2fr) 3fr 2fr;
+    gap: 22px;
+    align-items: start;
+  }
+  .aid-card.compact:last-child { border-bottom: 0; }
+  .aid-card.compact.crew { background: rgba(212, 71, 138, 0.04); }
+  .aid-card.compact.crew.finish { background: var(--bg-2); }
+  .aid-card.compact .row1 { display: flex; flex-direction: column; gap: 3px; padding-right: 10px; border-right: 1px solid var(--line-soft); }
+  .aid-card.compact .name { font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: -0.015em; }
+  .aid-card.compact .name em { color: var(--ember); font-style: italic; font-weight: 400; font-size: 10px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--mono); }
+  .aid-card.compact .mile { font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; }
+  .aid-card.compact .crew-tag {
+    display: inline-block; margin-top: 6px;
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ember); font-weight: 600;
+  }
+  .aid-card.compact .crew-tag.solo { color: var(--muted); }
+  .aid-card.compact .crew-tag.water { color: var(--crew); }
+
+  .lane-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+  .lane { display: flex; flex-direction: column; gap: 5px; }
+  .lane .lane-hd { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+  .lane .lane-hd::before {
+    content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px;
+  }
+  .lane.l-flasks .lane-hd::before { background: var(--gold); }
+  .lane.l-fuel .lane-hd::before { background: var(--ember); }
+  .lane.l-kit .lane-hd::before { background: var(--crew); }
+  .lane.l-crew .lane-hd::before { background: #5B3A6E; }
+
+  .lane .chips { display: flex; flex-wrap: wrap; gap: 5px 6px; }
+  .aid-card.compact .chip {
+    display: inline-flex; align-items: center;
+    padding: 4px 9px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.2;
+    background: var(--bg-2); border: 1px solid var(--line-soft);
+    white-space: nowrap;
+  }
+  .aid-card.compact .chip b { font-weight: 700; margin-right: 3px; }
+  .aid-card.compact .chip.sk { background: rgba(199, 159, 69, 0.18); border-color: var(--gold); color: #6B4E14; }
+  .aid-card.compact .chip.h2o { background: rgba(46, 93, 122, 0.09); border-color: var(--crew); color: var(--crew); }
+  .aid-card.compact .chip.c { background: rgba(46, 93, 122, 0.05); border-color: var(--crew); color: var(--crew); border-style: dashed; }
+  .aid-card.compact .chip.gel { background: rgba(212, 71, 138, 0.1); border-color: var(--ember); color: var(--ember-2); }
+  .aid-card.compact .chip.salt { background: rgba(91, 58, 110, 0.08); border-color: var(--dusk); color: var(--dusk); }
+  .aid-card.compact .chip.caf { background: rgba(91, 58, 110, 0.14); border-color: #5B3A6E; color: #5B3A6E; }
+  .aid-card.compact .chip.lamp { background: rgba(228, 192, 75, 0.14); border-color: #C79F45; color: #8A6D20; }
+  .aid-card.compact .chip.lamp-off { background: var(--bg); border-color: var(--line-soft); color: var(--muted); }
+  .aid-card.compact .chip.kit { background: rgba(46, 93, 122, 0.06); border-color: var(--line); color: var(--ink-2); }
+  .aid-card.compact .chip.optional { background: transparent; border: 1px dashed var(--line); color: var(--muted); font-style: italic; }
+
+  @media (max-width: 980px) {
+    .expand-grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  @media (max-width: 860px) {
+    .aid-card.compact { grid-template-columns: 1fr; gap: 10px; }
+    .aid-card.compact .row1 { border-right: 0; border-bottom: 1px solid var(--line-soft); padding-right: 0; padding-bottom: 8px; }
+    .lane-grid { grid-template-columns: 1fr; }
+  }
+
+  .aid-card {
+    padding: 20px 22px;
+    border-right: 1px solid var(--line-soft);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .aid-card:nth-child(2n) { border-right: 0; }
+  .aid-card.crew { background: rgba(212, 71, 138, 0.04); }
+  .aid-card .head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 2px; }
+  .aid-card .name { font-family: var(--serif); font-size: 19px; font-weight: 500; letter-spacing: -0.015em; }
+  .aid-card .name em { color: var(--ember); font-style: italic; font-weight: 400; font-size: 12px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.1em; font-family: var(--mono); }
+  .aid-card .mile { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+  .aid-card .eta { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .aid-card .eta b { color: var(--ink); font-weight: 600; }
+  .aid-card h4 { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin: 12px 0 5px; font-weight: 500; }
+  .aid-card ul { margin: 0 0 4px; padding-left: 15px; font-size: 13px; line-height: 1.5; }
+  .aid-card ul li { margin-bottom: 2px; }
+  .aid-card .leave-with {
+    margin-top: 10px; padding: 8px 10px;
+    background: var(--bg-2); border: 1px solid var(--line-soft);
+    font-size: 12px; line-height: 1.4;
+  }
+  .aid-card .leave-with b { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 3px; font-weight: 500; }
+
+  .pack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .pack-card { background: var(--paper); border: 1px solid var(--line); padding: 20px 18px; }
+  .pack-card .lab { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+  .pack-card h3 { font-family: var(--serif); font-size: 19px; margin: 0 0 10px; font-weight: 500; letter-spacing: -0.015em; }
+  .pack-card h3 em { color: var(--ember); font-style: italic; font-weight: 400; font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.1em; margin-left: 4px; }
+  .pack-card .row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px dashed var(--line-soft); font-size: 12.5px; }
+  .pack-card .row:last-of-type { border-bottom: 0; }
+  .pack-card .row .what { color: var(--ink); }
+  .pack-card .row .qty { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pack-card .note { font-size: 11.5px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+
+  .assume-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; }
+  .assume-card { background: var(--paper); border: 1px solid var(--line); padding: 22px 24px; }
+  .assume-card h3 { font-family: var(--serif); font-weight: 500; font-size: 18px; margin: 0 0 12px; letter-spacing: -0.015em; }
+  .assume-card .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line-soft); font-size: 13px; align-items: baseline; }
+  .assume-card .row:last-child { border-bottom: 0; }
+  .assume-card .row .k small { color: var(--muted); margin-left: 6px; }
+  .assume-card .row .v { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .legend-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .legend-row span { display: inline-flex; align-items: flex-start; gap: 5px; }
+  .legend-row span i { width: 9px; height: 9px; display: inline-block; border: 1px solid var(--line-soft); }
+  .legend-row .l-sk i { background: rgba(199, 159, 69, 0.6); border-color: var(--gold); }
+  .legend-row .l-gel i { background: rgba(212, 71, 138, 0.5); border-color: var(--ember); }
+  .legend-row .l-salt i { background: rgba(46, 93, 122, 0.5); border-color: var(--crew); }
+  .legend-row .l-h2o i { background: rgba(46, 93, 122, 0.18); border-color: var(--line); }
+  .legend-row .l-caf i { background: rgba(91, 58, 110, 0.5); border-color: var(--dusk); }
+
+  /* ===== Ziplock system ===== */
+  .ziplock-block { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line-soft); }
+  .ziplock-block .sub-hd {
+    font-family: var(--serif); font-size: 20px; font-weight: 500; letter-spacing: -0.015em;
+    margin: 0 0 8px 0;
+  }
+  .ziplock-block .sub { margin-top: 0; margin-bottom: 18px; }
+  .ziplock-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--line);
+    background: var(--paper);
+    margin-bottom: 18px;
+  }
+  .ziplock-summary .cell {
+    padding: 14px 16px;
+    border-right: 1px solid var(--line-soft);
+  }
+  .ziplock-summary .cell:last-child { border-right: 0; }
+  .ziplock-summary .lab { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .ziplock-summary .val { font-family: var(--serif); font-size: 22px; font-weight: 500; line-height: 1; letter-spacing: -0.015em; }
+  .ziplock-summary .val small { font-family: var(--sans); font-size: 11px; color: var(--muted); margin-left: 4px; font-weight: 500; }
+  .ziplock-summary .sub { font-size: 11px; color: var(--muted); margin-top: 5px; font-family: var(--mono); }
+
+  .ziplock-table { background: var(--paper); border: 1px solid var(--line); overflow-x: auto; }
+  .ziplock-table table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
+  .ziplock-table thead th {
+    text-align: left;
+    padding: 11px 12px;
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .ziplock-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line-soft);
+    vertical-align: top;
+  }
+  .ziplock-table tbody tr:last-child td { border-bottom: 0; }
+  .ziplock-table .aid-name { font-family: var(--serif); font-size: 14.5px; font-weight: 500; letter-spacing: -0.01em; }
+  .ziplock-table .aid-name em { color: var(--ember); font-style: italic; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--mono); margin-left: 5px; }
+  .ziplock-table .mi-cell { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .ziplock-table tr.crew-row td:first-child { box-shadow: inset 4px 0 0 var(--ember); }
+  .ziplock-table tr.use td { background: rgba(199, 159, 69, 0.07); }
+  .ziplock-table .action .tag {
+    display: inline-block;
+    padding: 2px 7px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--bg-2); border: 1px solid var(--line-soft); margin-right: 6px;
+    font-weight: 500;
+  }
+  .ziplock-table .action .tag.use { background: rgba(199, 159, 69, 0.22); border-color: var(--gold); color: #6B4E14; }
+  .ziplock-table .action .tag.keep { background: var(--bg); border-color: var(--line); color: var(--muted); }
+  .ziplock-table .action .tag.water { background: var(--bg); border-color: var(--line); color: var(--ink-2); }
+  .ziplock-table .action .note { color: var(--ink); font-size: 12.5px; margin-top: 2px; display: block; }
+  .ziplock-table .src {
+    display: inline-block;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em;
+    padding: 3px 8px; background: var(--bg-2); border: 1px solid var(--line-soft);
+    white-space: nowrap;
+  }
+  .ziplock-table .src.vest { background: rgba(91, 58, 110, 0.08); border-color: var(--dusk); color: var(--dusk); }
+  .ziplock-table .src.crew { background: rgba(46, 93, 122, 0.09); border-color: var(--crew); color: var(--crew); }
+  .ziplock-table .src.drop { background: rgba(212, 71, 138, 0.08); border-color: var(--ember); color: var(--ember-2); }
+  .ziplock-table .src.none { opacity: 0.4; background: transparent; border: 0; }
+  .ziplock-table .bags-cell { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 12.5px; color: var(--ink); }
+  .ziplock-table .bags-cell .bag-dots { letter-spacing: 3px; color: var(--gold); font-size: 14px; }
+  .ziplock-table .bags-cell .bag-num { color: var(--muted); margin-left: 6px; }
+
+  .rules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 36px; }
+  .rules-grid h4 { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); margin: 0 0 6px; font-weight: 600; }
+  .rules-grid p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+  .rules-grid p b { color: var(--ink); font-weight: 600; }
+
+  .foot { max-width: 1320px; margin: 0 auto; padding: 28px 48px 60px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em; border-top: 1px solid var(--line-soft); }
+
+  @media (max-width: 860px) {
+    .hero { padding: 28px 18px 14px; }
+    .time-card { grid-template-columns: 1fr; padding: 16px 16px 18px; }
+    .totals { grid-template-columns: repeat(3, 1fr); padding: 0 18px; }
+    .totals .cell { padding: 14px 10px; border-bottom: 1px solid var(--line-soft); }
+    .totals .cell:nth-child(3n) { border-right: 0; }
+    .totals .val { font-size: 22px; }
+    .panel { padding: 32px 18px; }
+    .panel h2 { font-size: 20px; flex-direction: column; gap: 2px; align-items: flex-start; }
+    .heat-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .toggle-group { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .toggle-group--units { margin-left: 0; }
+    .heat-toggle { width: 100%; overflow-x: auto; }
+    .heat-toggle button { flex: 1 0 auto; min-width: max-content; }
+    .aid-grid { grid-template-columns: 1fr; }
+    .aid-card.compact .chip { white-space: normal; }
+    .aid-card { border-right: 0; }
+    .pack-grid { grid-template-columns: 1fr 1fr; }
+    .assume-grid { grid-template-columns: 1fr; }
+    .rules-grid { grid-template-columns: 1fr; }
+    .legend-row { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .foot { flex-direction: column; gap: 6px; padding: 18px; }
+  }
+  @media (max-width: 760px) {
+    .seg-table { display: none; }
+    .mobile-legs { display: block; }
+  }
+  @media (max-width: 520px) {
+    .totals { grid-template-columns: repeat(2, 1fr); }
+    .totals .cell:nth-child(2n) { border-right: 0; }
+    .pack-grid { grid-template-columns: 1fr; }
+    .aid-card.compact { padding: 14px 16px; }
+    .aid-card.compact .name { font-size: 17px; }
+    .aid-card.compact .chip { padding: 4px 7px; font-size: 10px; }
+    .assume-card { padding: 18px 16px; }
+    .mobile-legs .m-leg-card summary,
+    .mobile-legs .m-body { padding-left: 14px; padding-right: 14px; }
+    .mobile-legs .m-title { font-size: 17px; }
+    .time-head { flex-direction: column; align-items: flex-start; }
+    .time-head .delta { text-align: left; }
+    .time-meta { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 420px) {
+    .totals { grid-template-columns: 1fr; }
+    .totals .cell { border-right: 0; }
+    .mobile-legs .m-stats { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="topo-bg">
+
+<header class="nav">
+  <div class="brand"><span class="mark">Canyons · 100K · 2026</span></div>
+  <nav>
+    <a href="index.html">Route</a>
+    <a href="nutrition.html" class="active">Nutrition</a>
+    <a href="crew.html">Crew</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="kicker" id="heroKicker">§ Nutrition plan · 17:30 target</div>
+  <h1>Fuel plan.</h1>
+  <div class="time-card">
+    <div class="time-slider-wrap">
+      <div class="time-head">
+        <div>
+          <span class="lab">Target Finish Time</span>
+          <span class="val" id="timeTargetVal">17:30</span>
+        </div>
+        <div class="delta" id="timeDeltaVal">Baseline GPX pace</div>
+      </div>
+      <input id="timeSlider" class="time-slider" type="range" min="900" max="1230" step="5" value="1050" />
+      <div class="time-scale">
+        <span>15:00</span>
+        <span>17:30 baseline</span>
+        <span>20:30</span>
+      </div>
+    </div>
+    <div class="time-meta">
+      <div class="meta">
+        <span class="k">Start</span>
+        <span class="v">5:00 AM</span>
+      </div>
+      <div class="meta">
+        <span class="k">Projected Finish</span>
+        <span class="v" id="timeFinishVal">10:30 PM</span>
+      </div>
+      <div class="meta">
+        <span class="k">Average Pace</span>
+        <span class="v" id="timePaceVal">17'03"/mi</span>
+      </div>
+      <div class="meta">
+        <span class="k">Scale</span>
+        <span class="v" id="timeScaleVal">100% of baseline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TOTALS ============== -->
+<div class="totals" id="totalsStrip"></div>
+
+<!-- ============== SEGMENT TABLE ============== -->
+<section class="panel">
+  <h2><span class="num">§ 01</span>Fuel per leg.</h2>
+
+  <div class="heat-row">
+    <div class="toggle-group">
+      <span class="lab">Conditions</span>
+      <div class="heat-toggle" id="heatToggle">
+        <button data-heat="cool" class="active">Cool 50–60°</button>
+        <button data-heat="moderate">Moderate 60–75°</button>
+        <button data-heat="hot">Hot 75–90°</button>
+      </div>
+    </div>
+    <div class="toggle-group toggle-group--units">
+      <span class="lab">Units</span>
+      <div class="heat-toggle" id="unitToggle">
+        <button data-unit="us" class="active">US</button>
+        <button data-unit="metric">Metric</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="seg-table">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 26%">Leg</th>
+          <th class="num-c">Mi</th>
+          <th class="num-c">Gain / loss</th>
+          <th class="num-c">Time</th>
+          <th class="num-c">Clock</th>
+          <th class="num-c">Pace</th>
+          <th class="num-c">Carbs</th>
+          <th class="num-c">Fluid</th>
+          <th class="num-c">Bottles drained</th>
+          <th class="num-c">Na</th>
+          <th>Take</th>
+        </tr>
+      </thead>
+      <tbody id="segBody"></tbody>
+    </table>
+  </div>
+  <div class="mobile-legs" id="mobileLegs"></div>
+
+  <div class="legend-row">
+    <span class="l-sk"><i></i>Flask SK · Skratch Super High-Carb (500 ml flask; 1 scoop = 15 g carbs · 57 mg Na; 7 scoops = 105 g carbs · 399 mg Na)</span>
+    <span class="l-h2o"><i></i>Flask H₂O (500 ml plain water)</span>
+    <span class="l-h2o"><i></i>Flask C (600 ml backup water — long/hot legs only)</span>
+    <span class="l-gel"><i></i>Gel (22 g · 40 mg Na)</span>
+    <span class="l-salt"><i></i>SaltStick caps (215 mg Na/cap)</span>
+    <span class="l-caf"><i></i>5-Hour Energy (200 mg caffeine · on demand)</span>
+  </div>
+</section>
+
+<hr class="hairline" />
+
+<!-- ============== AID STATION HANDOFFS ============== -->
+<section class="panel">
+  <h2><span class="num">§ 02</span>Aid station handoffs.</h2>
+
+  <div class="aid-grid" id="aidGrid"></div>
+</section>
+
+<hr class="hairline" />
+
+<!-- ============== ASSUMPTIONS ============== -->
+<section class="panel">
+  <h2><span class="num">§ 03</span>Inputs &amp; system.</h2>
+  <div class="assume-grid">
+    <div class="assume-card">
+      <h3>Targets &amp; sources</h3>
+      <div class="row"><span class="k">Carbs <small>per hour</small></span><span class="v">80 g</span></div>
+      <div class="row"><span class="k">Sodium floor <small>cool / mod / hot</small></span><span class="v">400 / 500 / 575 mg/hr</span></div>
+      <div class="row"><span class="k">Sodium density floor <small>cool / mod / hot</small></span><span class="v">800 / 875 / 925 mg/L</span></div>
+      <div class="row"><span class="k">Fluid <small>cool / mod / hot</small></span><span class="v">450 / 600 / 750 ml/hr</span></div>
+      <div class="row"><span class="k">Caffeine <small>on demand</small></span><span class="v">5-Hour Energy bottle</span></div>
+      <div class="row"><span class="k">Skratch Super High-Carb <small>per scoop</small></span><span class="v">15 g carbs · 57 mg Na</span></div>
+      <div class="row"><span class="k">Skratch Super High-Carb <small>7-scoop flask</small></span><span class="v">105 g carbs · 399 mg Na / 500 ml</span></div>
+      <div class="row"><span class="k">Gel</span><span class="v">22 g carbs · 40 mg Na</span></div>
+      <div class="row"><span class="k">SaltStick caps</span><span class="v">215 mg Na / cap</span></div>
+      <div class="row"><span class="k">5-Hour Energy</span><span class="v">200 mg caffeine · ~57 ml</span></div>
+    </div>
+    <div class="assume-card">
+      <h3>Flask system</h3>
+      <div class="row"><span class="k">Flask SK · 500 ml</span><span class="v">Skratch Super High-Carb (pre-portioned bag)</span></div>
+      <div class="row"><span class="k">Flask H₂O · 500 ml</span><span class="v">Plain water</span></div>
+      <div class="row"><span class="k">Flask C · 600 ml</span><span class="v">Backup water — carry on long/hot legs</span></div>
+      <div class="row"><span class="k">Total carry capacity</span><span class="v">1 L base · 1.6 L w/ Flask C</span></div>
+      <div class="row"><span class="k">Gels</span><span class="v">Front pockets</span></div>
+      <div class="row"><span class="k">SaltStick caps</span><span class="v">Right hip / small vial</span></div>
+      <div class="row"><span class="k">5-Hour Energy</span><span class="v">With crew — take when needed</span></div>
+      <div class="row"><span class="k">Target aid time</span><span class="v">90 sec crew · 30 sec solo</span></div>
+    </div>
+  </div>
+
+</section>
+
+<div class="foot">
+  <span>§ Nutrition · Canyons 100K · 25 April 2026</span>
+  <span id="footTargetLine">80 g/hr · salty-sweater sodium profile · 17:30 target</span>
+</div>
+
+<script>
+  // ====== Grade-adjusted leg data (computed from the official alternate course) ======
+  // Base leg times are normalized to the 17:30 GPX plan and scale proportionally
+  // when the target-finish slider changes.
+  const BASE_LEGS = [
+    { from: "China Wall",        to: "Deadwood 1",       mi: 11.2, gain: 2382, loss: 3081, hr: 3.05, terrain: "Long opening descent on rolling singletrack. Stay relaxed and don't redline.", crew: false },
+    { from: "Deadwood 1",        to: "Swinging Bridge",  mi: 2.3,  gain:  179, loss: 1770, hr: 0.47, terrain: "Steep drop into the canyon to the turnaround. Quick and controlled.", crew: false },
+    { from: "Swinging Bridge",   to: "Deadwood 2",       mi: 2.3,  gain: 1767, loss:  176, hr: 1.11, terrain: "The climb back out. Power-hike the switchbacks and keep the effort capped.", crew: false },
+    { from: "Deadwood 2",        to: "Michigan Bluff",   mi: 6.8,  gain: 1937, loss: 2778, hr: 2.02, terrain: "Ridge running, creek drop, then the grind up to Michigan Bluff.", crew: true  },
+    { from: "Michigan Bluff",    to: "Foresthill",       mi: 5.9,  gain: 1233, loss: 1430, hr: 1.74, terrain: "Volcano Canyon down, Bath Road back up. Stay smooth.", crew: true  },
+    { from: "Foresthill",        to: "Cal 2",            mi: 8.2,  gain: 1103, loss: 2691, hr: 2.03, terrain: "Cal Street is runnable but expensive. Keep the governor on.", crew: false },
+    { from: "Cal 2",             to: "Driver's Flat",    mi: 9.3,  gain: 1938, loss: 1939, hr: 2.69, terrain: "Long exposed pull out of the canyon. This is a patience leg.", crew: true  },
+    { from: "Driver's Flat",     to: "Mammoth Bar",      mi: 7.9,  gain: 1219, loss: 2285, hr: 2.06, terrain: "Drop back to the river, then keep moving through the rollers.", crew: false },
+    { from: "Mammoth Bar",       to: "Confluence",       mi: 3.7,  gain:  797, loss:  844, hr: 1.04, terrain: "Technical river singletrack through the No Hands section.", crew: false },
+    { from: "Confluence",        to: "Finish",           mi: 4.0,  gain: 1093, loss:  401, hr: 1.29, terrain: "Robie Point and the last climb to Auburn. Empty the tank late.", crew: true  },
+  ];
+  const START_HOUR = 5;
+  const BASE_TOTAL_HOURS = BASE_LEGS.reduce((sum, leg) => sum + leg.hr, 0);
+  const TARGET_MIN_MINUTES = 15 * 60;
+  const TARGET_MAX_MINUTES = 20 * 60 + 30;
+  const TARGET_STEP_MINUTES = 5;
+  const DEFAULT_TARGET_MINUTES = Math.round(BASE_TOTAL_HOURS * 60);
+
+  const FLUID_RATES = { cool: 450, moderate: 600, hot: 750 };
+  const FLUID_LAB = { cool: "cool", moderate: "moderate", hot: "hot" };
+  // Skratch Ultra High Carb: 100g carbs / 400mg Na per scoop, mixed in 500ml SK flask
+  // Skratch Super High-Carb: per-scoop is ~15g carbs / ~57mg Na. Max recommended in a
+  // 500ml flask is 7 scoops (100g carbs, 400mg Na); sweet spot per Skratch is 6 scoops
+  // (80g carbs / ~340mg Na) — clear/water-like consistency, no GI issues.
+  const SK_CARBS_PER_SCOOP = 15;
+  const SK_NA_PER_SCOOP = 57;
+  const MAX_SCOOPS_PER_FLASK = 7;  // hard cap per Skratch
+  const SK_FLASK_ML = 500;   // Flask SK (Skratch)
+  const H2O_FLASK_ML = 500;  // Flask H₂O (primary water)
+  const C_FLASK_ML = 600;    // Flask C (optional backup water for long/hot legs)
+  // Research-informed heuristic:
+  // - Skratch positions Super High-Carb as concentrated fuel that may still need a separate
+  //   hydration bottle or plain water when fluid and calorie needs are not aligned.
+  // - Conventional hydration guidance lands much lower (~6-8% carbs, with ~10-12% already
+  //   getting pretty concentrated), so the plan keeps clean water alongside the SK bottle.
+  // This cap applies to bottle-derived carbs across total leg fluid, not to the flask itself.
+  const LEG_DRINK_CARB_CAP = { cool: 0.13, moderate: 0.12, hot: 0.11 }; // g/ml
+  const GEL_CARBS = 22, GEL_NA = 40;
+  const SS_NA = 215;  // SaltStick FastChews / caps
+  const CARB_HR = 80;
+  // Salty-sweater sodium model:
+  // Use the larger of a per-hour floor and a per-liter floor so hotter settings don't
+  // simply add plain water and dilute sodium density. Moderate/hot are intentionally
+  // pushed toward endurance-drink / salty-sweater territory.
+  const NA_MIN_PER_HR = { cool: 400, moderate: 500, hot: 575 };
+  const NA_MIN_PER_L = { cool: 800, moderate: 875, hot: 925 };
+
+  let HEAT = localStorage.getItem('canyons_nut_heat') || 'cool';
+  let UNIT = localStorage.getItem('canyons_unit') || 'us';
+  let TARGET_MINUTES = loadTargetMinutes();
+
+  // Bottles are always filled to 100% at each aid (no partial pours). The % shown in the
+  // table is how much of each bottle I drink on that leg (fraction consumed, not fill level).
+
+  function clampNumber(v, min, max) {
+    return Math.min(max, Math.max(min, v));
+  }
+  function loadTargetMinutes() {
+    const raw = Number.parseInt(localStorage.getItem('canyons_target_minutes'), 10);
+    const safe = Number.isFinite(raw) ? raw : DEFAULT_TARGET_MINUTES;
+    const snapped = TARGET_MIN_MINUTES + Math.round((safe - TARGET_MIN_MINUTES) / TARGET_STEP_MINUTES) * TARGET_STEP_MINUTES;
+    return clampNumber(snapped, TARGET_MIN_MINUTES, TARGET_MAX_MINUTES);
+  }
+  function currentTargetHours() {
+    return TARGET_MINUTES / 60;
+  }
+  function currentLegs() {
+    const scale = currentTargetHours() / BASE_TOTAL_HOURS;
+    return BASE_LEGS.map(leg => ({ ...leg, hr: leg.hr * scale }));
+  }
+  function buildAidStops(legs) {
+    let elapsed = 0;
+    return AID.map((aid, idx) => {
+      const stop = { ...aid, etaH: elapsed };
+      if (idx < legs.length) elapsed += legs[idx].hr;
+      return stop;
+    });
+  }
+  function fmtDurationMinutes(totalMinutes) {
+    const safe = Math.max(0, Math.round(totalMinutes));
+    const h = Math.floor(safe / 60);
+    const m = safe % 60;
+    return `${h}:${String(m).padStart(2, '0')}`;
+  }
+  function hhmm(hr){
+    return fmtDurationMinutes(hr * 60);
+  }
+  function addClock(start, hr){
+    let mins = Math.round((start + hr) * 60);
+    let h24 = ((Math.floor(mins / 60) % 24) + 24) % 24;
+    const m = ((mins % 60) + 60) % 60;
+    if (m === 60) {
+      h24 = (h24 + 1) % 24;
+    }
+    const suffix = h24 >= 12 ? 'PM' : 'AM';
+    const h12 = (h24 % 12) || 12;
+    return `${h12}:${String(m).padStart(2,'0')} ${suffix}`;
+  }
+  function fmtMi(mi){ return UNIT === 'us' ? mi.toFixed(1) + 'mi' : (mi*1.609).toFixed(1) + 'km'; }
+  function fmtFt(ft){ return UNIT === 'us' ? Math.round(ft) + 'ft' : Math.round(ft*0.3048) + 'm'; }
+  // Always mL for fluid (per request)
+  function fmtFluid(ml){ return ml >= 1000 ? (ml/1000).toFixed(2) + ' L' : Math.round(ml) + ' ml'; }
+  function fmtPace(paceMinPerMi){
+    // metric: min/km. pace is in min/mi
+    const p = UNIT === 'us' ? paceMinPerMi : paceMinPerMi / 1.609;
+    let mi = Math.floor(p);
+    let sec = Math.round((p - mi) * 60);
+    if (sec === 60) { mi += 1; sec = 0; }
+    return mi + "'" + String(sec).padStart(2,'0') + "\"";
+  }
+  function fmtPaceUnit(){ return UNIT === 'us' ? '/mi' : '/km'; }
+  function pluralize(n, singular, plural = singular + 's') {
+    return n === 1 ? singular : plural;
+  }
+  function planItem(label, body, sub = '', cls = '') {
+    return `<li class="${cls}"><span class="item-k">${label}</span> — ${body}${sub ? `<span class="item-sub">${sub}</span>` : ''}</li>`;
+  }
+  function cleanAidName(name) {
+    return name.replace(/^Start:\s*/, '').replace(/\s*<em>[^<]*<\/em>/g, '');
+  }
+  function fmtCount(n, singular, plural = singular + 's') {
+    return `${n} ${n === 1 ? singular : plural}`;
+  }
+  function targetDeltaLabel() {
+    const delta = TARGET_MINUTES - DEFAULT_TARGET_MINUTES;
+    if (delta === 0) return 'Baseline GPX pace';
+    return `${Math.abs(delta)} min ${delta < 0 ? 'faster' : 'slower'} vs baseline`;
+  }
+  function targetScaleLabel() {
+    return `${Math.round((currentTargetHours() / BASE_TOTAL_HOURS) * 100)}% of baseline`;
+  }
+  function drinkCue(ml, capacity) {
+    const pct = capacity > 0 ? ml / capacity : 0;
+    if (ml <= 0) return 'skip it';
+    if (pct >= 0.98) return 'finish it';
+    if (pct >= 0.88) return 'drink almost all of it';
+    if (pct >= 0.72) return 'drink about 3/4 to 4/5';
+    if (pct >= 0.58) return 'drink about 2/3';
+    if (pct >= 0.42) return 'drink about half';
+    if (pct >= 0.28) return 'drink about 1/3';
+    if (pct >= 0.14) return 'just a few pulls';
+    return 'just a few sips';
+  }
+  function leaveCue(ml, capacity, vessel = 'flask') {
+    const left = Math.max(0, capacity - ml);
+    if (left <= 25) return 'leave almost none';
+    if (left >= capacity * 0.92) return `leave most of the ${vessel} untouched`;
+    return `leave ~${fmtFluid(left)} in the ${vessel}`;
+  }
+  function itemTimingCue(kind, count, totalHours) {
+    const totalMin = Math.round(totalHours * 60);
+    if (count <= 0) return '';
+    if (count === 1) {
+      if (totalMin <= 35) return kind === 'salt' ? 'take it late on the leg' : 'use it late on the leg';
+      if (totalMin <= 75) return kind === 'salt' ? 'take it around halfway' : 'use it around halfway';
+      return kind === 'salt' ? 'take it in the back half of the leg' : 'use it in the back half of the leg';
+    }
+    if (count === 2) {
+      return kind === 'salt'
+        ? 'take one in the first half and one in the second half'
+        : 'use one in the first half and one in the second half';
+    }
+    const everyMin = Math.round(totalMin / (count + 1));
+    return kind === 'salt'
+      ? `spread them about every ${everyMin} min`
+      : `space them about every ${everyMin} min`;
+  }
+
+  function computed() {
+    const legs = currentLegs();
+    const aidStops = buildAidStops(legs);
+    const fluidRate = FLUID_RATES[HEAT];
+    let totMi=0, totHr=0, totCarbs=0, totFluid=0, totFluidIdeal=0, totNa=0, totGain=0, totLoss=0;
+    let totGels=0, totSalt=0, totSk=0, totSkMl=0, totH2oMl=0, totCMl=0;
+    const skPlan = simZiplocks(legs);
+
+    const rows = legs.map((L, i) => {
+      const z = skPlan[i];
+      const target = Math.round(L.hr * CARB_HR);
+      const skCarbsDrunk = z.carbsDrunk;
+      // Gels fill only the gap.
+      const gap = Math.max(0, target - skCarbsDrunk);
+      const gels = Math.round(gap / GEL_CARBS);
+      const carbs = Math.round(skCarbsDrunk + gels * GEL_CARBS);
+
+      // --- sodium ---
+      const skNa = Math.round(skCarbsDrunk * (SK_NA_PER_SCOOP / SK_CARBS_PER_SCOOP));
+      const gelsNa = gels * GEL_NA;
+      const naTarget = Math.max(
+        Math.round(L.hr * NA_MIN_PER_HR[HEAT]),
+        Math.round((z.fluidMl / 1000) * NA_MIN_PER_L[HEAT])
+      );
+      const naGap = Math.max(0, naTarget - skNa - gelsNa);
+      const salt = Math.ceil(naGap / SS_NA);
+      const totalNa = skNa + gelsNa + salt * SS_NA;
+      const pace = (L.hr * 60) / L.mi;
+
+      const addScoops = z.useBag ? 7 : 0;
+      const depHr = aidStops[i].etaH;
+      const arrHr = aidStops[i + 1].etaH;
+
+      totMi += L.mi; totHr += L.hr; totCarbs += carbs; totFluid += z.fluidMl; totFluidIdeal += z.fluidIdeal; totNa += totalNa;
+      totGain += L.gain; totLoss += L.loss;
+      totGels += gels; totSalt += salt; totSk += addScoops;
+      totSkMl += z.skMl; totH2oMl += z.h2oMl; totCMl += z.cMl;
+      return {
+        depHr, arrHr,
+        L, addScoops, gels, salt, carbs, fluid: z.fluidMl, fluidIdeal: z.fluidIdeal,
+        fluidShort: z.fluidIdeal - z.fluidMl, skMl: z.skMl, h2oMl: z.h2oMl, cMl: z.cMl, hasC: z.hasC, totalNa, pace,
+        skCarbsDrunk: z.carbsDrunk,
+        skFlaskCarbsStart: z.startCarbs,
+        skFlaskCarbsLeft: z.endCarbs,
+        skFlaskMlLeft: Math.max(0, SK_FLASK_ML - z.skMl),
+      };
+    });
+    const pockets = simPockets(rows);
+    rows.forEach((row, i) => Object.assign(row, pockets[i]));
+    return {
+      rows,
+      legs,
+      aidStops,
+      skPlan,
+      totMi,
+      totHr,
+      totCarbs,
+      totFluid,
+      totFluidIdeal,
+      totFluidShort: Math.max(0, totFluidIdeal - totFluid),
+      totNa,
+      totGain,
+      totLoss,
+      totGels,
+      totSalt,
+      totSk,
+      totSkMl,
+      totH2oMl,
+      totCMl,
+      maxGels: Math.max(...rows.map(r => r.gels), 0),
+      maxSalt: Math.max(...rows.map(r => r.salt), 0),
+      carryLimitedLegs: rows.filter(r => r.fluidShort > 0)
+    };
+  }
+
+  function renderHeaderSummary(c) {
+    const pace = fmtPace(c.totHr * 60 / c.totMi) + fmtPaceUnit();
+    timeSlider.value = String(TARGET_MINUTES);
+    document.getElementById('heroKicker').textContent = `§ Nutrition plan · ${hhmm(c.totHr)} target`;
+    document.getElementById('timeTargetVal').textContent = hhmm(c.totHr);
+    document.getElementById('timeFinishVal').textContent = addClock(START_HOUR, c.totHr);
+    document.getElementById('timePaceVal').textContent = pace;
+    document.getElementById('timeDeltaVal').textContent = targetDeltaLabel();
+    document.getElementById('timeScaleVal').textContent = targetScaleLabel();
+    document.getElementById('footTargetLine').textContent = `80 g/hr · salty-sweater sodium profile · ${hhmm(c.totHr)} target`;
+  }
+
+  function renderTotals(c) {
+    // "bottles drained" = total fluid drunk from each type ÷ flask size (equivalent full bottles consumed over race).
+    const skBottles = c.totSkMl / SK_FLASK_ML;
+    const h2oBottles = c.totH2oMl / H2O_FLASK_ML;
+    const cBottles = c.totCMl / C_FLASK_ML;
+    const fluidSub = `${(c.totFluid/c.totHr).toFixed(0)} ml/hr avg · ${FLUID_RATES[HEAT]} ml/hr target${c.totFluidShort > 0 ? ` · ${fmtFluid(c.totFluidShort)} carry-limited` : ''}`;
+    document.getElementById('totalsStrip').innerHTML = `
+      <div class="cell"><div class="lab">On course</div><div class="val">${hhmm(c.totHr)}<small>hr</small></div><div class="sub">${addClock(START_HOUR, 0)} → ${addClock(START_HOUR, c.totHr)}</div></div>
+      <div class="cell"><div class="lab">Distance</div><div class="val">${UNIT==='us' ? c.totMi.toFixed(1) : (c.totMi*1.609).toFixed(1)}<small>${UNIT==='us'?'mi':'km'}</small></div><div class="sub">${UNIT==='us'?'+'+c.totGain.toLocaleString()+' / -'+c.totLoss.toLocaleString()+' ft':'+'+Math.round(c.totGain*0.3048)+' / -'+Math.round(c.totLoss*0.3048)+' m'}</div></div>
+      <div class="cell"><div class="lab">Carbs</div><div class="val">${c.totCarbs.toLocaleString()}<small>g</small></div><div class="sub">${(c.totCarbs/c.totHr).toFixed(0)} g/hr avg</div></div>
+      <div class="cell"><div class="lab">Sodium</div><div class="val">${(c.totNa/1000).toFixed(1)}<small>g</small></div><div class="sub">${(c.totNa/c.totHr).toFixed(0)} mg/hr avg · ${Math.round(c.totNa / (c.totFluid/1000))} mg/L</div></div>
+      <div class="cell"><div class="lab">Fluid · ${FLUID_LAB[HEAT]}</div><div class="val">${fmtFluid(c.totFluid)}</div><div class="sub">${fluidSub}</div></div>
+      <div class="cell"><div class="lab">Bottles drained</div><div class="val" style="font-size:18px">${Math.round(skBottles*100)/100}× <small>SK</small> · ${Math.round(h2oBottles*100)/100}× <small>H₂O</small> · ${Math.round(cBottles*100)/100}× <small>C</small></div><div class="sub">${c.totSk} scoops · ${c.totGels} gels · ${c.totSalt} salt</div></div>
+    `;
+  }
+
+  function bottleCell(r) {
+    // % = fraction of each (full) bottle consumed on this leg.
+    const skPct = Math.round((r.skMl / SK_FLASK_ML) * 100);
+    const h2oPct = Math.round((r.h2oMl / H2O_FLASK_ML) * 100);
+    const cPct = r.hasC ? Math.round((r.cMl / C_FLASK_ML) * 100) : 0;
+    const cLabel = r.hasC ? cPct + '%' : '—';
+    return `<div class="bot-cell">
+      <div class="bot-row"><span class="lab2">SK</span><div class="bot-bar sk"><i style="width:${Math.min(100,skPct)}%"></i></div><span class="val2">${skPct}%</span></div>
+      <div class="bot-row"><span class="lab2">H₂O</span><div class="bot-bar h2o"><i style="width:${Math.min(100,h2oPct)}%"></i></div><span class="val2">${h2oPct}%</span></div>
+      <div class="bot-row" style="${r.hasC?'':'opacity:0.35'}"><span class="lab2">C</span><div class="bot-bar h2o"><i style="width:${Math.min(100,cPct)}%"></i></div><span class="val2">${cLabel}</span></div>
+    </div>`;
+  }
+
+  // Build the "what to pack leaving [aid]" for a given leg.
+  function packListForLeg(r, idx, z) {
+    const L = r.L;
+    const aidName = L.from;
+    const parts = [];
+    const isFirst = idx === 0;
+    const isCrewBag = /^(Michigan|Foresthill|Driver)/.test(aidName);
+    const bagSrc = isFirst ? 'from vest ziplock stash' : (isCrewBag ? 'from crew cooler' : 'from vest ziplock stash');
+
+    if (z.useBag) {
+      parts.push(planItem('Flask SK', `dump 1 fresh ziplock and fill plain water`, `${bagSrc} · 105 g carbs`));
+    } else {
+      const leftScoops = Math.round(z.startCarbs / SK_CARBS_PER_SCOOP * 10) / 10;
+      parts.push(planItem('Flask SK', `keep the carry-over mix and top off plain water`, `~${z.startCarbs} g left · ${leftScoops} scoops remaining`));
+    }
+    parts.push(planItem('Flask H₂O', 'top off plain water', '500 ml'));
+    if (r.hasC) {
+      parts.push(planItem('Flask C', 'fill plain water', '600 ml · carry for the extra fluid load'));
+    }
+    if (r.reloadGels > 0 || r.reloadSalt > 0) {
+      const reload = [];
+      if (r.reloadGels > 0) reload.push(`<b>${fmtCount(r.reloadGels, 'SiS GO Apple gel')}</b>`);
+      if (r.reloadSalt > 0) reload.push(`<b>${fmtCount(r.reloadSalt, 'SaltStick cap')}</b>`);
+      const src = r.pocketSource === 'Start' ? 'loaded at the start' : `crew reload at ${r.pocketSource}`;
+      parts.push(planItem('Pockets', `load ${reload.join(' · ')}`, `${src} · covers the next crew gap`));
+    } else if (r.gels > 0 || r.salt > 0 || r.pocketGelsStart > 0 || r.pocketSaltStart > 0) {
+      const carry = [];
+      if (r.pocketGelsStart > 0) carry.push(`${fmtCount(r.pocketGelsStart, 'gel')} already on you`);
+      if (r.pocketSaltStart > 0) carry.push(`${fmtCount(r.pocketSaltStart, 'salt cap')} already on you`);
+      parts.push(planItem('Pockets', 'no reload here', `${carry.join(' · ')} · carried from ${r.pocketSource}`));
+    }
+    return `<div class="pack-list"><div class="pack-title">Leaving <span class="pack-aid">${aidName}</span></div><ul>${parts.join('')}</ul></div>`;
+  }
+
+  // "During the leg" drink plan.
+  function drinkPlanForLeg(r) {
+    const L = r.L;
+    const carbsFromSk = Math.round(r.skCarbsDrunk);
+    const rows = [];
+    rows.push(planItem('Sip SK', `drink ${fmtFluid(r.skMl)} · ${drinkCue(r.skMl, SK_FLASK_ML)}`, `${leaveCue(r.skMl, SK_FLASK_ML)} · ~${carbsFromSk} g carbs from flask`));
+    if (r.h2oMl > 0) rows.push(planItem('H₂O', `drink ${fmtFluid(r.h2oMl)} · ${drinkCue(r.h2oMl, H2O_FLASK_ML)}`, `${leaveCue(r.h2oMl, H2O_FLASK_ML)} · plain water`));
+    if (r.cMl > 0) rows.push(planItem('Flask C', `drink ${fmtFluid(r.cMl)} · ${drinkCue(r.cMl, C_FLASK_ML)}`, `${leaveCue(r.cMl, C_FLASK_ML)} · plain water`, ''));
+    if (r.gels > 0) rows.push(planItem(`${r.gels} gel${r.gels>1?'s':''}`, itemTimingCue('gel', r.gels, L.hr)));
+    if (r.salt > 0) rows.push(planItem(`${r.salt} salt cap${r.salt>1?'s':''}`, itemTimingCue('salt', r.salt, L.hr)));
+    if (r.fluidShort > 0) rows.push(planItem('Carry cap', `plan is still ~${fmtFluid(r.fluidShort)} short of the hourly fluid target`, `all available flask volume is already assigned on this leg`, 'muted'));
+    return `<div class="pack-list"><div class="pack-title">On the leg (${hhmm(L.hr)} · ${fmtMi(L.mi)})</div><ul>${rows.join('')}</ul></div>`;
+  }
+
+  function legPillsHtml(r, z, cls = 'seg-table') {
+    let pills = '';
+    if (z.useBag) {
+      pills += `<span class="pill sk">▼ new bag · 105g</span>`;
+    } else if (z.startCarbs > 0) {
+      pills += `<span class="pill sk" style="opacity:0.65">▼ top off only · ${z.startCarbs}g carry-over</span>`;
+    }
+    if (r.gels > 0) pills += `<span class="pill gel">● ${r.gels} gel${r.gels>1?'s':''}</span>`;
+    if (r.salt > 0) pills += `<span class="pill salt">◆ ${r.salt} salt</span>`;
+    if (r.fluidShort > 0) pills += `<span class="pill warn">⚠ carry cap · ${fmtFluid(r.fluidShort)} short</span>`;
+    if (!pills) return '';
+    return cls === 'mobile' ? `<div class="m-pills">${pills}</div>` : pills;
+  }
+
+  function bottleSummary(r) {
+    const parts = [
+      `SK ${Math.round((r.skMl / SK_FLASK_ML) * 100)}%`,
+      `H₂O ${Math.round((r.h2oMl / H2O_FLASK_ML) * 100)}%`
+    ];
+    if (r.hasC) {
+      parts.push(`C ${Math.round((r.cMl / C_FLASK_ML) * 100)}%`);
+    }
+    return parts.join(' · ');
+  }
+
+  function renderSegments(c) {
+    const tbody = document.getElementById('segBody');
+    const mobile = document.getElementById('mobileLegs');
+    const zactions = c.skPlan;
+    let html = '';
+    let mobileHtml = '';
+    c.rows.forEach((r, idx) => {
+      const L = r.L;
+      const z = zactions[idx];
+      const pills = legPillsHtml(r, z);
+      html += `<tr class="${L.crew?'crew':''} leg-row" data-idx="${idx}">
+        <td>
+          <div class="seg-from"><span class="chev">▸</span>${L.from} → ${L.to}${L.crew?'<span class="crew-dot">● crew</span>':''}</div>
+        </td>
+        <td class="num-c">${fmtMi(L.mi)}</td>
+        <td class="num-c">+${fmtFt(L.gain)}<br/><span style="color:var(--muted)">−${fmtFt(L.loss)}</span></td>
+        <td class="num-c">${hhmm(L.hr)}</td>
+        <td class="num-c"><span style="color:var(--muted);font-size:10px">arr</span> ${addClock(START_HOUR, r.arrHr)}<br/><span style="color:var(--muted);font-size:10px">dep ${addClock(START_HOUR, r.depHr)}</span></td>
+        <td class="num-c">${fmtPace(r.pace)}${fmtPaceUnit()}</td>
+        <td class="num-c">${r.carbs} g<br/><span style="color:var(--muted);font-size:10px">${(r.carbs/L.hr).toFixed(0)} g/hr</span></td>
+        <td class="num-c">${fmtFluid(r.fluid)}</td>
+        <td class="num-c">${bottleCell(r)}</td>
+        <td class="num-c">${r.totalNa} mg</td>
+        <td>${pills}</td>
+      </tr>
+      <tr class="leg-expand" data-expand="${idx}"><td colspan="11"><div class="expand-grid">${packListForLeg(r, idx, z)}${drinkPlanForLeg(r)}<div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div></div></td></tr>`;
+
+      mobileHtml += `<details class="m-leg-card ${L.crew?'crew':''}">
+        <summary>
+          <div class="m-top">
+            <div>
+              <div class="m-title">${L.from} → ${L.to}${L.crew?'<span class="crew-dot">● crew</span>':''}</div>
+              <div class="m-sub">dep ${addClock(START_HOUR, r.depHr)} · arr ${addClock(START_HOUR, r.arrHr)}</div>
+            </div>
+          </div>
+          <div class="m-stats">
+            <div class="m-stat">
+              <span class="k">Distance</span>
+              <span class="v">${fmtMi(L.mi)}</span>
+              <span class="subv">+${fmtFt(L.gain)} · −${fmtFt(L.loss)}</span>
+            </div>
+            <div class="m-stat">
+              <span class="k">Time</span>
+              <span class="v">${hhmm(L.hr)}</span>
+              <span class="subv">${fmtPace(r.pace)}${fmtPaceUnit()} grade-adjusted</span>
+            </div>
+            <div class="m-stat">
+              <span class="k">Fuel</span>
+              <span class="v">${r.carbs} g</span>
+              <span class="subv">${(r.carbs/L.hr).toFixed(0)} g/hr</span>
+            </div>
+            <div class="m-stat">
+              <span class="k">Fluid</span>
+              <span class="v">${fmtFluid(r.fluid)}</span>
+              <span class="subv">${r.totalNa} mg Na</span>
+            </div>
+            <div class="m-stat">
+              <span class="k">Bottles</span>
+              <span class="v">${bottleSummary(r)}</span>
+            </div>
+            <div class="m-stat">
+              <span class="k">Clock</span>
+              <span class="v">${addClock(START_HOUR, r.arrHr)}</span>
+              <span class="subv">left ${addClock(START_HOUR, r.depHr)}</span>
+            </div>
+          </div>
+          ${legPillsHtml(r, z, 'mobile')}
+          <div class="m-open">Tap for leaving + on-leg details</div>
+        </summary>
+        <div class="m-body">
+          <div class="expand-grid">
+            ${packListForLeg(r, idx, z)}
+            ${drinkPlanForLeg(r)}
+            <div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div>
+          </div>
+        </div>
+      </details>`;
+    });
+    const totSkBot = c.totSkMl / SK_FLASK_ML;
+    const totH2oBot = c.totH2oMl / H2O_FLASK_ML;
+    const totCBot = c.totCMl / C_FLASK_ML;
+    html += `<tr class="tot">
+      <td>TOTAL — 10 legs</td>
+      <td class="num-c">${fmtMi(c.totMi)}</td>
+      <td class="num-c">+${fmtFt(c.totGain)}<br/><span style="color:var(--muted)">−${fmtFt(c.totLoss)}</span></td>
+      <td class="num-c">${hhmm(c.totHr)}</td>
+      <td class="num-c"><span style="color:var(--muted);font-size:10px">${addClock(START_HOUR, 0)} →</span> ${addClock(START_HOUR, c.totHr)}</td>
+      <td class="num-c">${fmtPace(c.totHr*60/c.totMi)}${fmtPaceUnit()} avg</td>
+      <td class="num-c">${c.totCarbs} g</td>
+      <td class="num-c">${fmtFluid(c.totFluid)}</td>
+      <td class="num-c"><div class="bot-cell">
+        <div class="bot-row"><span class="lab2">SK</span><span class="val2">${totSkBot.toFixed(1)}× · ${fmtFluid(c.totSkMl)}</span></div>
+        <div class="bot-row"><span class="lab2">H₂O</span><span class="val2">${totH2oBot.toFixed(1)}× · ${fmtFluid(c.totH2oMl)}</span></div>
+        <div class="bot-row"><span class="lab2">C</span><span class="val2">${totCBot.toFixed(1)}× · ${fmtFluid(c.totCMl)}</span></div>
+      </div></td>
+      <td class="num-c">${(c.totNa/1000).toFixed(1)} g</td>
+      <td><span class="pill sk">${zactions.filter(z=>z.useBag).length} bags</span><span class="pill gel">${c.totGels} gels</span><span class="pill salt">${c.totSalt} salt</span></td>
+    </tr>`;
+    tbody.innerHTML = html;
+    mobile.innerHTML = mobileHtml;
+    // Click to expand leg rows
+    tbody.querySelectorAll('.leg-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const idx = row.dataset.idx;
+        const expand = tbody.querySelector(`.leg-expand[data-expand="${idx}"]`);
+        const open = row.classList.toggle('open');
+        if (expand) expand.classList.toggle('open', open);
+      });
+    });
+  }
+
+  // ====== Aid stations ======
+  const AID = [
+    { name: "Start: China Wall", crew: true, mile: 0.0, drop: [] },
+    { name: "Deadwood 1", crew: false, mile: 11.2, drop: [] },
+    { name: "Swinging Bridge", crew: false, mile: 13.5, drop: [] },
+    { name: "Deadwood 2", crew: false, mile: 15.8, drop: [] },
+    { name: "Michigan Bluff", crew: true, mile: 22.6, drop: ["Warm layer if not needed"] },
+    { name: "Foresthill", crew: true, mile: 28.5, drop: ["Morning layers", "Wrappers", "Swap socks if needed"] },
+    { name: "Cal 2", crew: false, mile: 36.7, drop: [] },
+    { name: "Driver's Flat", crew: true, mile: 46.0, drop: [] },
+    { name: "Mammoth Bar", crew: false, mile: 53.9, drop: [] },
+    { name: "Confluence", crew: false, mile: 57.6, drop: [] },
+    { name: "Finish", crew: true, mile: 61.6, drop: ["Everything"] },
+  ];
+
+  function renderAid(c) {
+    const g = document.getElementById('aidGrid');
+    const aidStops = c.aidStops;
+    const zactions = c.skPlan;
+    const { startBags, handoffs } = crewRestocks(zactions);
+    // AID[i] dispatches leg i (undefined for finish).
+    g.innerHTML = aidStops.map((a, i) => {
+      const eta = addClock(START_HOUR, a.etaH);
+      const r = c.rows[i];
+      const z = zactions[i];
+      const isFirst = i === 0;
+      const isFinish = !r;
+      const isCrewBag = /^(Michigan|Foresthill|Driver)/.test(a.name);
+
+      // Crew status tag
+      let crewTag = '';
+      if (isFirst) crewTag = '<span class="crew-tag">START · crew</span>';
+      else if (isFinish) crewTag = '<span class="crew-tag">FINISH</span>';
+      else if (a.crew) crewTag = '<span class="crew-tag">CREW ACCESS</span>';
+      else if (/water only/.test(a.name)) crewTag = '<span class="crew-tag water">WATER ONLY</span>';
+      else crewTag = '<span class="crew-tag solo">SOLO · ~30s</span>';
+
+      // Clean name (strip <em>…</em> meta — we show status via crewTag)
+      const cleanName = a.name.replace(/\s*<em>[^<]*<\/em>/g, '');
+
+      const head = `<div class="row1">
+        <span class="name">${cleanName}</span>
+        <span class="mile">mi ${a.mile.toFixed(1)} · ${eta}</span>
+        ${crewTag}
+      </div>`;
+
+      if (isFinish) {
+        return `<div class="aid-card compact crew finish">
+          ${head}
+          <div class="lane-grid" style="grid-column: span 2">
+            <div class="lane l-flasks">
+              <div class="lane-hd">Finish</div>
+              <div class="chips"><span class="chip">shotgun a beer</span></div>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      // ==== FLASKS lane ====
+      const flasks = [];
+      if (z.useBag) {
+        const src = isFirst ? 'from vest' : (isCrewBag ? 'from crew' : 'from vest');
+        flasks.push(`<span class="chip sk"><b>SK</b> ${isFirst ? 'start full' : 'refill with 1 bag'} · ${src}</span>`);
+      } else {
+        flasks.push(`<span class="chip sk" style="opacity:0.75"><b>SK</b> top off only · ${z.startCarbs}g carry-over</span>`);
+      }
+      flasks.push(`<span class="chip h2o"><b>H₂O</b> ${isFirst ? 'start full' : 'refill plain water'}</span>`);
+      if (r.hasC) flasks.push(`<span class="chip c"><b>Flask C</b> fill plain water</span>`);
+
+      // ==== POCKET RELOAD lane ====
+      const pocket = [];
+      if (r.reloadGels > 0) pocket.push(`<span class="chip gel"><b>load</b> ${fmtCount(r.reloadGels, 'gel')}</span>`);
+      if (r.reloadSalt > 0) pocket.push(`<span class="chip salt"><b>load</b> ${fmtCount(r.reloadSalt, 'salt cap')}</span>`);
+      const spareBags = Math.max(0, (isFirst ? startBags : (handoffs[i] || 0)) - (z.useBag ? 1 : 0));
+      if (spareBags > 0) {
+        const src = isFirst ? 'in vest' : 'from crew';
+        pocket.push(`<span class="chip sk"><b>take</b> ${fmtCount(spareBags, 'spare SK bag')} · ${src}</span>`);
+      }
+      if (isFirst) pocket.push(`<span class="chip caf"><b>vest</b> 1× 5-Hour</span>`);
+      if (!pocket.length) pocket.push(`<span class="chip optional">no pocket reload here</span>`);
+
+      // ==== SWAP / DROP lane ====
+      const swap = [];
+      if (isFirst) swap.push(`<span class="chip lamp">🔦 headlamp on from start</span>`);
+      if (a.name.startsWith('Michigan')) swap.push(`<span class="chip lamp-off">drop headlamp with crew</span>`);
+      if (a.name.startsWith("Driver")) {
+        swap.push(`<span class="chip lamp">🔦 pick up headlamp</span>`);
+        swap.push(`<span class="chip kit">pick up long-sleeve / jacket</span>`);
+      }
+      (a.drop || []).forEach(item => {
+        const label = /^swap\b/i.test(item) ? item.toLowerCase() : `drop ${item.toLowerCase()}`;
+        swap.push(`<span class="chip kit">${label}</span>`);
+      });
+
+      // ==== CREW-OPTIONAL lane ====
+      const crewOpt = [];
+      if (a.crew && !isFirst && !isFinish) {
+        crewOpt.push(`<span class="chip optional">replace 5-Hour if used</span>`);
+        crewOpt.push(`<span class="chip optional">fresh shirt</span>`);
+        crewOpt.push(`<span class="chip optional">fresh socks</span>`);
+        crewOpt.push(`<span class="chip optional">fresh shorts · underwear</span>`);
+        crewOpt.push(`<span class="chip optional">fresh hat</span>`);
+        crewOpt.push(`<span class="chip optional">fresh shoes</span>`);
+        crewOpt.push(`<span class="chip optional">toothbrush</span>`);
+        crewOpt.push(`<span class="chip optional">⚡ charge watch/phone</span>`);
+      }
+
+      const midCol = `<div class="lane-grid">
+        <div class="lane l-flasks"><div class="lane-hd">Flasks</div><div class="chips">${flasks.join('')}</div></div>
+        <div class="lane l-fuel"><div class="lane-hd">Load / Carry</div><div class="chips">${pocket.join('') || '<span class="chip optional">—</span>'}</div></div>
+      </div>`;
+      const rightCol = `<div class="lane-grid" style="grid-template-columns: 1fr">
+        <div class="lane l-kit"><div class="lane-hd">Swap / Drop</div><div class="chips">${swap.join('') || '<span class="chip optional">—</span>'}</div></div>
+        ${crewOpt.length ? `<div class="lane l-crew"><div class="lane-hd">Crew · optional</div><div class="chips">${crewOpt.join('')}</div></div>` : ''}
+      </div>`;
+
+      return `<div class="aid-card compact ${a.crew?'crew':''}">
+        ${head}
+        ${midCol}
+        ${rightCol}
+      </div>`;
+    }).join('');
+  }
+
+  // ====== Packing ======
+  // ====== Skratch ziplock system ======
+  // Rule: 1 ziplock = 7 scoops = 1 full flask refill. One bag, one refill, no measuring.
+  // If enough Skratch remains in the flask, keep that mix and top with water only.
+  // On the leg, still prioritize Skratch before leaning on gels, but cap the bottle-derived
+  // carb density so each leg carries real plain water alongside the concentrated SK flask.
+  // Bags are sourced from: vest at start (carry some), crew cooler at crew stops.
+
+  function simZiplocks(legs) {
+    const rate = FLUID_RATES[HEAT];
+    const carbCap = LEG_DRINK_CARB_CAP[HEAT];
+    const BAG_SCOOPS = 7;
+    const BAG_CARBS = BAG_SCOOPS * SK_CARBS_PER_SCOOP; // 105g
+    const MIN_LEAVE_THRESHOLD = SK_CARBS_PER_SCOOP;    // keep flask if >= 1 scoop left
+
+    let flaskCarbs = 0;
+    const actions = [];
+
+    for (let i = 0; i < legs.length; i++) {
+      const L = legs[i];
+      const fluidIdeal = Math.round(L.hr * rate);
+      const hasC = fluidIdeal > (SK_FLASK_ML + H2O_FLASK_ML);
+      const target = Math.round(L.hr * CARB_HR);
+      const useBag = flaskCarbs < MIN_LEAVE_THRESHOLD;
+      const startCarbs = useBag ? BAG_CARBS : flaskCarbs;
+      const fluid = Math.min(fluidIdeal, SK_FLASK_ML + H2O_FLASK_ML + (hasC ? C_FLASK_ML : 0));
+      const skCarbTarget = Math.min(startCarbs, target);
+      const skCarbCap = Math.min(startCarbs, fluid * carbCap);
+      const carbsDrunk = Math.min(skCarbTarget, skCarbCap);
+      const skMl = startCarbs > 0 ? Math.round((carbsDrunk / startCarbs) * SK_FLASK_ML) : 0;
+      const waterNeed = Math.max(0, fluid - skMl);
+      const h2oMl = Math.min(H2O_FLASK_ML, waterNeed);
+      const cMl = Math.min(hasC ? C_FLASK_ML : 0, Math.max(0, waterNeed - h2oMl));
+      flaskCarbs = startCarbs - carbsDrunk;
+      actions.push({
+        legIdx: i,
+        useBag,
+        startCarbs: Math.round(startCarbs),
+        endCarbs: Math.round(flaskCarbs),
+        carbsDrunk: Math.round(carbsDrunk),
+        fluidIdeal,
+        fluidMl: fluid,
+        hasC,
+        skMl,
+        h2oMl,
+        cMl
+      });
+    }
+    return actions;
+  }
+
+  function simPockets(rows) {
+    const crewReloadIdxs = AID
+      .map((a, i) => ({ a, i }))
+      .filter(({ a, i }) => i < rows.length && a.crew)
+      .map(({ i }) => i);
+
+    const reloadPlan = {};
+    crewReloadIdxs.forEach((idx, pos) => {
+      const nextIdx = crewReloadIdxs[pos + 1] ?? rows.length;
+      let gels = 0;
+      let salt = 0;
+      for (let i = idx; i < nextIdx; i++) {
+        gels += rows[i].gels;
+        salt += rows[i].salt;
+      }
+      reloadPlan[idx] = {
+        reloadGels: gels,
+        reloadSalt: salt,
+        pocketSource: idx === 0 ? 'Start' : cleanAidName(AID[idx].name),
+      };
+    });
+
+    let carryGels = 0;
+    let carrySalt = 0;
+    let source = 'Start';
+    return rows.map((row, idx) => {
+      const reload = reloadPlan[idx];
+      if (reload) {
+        carryGels = reload.reloadGels;
+        carrySalt = reload.reloadSalt;
+        source = reload.pocketSource;
+      }
+      const pocketGelsStart = carryGels;
+      const pocketSaltStart = carrySalt;
+      carryGels = Math.max(0, carryGels - row.gels);
+      carrySalt = Math.max(0, carrySalt - row.salt);
+      return {
+        reloadGels: reload ? reload.reloadGels : 0,
+        reloadSalt: reload ? reload.reloadSalt : 0,
+        pocketSource: source,
+        pocketGelsStart,
+        pocketSaltStart,
+        pocketGelsAfter: carryGels,
+        pocketSaltAfter: carrySalt,
+      };
+    });
+  }
+
+  // Crew aid map keyed by aid name prefix.
+  // Crew aids that restock bags: Michigan Bluff, Foresthill, Driver's Flat.
+  function crewRestocks(actions) {
+    // Walk aid stations. AID[i] is the aid BEFORE leg i (leg i runs from AID[i] → AID[i+1]).
+    // At aid i, we "use a bag" if actions[i].useBag. We need to know how many bags are in vest at start
+    // and how many more to hand off at each crew aid.
+    const names = AID.map(a => a.name);
+    // Aids where crew can restock with bags:
+    const isBagCrew = n => /^(Michigan|Foresthill|Driver)/.test(n);
+    // Pre-start: carry enough bags to cover until first bag-crew aid (Michigan at i=4).
+    // Then crew drops in more bags at each crew aid equal to what's needed until next crew aid.
+    let crewIdxs = [];
+    names.forEach((n, i) => { if (isBagCrew(n)) crewIdxs.push(i); });
+    // Segments between bag-refill points: [0..firstCrew), [firstCrew..secondCrew), ...
+    let startBags = 0;
+    const handoffs = {};
+    const segmentBoundaries = [0, ...crewIdxs, actions.length];
+    // Count bags per segment (excluding the aid that starts the next segment — that aid itself may use a bag,
+    // and that usage is covered by THAT crew aid's handoff).
+    for (let s = 0; s < segmentBoundaries.length - 1; s++) {
+      const from = segmentBoundaries[s];
+      const to = segmentBoundaries[s + 1];
+      let count = 0;
+      for (let i = from; i < to; i++) if (actions[i].useBag) count++;
+      if (s === 0) startBags = count;
+      else {
+        const crewAidIdx = segmentBoundaries[s];
+        handoffs[crewAidIdx] = count;
+      }
+    }
+    return { startBags, handoffs, isBagCrew };
+  }
+
+  // ====== Toggles ======
+  function setToggle(id, attr, current) {
+    document.querySelectorAll('#'+id+' button').forEach(b => b.classList.toggle('active', b.dataset[attr] === current));
+  }
+  function renderAll() {
+    const c = computed();
+    renderHeaderSummary(c);
+    renderTotals(c);
+    renderSegments(c);
+    renderAid(c);
+  }
+  const timeSlider = document.getElementById('timeSlider');
+  timeSlider.min = String(TARGET_MIN_MINUTES);
+  timeSlider.max = String(TARGET_MAX_MINUTES);
+  timeSlider.step = String(TARGET_STEP_MINUTES);
+  timeSlider.value = String(TARGET_MINUTES);
+  setToggle('heatToggle', 'heat', HEAT);
+  setToggle('unitToggle', 'unit', UNIT);
+  document.getElementById('heatToggle').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    HEAT = b.dataset.heat; localStorage.setItem('canyons_nut_heat', HEAT);
+    setToggle('heatToggle', 'heat', HEAT); renderAll();
+  });
+  document.getElementById('unitToggle').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    UNIT = b.dataset.unit; localStorage.setItem('canyons_unit', UNIT);
+    setToggle('unitToggle', 'unit', UNIT); renderAll();
+  });
+  timeSlider.addEventListener('input', e => {
+    TARGET_MINUTES = clampNumber(Number(e.target.value), TARGET_MIN_MINUTES, TARGET_MAX_MINUTES);
+    localStorage.setItem('canyons_target_minutes', String(TARGET_MINUTES));
+    renderAll();
+  });
+
+  renderAll();
+</script>
+</body>
+</html>

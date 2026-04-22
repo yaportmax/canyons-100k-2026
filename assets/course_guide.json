@@ -1,0 +1,681 @@
+{
+  "race_overview": {
+    "name": "UTMB Canyons Endurance Runs 100K",
+    "location": "Auburn, California (Sierra Nevada foothills)",
+    "start": "China Wall Trailhead (~5,000 ft elevation)",
+    "finish": "Downtown Auburn (~1,300 ft elevation)",
+    "distance": "~62-64 miles (100 km)",
+    "total_elevation_gain": "~12,000-13,000 ft",
+    "total_elevation_loss": "~16,000-17,000 ft",
+    "net_descent": "~4,000 ft",
+    "time_limit": "20 hours",
+    "typical_start_time": "5:00 AM Saturday",
+    "trail_system": "Primarily Western States Trail and Auburn State Recreation Area trails",
+    "course_type": "Point-to-point with out-and-back loops in the first half",
+    "general_character": "Mostly singletrack on the historic Western States Trail through deep Sierra foothill canyons along the North Fork and Middle Fork of the American River. The first half is more technical and climbing-intensive (~9,000 ft gain); the second half is more runnable and net downhill (~4,000-5,000 ft gain).",
+    "mandatory_gear": [
+      "Running pack/vest",
+      "Cell phone with US roaming",
+      "Collapsible cup (15cl minimum)",
+      "1-liter water supply",
+      "Working headlamp with spare batteries (200+ lumens recommended)",
+      "Food reserve (800 kcal minimum)",
+      "Weather jacket with hood",
+      "Hat"
+    ],
+    "logistics_note": "Runners take a mandatory bus from Auburn to the China Wall trailhead start. No personal vehicle access to the start."
+  },
+
+  "segments": [
+    {
+      "segment_number": 1,
+      "segment_name": "China Wall (START) to Deadwood",
+      "start_location": "China Wall Trailhead",
+      "end_location": "Deadwood Aid Station",
+      "start_mile": 0,
+      "end_mile": 10,
+      "distance_miles": 10,
+      "start_elevation_ft": 5000,
+      "end_elevation_ft": 3200,
+      "elevation_profile_character": "Net downhill with approximately 2,000 feet of descent. Opens on relatively flat to gently descending fire road, then drops steeply into Eldorado Canyon before climbing on singletrack to the Deadwood aid station area.",
+      "terrain_description": "Begins on Mitchell Mine Road -- a wide, double-track, rutted fire road (can be very muddy in wet years). After approximately 1.5-2 miles, transitions to singletrack as you drop into Eldorado Canyon. The singletrack descends via switchbacks to the El Dorado Creek crossing (footbridge), then climbs the opposite canyon wall on the Western States Trail toward Deadwood. The trail in this section is moderately technical with some rocky footing and root exposure.",
+      "key_landmarks": [
+        "China Wall Trailhead staging area (bus drop-off)",
+        "Mitchell Mine Road (opening fire road)",
+        "Eldorado Canyon descent",
+        "El Dorado Creek footbridge crossing",
+        "The Pump -- a water pump installed in 2002 near the old Deadwood Town Site, providing reliable water"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Pre-dawn start (5 AM) means this section is run in darkness with headlamps. The fire road is exposed, but sun is typically not a factor due to early timing.",
+        "shade": "Canyon sections are shaded by oak and mixed conifer; the fire road at the start is open and exposed.",
+        "wind": "Generally sheltered in the canyon; the ridgeline start can have some wind.",
+        "temperature": "Cool to cold at the start (April morning at 5,000 ft). Can be near freezing. Rain, mud, or even snow are possible."
+      },
+      "water_crossings": [
+        "El Dorado Creek -- footbridge crossing, no wading required in normal conditions",
+        "Possible puddles and mud on the fire road in wet years"
+      ],
+      "hazards": [
+        "Muddy, rutted fire road is extremely slippery when wet -- multiple ankle injuries reported at the start",
+        "Crowded start on narrow fire road leads to congestion and puddle-dodging",
+        "Running in darkness requires reliable headlamp; uneven footing on rutted road",
+        "Poison oak present along lower trail sections",
+        "Ticks in grass and brush along trail margins"
+      ],
+      "runner_tips": [
+        "Start conservatively. The temptation to run fast on the opening fire road (sub-6 pace is common among leaders) will cost you later.",
+        "Carry a headlamp with good battery life -- you will be in darkness for the first 1-2 hours.",
+        "Watch your ankles on the rutted fire road, especially if it has rained.",
+        "The net downhill opening is deceptive -- save your quads for the much bigger descents coming later.",
+        "Be patient with congestion at the start; the field will thin quickly."
+      ],
+      "aid_station": {
+        "name": "Deadwood",
+        "mile": 10,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink (Gatorade/Tailwind)", "Cola",
+          "Fruit (oranges, bananas, watermelon)", "Chips", "Cookies",
+          "PB&J sandwiches", "Pretzels", "Candy (Skittles, M&Ms)",
+          "Salt tabs", "Gels/chews"
+        ],
+        "notes": "First aid station of the race. Runners get bib-checked here. This station is visited twice (outbound and return). Resupply water and calories before the steep climb to Devil's Thumb."
+      }
+    },
+
+    {
+      "segment_number": 2,
+      "segment_name": "Deadwood to Devil's Thumb",
+      "start_location": "Deadwood Aid Station",
+      "end_location": "Devil's Thumb",
+      "start_mile": 10,
+      "end_mile": 12,
+      "distance_miles": 2,
+      "start_elevation_ft": 3200,
+      "end_elevation_ft": 4800,
+      "elevation_profile_character": "Sustained, steep climb. Approximately 1,600 feet of elevation gain in 1.7-2 miles. This is the steepest climb on the entire course -- 36 switchbacks ascending the canyon wall.",
+      "terrain_description": "Tight, narrow singletrack switchbacks. The trail is steep, loose, and dusty in dry conditions. Footing is challenging with exposed rock, loose dirt, and leaf litter covering the trail. The 36 switchbacks are relentless with very little flat ground between them. Almost all runners will power-hike this entire section.",
+      "key_landmarks": [
+        "36 switchbacks -- the iconic and infamous climb of the Western States Trail",
+        "Devil's Thumb overlook at the top -- an oasis on the canyon rim with panoramic views",
+        "Glorious spring approximately 150 yards up from Swinging Bridge (on the outbound route, this spring is passed before the climb)"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "During the Canyons 100K, runners typically reach this section in the early morning, so sun exposure is moderate. In the Western States 100 (run in June), this is scorching. In April for Canyons, it is more temperate but can still warm up.",
+        "shade": "Lower switchbacks have some tree cover. Upper switchbacks become more exposed, especially after the 2022 Mosquito Fire burned portions of this area.",
+        "wind": "Canyon walls block most wind. It can be very still and hot in the switchbacks.",
+        "temperature": "Warming by the time most runners reach this point. The canyon traps heat and air is still."
+      },
+      "water_crossings": [],
+      "hazards": [
+        "Extremely steep and loose footing on the switchbacks",
+        "Two-way traffic on very narrow trail creates collision risk -- runners going out to Swinging Bridge and runners returning must share the trail",
+        "Face-height poison oak reported midway through the section",
+        "Zero air movement in the canyon amplifies heat",
+        "Runners have been witnessed keeling over on the side of the trail from heat and effort",
+        "Aggressive or frustrated runners in two-way traffic situations -- some reports of 'shouldering' on the narrow trail"
+      ],
+      "runner_tips": [
+        "Power-hike the entire climb. Do not try to run the switchbacks -- virtually no one does.",
+        "Fill up on water at Deadwood before starting the climb.",
+        "Use trekking poles if you have them -- this is where they pay off most.",
+        "Be courteous to other runners in the two-way traffic. Yield to descending runners when possible.",
+        "Keep effort steady but sustainable. Heart rate will spike. Don't blow up here.",
+        "Expect this climb to take 30-45+ minutes depending on fitness."
+      ],
+      "aid_station": {
+        "name": "Devil's Thumb",
+        "mile": 12,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola",
+          "Fruit", "Chips", "Cookies", "Candy",
+          "PB&J sandwiches"
+        ],
+        "notes": "Located at the top of the switchbacks on the canyon rim. A welcome relief after the brutal climb. Take time to refuel and recover before descending to Swinging Bridge. Past race reports mention creative volunteer setups including music and themed decorations."
+      }
+    },
+
+    {
+      "segment_number": 3,
+      "segment_name": "Devil's Thumb to Swinging Bridge",
+      "start_location": "Devil's Thumb",
+      "end_location": "Swinging Bridge",
+      "start_mile": 12,
+      "end_mile": 15,
+      "distance_miles": 3,
+      "start_elevation_ft": 4800,
+      "end_elevation_ft": 2800,
+      "elevation_profile_character": "Steep, sustained descent of approximately 2,000 feet over 3 miles into the bottom of Deadwood Canyon. The trail drops precipitously with tight switchbacks.",
+      "terrain_description": "Narrow singletrack descending steeply into Deadwood Canyon. The trail is covered with oak leaves making footing slippery and uncertain. Sections are rocky and rutted. The descent is fast for confident runners but treacherous for those with tired quads. The final approach to Swinging Bridge levels out briefly at the canyon bottom.",
+      "key_landmarks": [
+        "Devil's Thumb overlook (departure point)",
+        "Deadwood Canyon descent -- steep switchbacks through mixed forest",
+        "Swinging Bridge -- a suspension bridge crossing the creek at the canyon bottom",
+        "Glorious spring approximately 150 yards up from the bridge -- one of the best water sources on the Western States Trail"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Upper portions exposed, especially in burn-scarred areas from the 2022 Mosquito Fire. Lower canyon is shaded by tree canopy.",
+        "shade": "Increasing shade as you descend into the canyon bottom. The creek area is generally shaded.",
+        "wind": "Sheltered in the deep canyon.",
+        "temperature": "Cool at the canyon bottom near the creek. Can be 10-15 degrees cooler than the exposed ridgeline."
+      },
+      "water_crossings": [
+        "Swinging Bridge -- suspension bridge crossing over the creek, no wading required",
+        "Spring near the bridge provides clean, cold water"
+      ],
+      "hazards": [
+        "Steep descent is very hard on the quads -- save your legs for the return climb",
+        "Oak leaves covering the trail hide rocks and roots, creating trip and ankle-roll hazards",
+        "Two-way traffic on narrow trail (outbound runners descending, returning runners ascending)",
+        "Cliff-edge exposure in some sections on the descent",
+        "Poison oak present along trail margins"
+      ],
+      "runner_tips": [
+        "Control your descent speed -- you have to climb back up this section very soon.",
+        "This is a bib-check/turnaround point. Get your bib marked at Swinging Bridge before heading back.",
+        "Take advantage of the spring near the bridge to top off water and cool down.",
+        "Soak your hat, bandana, or buff in the cold creek water before climbing back up.",
+        "If you have trekking poles, have them ready for the return ascent."
+      ],
+      "aid_station": {
+        "name": "Swinging Bridge",
+        "mile": 15,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink",
+          "Basic snacks and fruit"
+        ],
+        "notes": "This is a checkpoint/turnaround point rather than a full aid station. Runners get bibs marked here, then immediately begin the return climb. Minimal supplies -- plan to be self-sufficient. The cold spring water nearby is the real prize."
+      }
+    },
+
+    {
+      "segment_number": 4,
+      "segment_name": "Swinging Bridge to Deadwood 2 (return loop)",
+      "start_location": "Swinging Bridge",
+      "end_location": "Deadwood 2 Aid Station",
+      "start_mile": 15,
+      "end_mile": 18,
+      "distance_miles": 3,
+      "start_elevation_ft": 2800,
+      "end_elevation_ft": 3200,
+      "elevation_profile_character": "Significant climb out of the canyon bottom back up toward the Deadwood area, but via a different route (Outer Loop 6) rather than retracing the Devil's Thumb switchbacks. Net elevation gain of approximately 400-600 feet with rolling terrain after the initial climb. Less brutally steep than the Devil's Thumb ascent but still demanding.",
+      "terrain_description": "Singletrack trail on Outer Loop 6. The trail climbs out of the canyon on a more moderate grade than the Devil's Thumb switchbacks. Footing is mixed -- some smooth singletrack, some rocky sections with loose dirt. After gaining the ridgeline, the trail rolls along to the second visit to the Deadwood aid station.",
+      "key_landmarks": [
+        "Swinging Bridge departure",
+        "Outer Loop 6 trail junction -- runners go LEFT here (not back up Devil's Thumb switchbacks)",
+        "Second visit to Deadwood Aid Station"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Mixed. Some exposed sections on the ridgeline, shaded sections in the canyon.",
+        "shade": "Moderate canopy cover through most of this section.",
+        "wind": "Light, generally sheltered.",
+        "temperature": "Warming as the morning progresses. Most runners reach this point mid-morning."
+      },
+      "water_crossings": [],
+      "hazards": [
+        "Fatigue from the Devil's Thumb climb and Swinging Bridge descent accumulates here",
+        "Navigation -- make sure to follow Loop 6 trail and not retrace back up Devil's Thumb",
+        "Poison oak present along trail",
+        "Tired legs on uneven terrain increase stumble risk"
+      ],
+      "runner_tips": [
+        "This is a recovery section relative to the Devil's Thumb climb. Use it to settle into a sustainable rhythm.",
+        "Eat and drink consistently -- you have already burned through significant calories in the first 15 miles.",
+        "The terrain is less severe here, so try to run the flats and gentle downhills.",
+        "Refuel well at Deadwood 2 before the long push to Michigan Bluff."
+      ],
+      "aid_station": {
+        "name": "Deadwood 2",
+        "mile": 18,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola",
+          "Fruit (oranges, bananas)", "Chips", "Cookies",
+          "PB&J sandwiches", "Pretzels", "Candy",
+          "Quesadillas (later in the day)", "Broth (later in the day)"
+        ],
+        "notes": "Second visit to the Deadwood aid station. You are now heading toward Michigan Bluff and will not return to this area. Top off water and food before the 6-mile push to Michigan Bluff with significant climbing."
+      }
+    },
+
+    {
+      "segment_number": 5,
+      "segment_name": "Deadwood 2 to Michigan Bluff",
+      "start_location": "Deadwood 2 Aid Station",
+      "end_location": "Michigan Bluff Aid Station",
+      "start_mile": 18,
+      "end_mile": 24,
+      "distance_miles": 6,
+      "start_elevation_ft": 3200,
+      "end_elevation_ft": 3400,
+      "elevation_profile_character": "V-shaped profile. Steep descent into El Dorado Canyon (~2,600 ft drop over ~3 miles), crossing El Dorado Creek at the bottom, followed by a sustained 1,800-foot climb over ~2.8 miles up to Michigan Bluff. The descent starts gradually then steepens dramatically in the final mile. The climb begins steeply and gradually levels out near the top.",
+      "terrain_description": "The descent from Deadwood past the old cemetery down to El Dorado Creek is fast, rugged singletrack with some exposure. The trail passes through the historic Deadwood Cemetery (1850s miners' graves) about one-third of the way down. Below the cemetery, the trail becomes steeper and more technical. At the bottom, a footbridge crosses El Dorado Creek. The climb up to Michigan Bluff begins on steep singletrack switchbacks, then transitions to a rutted dirt road approximately half a mile before the aid station where running can resume.",
+      "key_landmarks": [
+        "Deadwood Cemetery -- burial ground of 1850s gold rush miners, about one-third of the way down",
+        "El Dorado Creek -- footbridge crossing at the canyon bottom; historically the hottest point on the WS100 course",
+        "Kaput Spring -- named after a horse airlifted from this location in 1966",
+        "The Pump -- water pump near the old Deadwood town site (installed 2002)",
+        "Michigan Bluff -- historic gold rush mining town with scattered residential structures"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Significant exposure. The 2022 Mosquito Fire burned much of this area, leaving it shadeless and exposed. The canyon bottom at El Dorado Creek is historically the hottest point on the Western States course.",
+        "shade": "Limited shade due to fire damage. Some recovery in lower canyon near creek.",
+        "wind": "Minimal wind in the deep canyon. Still, hot air.",
+        "temperature": "This segment is notorious for intense heat. Even in April, canyon temperatures can be 10-15 degrees warmer than surrounding areas. Expect significant heat accumulation in the canyon."
+      },
+      "water_crossings": [
+        "El Dorado Creek -- footbridge crossing at the canyon bottom",
+        "Runners can access the creek to cool off, soak bandanas, and refill water"
+      ],
+      "hazards": [
+        "Extreme heat exposure in the canyon, especially with post-fire loss of shade",
+        "Steep, rugged descent is hard on quads -- control speed",
+        "Narrow trail with exposure on the descent",
+        "Extended distance between aid stations -- carry sufficient water (1+ liters recommended)",
+        "The 1,800-foot climb to Michigan Bluff is a grind -- heat and fatigue compound here",
+        "Poison oak present throughout",
+        "This climb is where many runners enter their 'first pain cave of the day'"
+      ],
+      "runner_tips": [
+        "Don't be surprised if the climb to Michigan Bluff takes over 45 minutes.",
+        "Get wet at El Dorado Creek! Soak everything -- hat, bandana, shirt. It is critical for cooling.",
+        "Carry enough water for 6 miles. The canyon is hot and exposed.",
+        "The descent to El Dorado Creek is deceptively runnable -- resist bombing downhill or your quads will pay later.",
+        "Use trekking poles on the climb to Michigan Bluff.",
+        "The dirt road near the top of the Michigan Bluff climb signals you are almost there -- pick up the pace."
+      ],
+      "aid_station": {
+        "name": "Michigan Bluff",
+        "mile": 24,
+        "crew_access": true,
+        "drop_bags": true,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola", "Ice",
+          "Fruit (oranges, bananas, watermelon)", "Chips", "Cookies",
+          "PB&J sandwiches", "Quesadillas", "Bacon",
+          "Broth", "Pickles", "Pretzels", "Candy",
+          "Salt tabs", "Gels/chews"
+        ],
+        "notes": "Crew-accessible aid station in the historic mining town. Porta-potties available with typically short lines. This is a critical resupply point before the Volcano Canyon crossing to Foresthill. Refill water, grab real food, and prepare for the canyon ahead. Some runners use this as a gear-change point."
+      }
+    },
+
+    {
+      "segment_number": 6,
+      "segment_name": "Michigan Bluff to Foresthill",
+      "start_location": "Michigan Bluff Aid Station",
+      "end_location": "Foresthill Aid Station",
+      "start_mile": 24,
+      "end_mile": 30,
+      "distance_miles": 6,
+      "start_elevation_ft": 3400,
+      "end_elevation_ft": 3400,
+      "elevation_profile_character": "Dramatic descent and climb. A steep ~800-foot descent in 2 miles down into Volcano Canyon, crossing Volcano Creek at the bottom, followed by a steep climb including the brutal Bath Road paved section up to Foresthill. Net elevation change is approximately zero, but the total climbing and descending is roughly 1,600 feet total.",
+      "terrain_description": "Narrow, rocky singletrack descends into Volcano Canyon. The canyon is boulder-filled with a challenging creek crossing at Volcano Creek (can be roaring and strong depending on water year -- potential for thigh-deep, fast-moving water requiring rope assistance in high water). After the creek crossing, the trail climbs steeply up the opposite wall. The final section includes the infamous Bath Road -- a paved road climb that is brutally steep but allows for purposeful power-hiking on asphalt. The segment ends at the old Foresthill Elementary School.",
+      "key_landmarks": [
+        "Volcano Canyon descent -- narrow, rocky trail dropping ~800 feet",
+        "Volcano Creek crossing -- can range from ankle-deep to thigh-deep depending on snowmelt and rain. Rope assistance may be provided in high water years.",
+        "Bath Road -- steep paved road climb to Foresthill; 'its usual brutal self' per race reports",
+        "Foresthill Elementary School -- halfway point and major crew-access aid station"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Mixed. Canyon descent is shaded; Bath Road climb is exposed pavement.",
+        "shade": "Good shade in Volcano Canyon; exposed on Bath Road.",
+        "wind": "Sheltered in the canyon; some wind possible on the open road section.",
+        "temperature": "Warming significantly by the time most runners reach this point (late morning). The paved Bath Road radiates heat."
+      },
+      "water_crossings": [
+        "Volcano Creek -- significant water crossing. Can be ankle-deep in low water or thigh-deep and fast-moving in high water years. Rope assistance sometimes provided. This is a mandatory crossing -- expect wet feet.",
+        "Opportunity to get fully wet and cool off in the creek"
+      ],
+      "hazards": [
+        "Volcano Creek crossing can be dangerous in high water -- fast-moving, cold water with rocky/slippery bottom",
+        "Rocky, technical descent into Volcano Canyon with boulder fields",
+        "Bath Road paved climb is brutally steep and exposed to sun",
+        "Congestion at the creek crossing -- expect a wait if you are in a pack of runners",
+        "Wet shoes from the creek crossing can cause blisters on the climb"
+      ],
+      "runner_tips": [
+        "Take advantage of the Volcano Creek crossing to cool off completely -- get wet, soak your hat, fill bottles with cold water.",
+        "Power-hike Bath Road with purpose -- it is steep pavement and nobody runs it gracefully.",
+        "Consider changing socks at Foresthill if you have crew, especially after the Volcano Creek crossing.",
+        "Foresthill is the halfway point. Take time here to reset mentally and physically.",
+        "If the creek is running high, use the rope line and take your time. Do not rush the crossing."
+      ],
+      "aid_station": {
+        "name": "Foresthill",
+        "mile": 30,
+        "crew_access": true,
+        "drop_bags": true,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola", "Ice",
+          "Fruit (oranges, bananas, watermelon)", "Chips", "Cookies",
+          "PB&J sandwiches", "Quesadillas", "Bacon",
+          "Broth/soup", "Pickles", "Pretzels", "Candy",
+          "Salt tabs", "Gels/chews", "Potatoes with salt"
+        ],
+        "notes": "MAJOR AID STATION -- the approximate halfway point. Full crew access at the old Foresthill Elementary School. This is your best opportunity for a significant gear change, fresh socks, restocking food, using a real bathroom, getting ice, and mentally resetting. Many runners spend 5-15 minutes here. The character of the race changes dramatically after Foresthill -- the remaining 30+ miles are predominantly net downhill on the Western States Trail toward Auburn. Consider refreshing sunscreen, replenishing calories, and topping off water for the Cal Street descent."
+      }
+    },
+
+    {
+      "segment_number": 7,
+      "segment_name": "Foresthill to Cal 2",
+      "start_location": "Foresthill Aid Station",
+      "end_location": "Cal 2 Aid Station",
+      "start_mile": 30,
+      "end_mile": 38,
+      "distance_miles": 8,
+      "start_elevation_ft": 3400,
+      "end_elevation_ft": 2200,
+      "elevation_profile_character": "Predominantly downhill with significant rollers. The infamous Cal Street descent drops you from the Foresthill ridge into the American River canyon. After a 2.9-mile precipitous descent to Cal 1 (Dardanelles), there is a short steep exposed climb, then ~1.7 miles of relatively flat terrain, followed by 'the rollers' -- a series of approximately 15 short climbs and descents. Includes the 'elevator shaft' -- a 0.3-mile steep descent on rugged trail. After the rollers, Senseman Hill provides a sharp 0.34-mile climb at 18.7% grade before reaching Cal 2.",
+      "terrain_description": "Begins on Cal Street leaving Foresthill -- paved road transitions quickly to singletrack descending into the canyon. Fast, flowy singletrack winds around drainages trending downhill. Tight switchbacks interspersed with grunty short climbs. The 'rollers' are a series of 15 short ups and downs on singletrack that test already-fatigued quads. Senseman Hill is a fire road climb that is extremely steep but mercifully short. The singletrack is generally well-maintained but has rocky sections, root exposure, and narrow tread.",
+      "key_landmarks": [
+        "Cal Street -- the famous descent from Foresthill into the American River canyon",
+        "Cal 1 (Dardanelles) -- intermediate aid station at approximately mile 33",
+        "The Rollers -- series of 15 short climbs that are psychologically taxing on tired legs",
+        "The Elevator Shaft -- a 0.3-mile steep descent on rugged trail that drains quads",
+        "Senseman Hill -- 0.34 miles at 18.7% grade, a vicious short fire road climb",
+        "Cal 2 (Peachstone) -- aid station in the canyon"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Early portions of the descent are shaded by tree canopy. The canyon becomes increasingly exposed as you descend. Afternoon sun can be intense in the canyon.",
+        "shade": "Upper portions well-shaded; lower canyon sections more exposed.",
+        "wind": "Generally sheltered in the canyon.",
+        "temperature": "Increasingly warm as you descend into the canyon. Afternoon heat is a factor for mid-pack and back-of-pack runners."
+      },
+      "water_crossings": [
+        "Small creek crossings possible in the roller section",
+        "Occasional drainage crossings"
+      ],
+      "hazards": [
+        "Poison oak 'drooping all over the trail' -- particularly bad after rain when plants are lush and hang into the trail",
+        "Vicious mosquitoes reported at Cal 2 aid station",
+        "The Elevator Shaft descent is rugged and can destroy already-tired quads",
+        "Senseman Hill at 18.7% grade can cause cramping in fatigued legs",
+        "Long distance between Foresthill and first aid (Cal 1) -- approximately 3 miles; then 5 more to Cal 2",
+        "Two-way traffic with 100-mile runners on the same trail in some years",
+        "Narrow singletrack with exposure in sections"
+      ],
+      "runner_tips": [
+        "This is where the race character changes. The big canyon climbs are behind you. Settle into a rhythm and run the downhills.",
+        "The Cal Street descent is a chance to make up time, but don't destroy your quads -- you still have 30+ miles to go.",
+        "Carry sufficient water from Foresthill -- Cal 1 is about 3 miles out, and Cal 2 is 8 miles from Foresthill.",
+        "Eat at Cal 1 even if you do not feel hungry. The long push to Cal 2 and beyond demands calories.",
+        "The rollers are mentally challenging -- each short climb feels larger than it is on tired legs. Stay positive.",
+        "Watch for poison oak, especially after wet weather. It hangs at face and arm height."
+      ],
+      "aid_station": {
+        "name": "Cal 2 (Peachstone)",
+        "mile": 38,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola", "Ice",
+          "Fruit (oranges, watermelon, pickles)", "Chips", "Cookies",
+          "Quesadillas", "Bacon", "Broth",
+          "Candy", "Pretzels", "Salt tabs",
+          "Ice for neck bandanas"
+        ],
+        "notes": "Fill up here -- it is approximately 8-9 miles to the next aid station at Driver's Flat. The mosquitoes at Cal 2 are legendary. Some race reports describe multiple runners sitting in distress here. The 'best volunteer ever' award has been given to Cal 2 volunteers in multiple race reports. After Cal 2, the trail continues to descend toward the river with one significant climb (six-minute hill -- a grinding fire road climb) before reaching the river corridor."
+      }
+    },
+
+    {
+      "segment_number": 8,
+      "segment_name": "Cal 2 to Driver's Flat",
+      "start_location": "Cal 2 Aid Station",
+      "end_location": "Driver's Flat Aid Station",
+      "start_mile": 38,
+      "end_mile": 47,
+      "distance_miles": 9,
+      "start_elevation_ft": 2200,
+      "end_elevation_ft": 1600,
+      "elevation_profile_character": "Continued descent toward the American River with one significant climb -- 'six-minute hill' (or 'four-minute hill'), a grinding fire road climb of approximately 400-500 feet that takes most runners far longer than its name suggests. Then more descending singletrack to the river level. Overall net downhill with rolling terrain and the one notable climb. This is the longest segment between aid stations on the course.",
+      "terrain_description": "Mix of singletrack and fire road. After Cal 2, the trail descends with switchbacks before hitting 'six-minute hill' -- a fire road climb that is mentally challenging when legs are fatigued. Beyond the hill, the trail descends on singletrack toward the Middle Fork American River, becoming increasingly runnable and less technical. Some sections are fast and flowy. The approach to Driver's Flat is on fire road. This segment includes access to the river for cooling.",
+      "key_landmarks": [
+        "Six-minute hill (or four-minute hill) -- a grinding fire road climb that takes most runners far longer than its name suggests",
+        "Approach to the Middle Fork American River",
+        "Transition from canyon singletrack to river-corridor trail",
+        "Real park restroom facility at or near Driver's Flat (welcome relief from porta-potties)"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Significant exposure in the canyon. The trail trends toward the river where there is some riparian shade, but much of this section is exposed, especially the fire road sections.",
+        "shade": "Patchy. River corridor has some riparian shade; fire road and open canyon sections are exposed.",
+        "wind": "Light river breezes possible along the water. Otherwise sheltered.",
+        "temperature": "This section is often run in the heat of the afternoon for mid-pack runners. Can be very hot (80s-90s+F in the canyon). Heat management is critical."
+      },
+      "water_crossings": [
+        "Creek crossings along the descent -- use every one to cool off",
+        "Access to the American River for cooling near Driver's Flat"
+      ],
+      "hazards": [
+        "Longest segment between aid stations (~9 miles) -- carry 1.5+ liters of water minimum",
+        "Six-minute hill can cause cramping and bonking if underfueled",
+        "Afternoon heat in the exposed canyon is significant",
+        "Mental challenge -- the fire road sections feel endless when fatigued",
+        "This is where many runners experience their 'first real low' -- hamstrings and calves may feel dysfunctional",
+        "Poison oak and ticks present along trail"
+      ],
+      "runner_tips": [
+        "Fill up completely at Cal 2. This is the longest aid-station gap on the course.",
+        "Take advantage of EVERY creek crossing to cool off -- get wet, soak your hat, pour water on yourself.",
+        "The fire road to Driver's Flat looks shorter on the map than it feels in person. Stay patient.",
+        "This is where 'the race starts' according to race veterans. Manage your effort wisely.",
+        "If you have a pacer meeting you at Driver's Flat, the mental boost of seeing a friendly face is enormous.",
+        "Use the real restroom at Driver's Flat -- it is a luxury on the course."
+      ],
+      "aid_station": {
+        "name": "Driver's Flat",
+        "mile": 47,
+        "crew_access": true,
+        "drop_bags": true,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola", "Ice",
+          "Fruit (oranges, bananas, watermelon)", "Chips", "Cookies",
+          "Quesadillas", "Bacon", "Broth/soup",
+          "Pickles", "Pretzels", "Candy",
+          "Salt tabs", "Gels/chews", "Potatoes"
+        ],
+        "notes": "LAST CREW-ACCESS AID STATION. This is your final opportunity to see crew, change gear, get fresh supplies, and make any equipment adjustments. Drop bags available. Real park restroom facility nearby. After Driver's Flat, you are on your own for nutrition management until the finish. Take extra time here if needed -- the remaining 15-17 miles are unsupported relative to the earlier sections. Some runners change socks and shoes here. Headlamp check -- if you expect to be running after dark, make sure your headlamp is fresh and ready."
+      }
+    },
+
+    {
+      "segment_number": 9,
+      "segment_name": "Driver's Flat to Mammoth Bar",
+      "start_location": "Driver's Flat Aid Station",
+      "end_location": "Mammoth Bar Aid Station",
+      "start_mile": 47,
+      "end_mile": 55,
+      "distance_miles": 8,
+      "start_elevation_ft": 1600,
+      "end_elevation_ft": 1200,
+      "elevation_profile_character": "Rolling terrain along the river corridor with endless small rollers. Two notable climbs of approximately 600 feet each. Overall net descent but with significant cumulative climbing that feels much harder than it looks on paper. The 'Foresthill Divide' rollers are relentless -- short but frequent ups and downs.",
+      "terrain_description": "Singletrack trail along the American River corridor. The trail is described as 'absolutely gorgeous' with sunset views over the river canyon. Mixed singletrack -- some sections are smooth and fast (sub-7 pace possible on the flats and descents), while others are rocky and technical, especially as you get closer to Mammoth Bar. The endless rollers -- mixed gradient pitches of short climbs and descents -- are the defining feature of this segment. Some fire road sections interspersed.",
+      "key_landmarks": [
+        "Foresthill Divide trails -- beautiful sunset views over the American River canyon",
+        "Endless rollers -- short but frequent climbs that accumulate",
+        "Two significant ~600-foot climbs",
+        "American River views and canyon scenery",
+        "Mammoth Bar OHV (Off-Highway Vehicle) area"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Afternoon to evening sun. Runners who reach this section near sunset may get beautiful golden light but also lingering heat. Western-facing slopes get late afternoon sun.",
+        "shade": "Mixed. Oak woodland provides intermittent shade. Open ridge sections are exposed.",
+        "wind": "Light river canyon breezes possible. Generally mild.",
+        "temperature": "Cooling as evening approaches, but can still be warm in the late afternoon. Back-of-pack runners may hit this section in darkness."
+      },
+      "water_crossings": [
+        "Minor creek crossings possible",
+        "River access points for cooling"
+      ],
+      "hazards": [
+        "Steep 700-foot climb immediately after Driver's Flat is described as 'hands on knees, bent over steep' -- feels like 7,000 feet on tired legs",
+        "Endless rollers are physically and mentally draining at 50+ miles",
+        "Rocky, technical sections require attention on fatigued legs",
+        "If running in darkness, headlamp navigation on rocky singletrack is challenging",
+        "Poison oak present throughout Auburn SRA trails",
+        "Rattlesnakes possible in warm weather, especially on sun-exposed trail sections",
+        "Mountain lion country -- extremely rare encounter but technically possible"
+      ],
+      "runner_tips": [
+        "Fuel heavily at Driver's Flat before leaving. This section has relentless rollers that burn calories.",
+        "The 700-foot climb right after Driver's Flat is the hardest thing you will do all day at this point in the race. Power-hike it and do not panic.",
+        "Run the downhills and flats aggressively on this section -- they are your opportunity to bank time.",
+        "If you are catching sunset, enjoy the views. The Foresthill Divide trails are some of the most beautiful running you will ever do.",
+        "If running in darkness, stay focused on the trail -- the technical sections can trip you up.",
+        "Keep eating. The finish is still 8-10 miles away after Mammoth Bar."
+      ],
+      "aid_station": {
+        "name": "Mammoth Bar",
+        "mile": 55,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola", "Ice",
+          "Fruit", "Chips", "Cookies",
+          "Broth/soup", "Candy",
+          "Salt tabs"
+        ],
+        "notes": "No crew access. Smaller aid station. Refuel and top off water for the push to Confluence and then the finish. After Mammoth Bar, the trail transitions to the Confluence Trail which is NOT on the Western States course -- it is a separate singletrack trail through the Auburn State Recreation Area."
+      }
+    },
+
+    {
+      "segment_number": 10,
+      "segment_name": "Mammoth Bar to Confluence",
+      "start_location": "Mammoth Bar Aid Station",
+      "end_location": "Confluence Aid Station",
+      "start_mile": 55,
+      "end_mile": 59,
+      "distance_miles": 4,
+      "start_elevation_ft": 1200,
+      "end_elevation_ft": 900,
+      "elevation_profile_character": "Rolling terrain with some steep technical sections. The Confluence Trail traverses the hillside above the Middle Fork American River with short, punchy climbs and descents. Net descent but with enough rollers to keep it challenging.",
+      "terrain_description": "The Confluence Trail is a 1.8-mile singletrack trail that is the most technical section in this area. Rocky, narrow singletrack with significant exposure above the river. The trail passes through rolling chaparral and open grasslands (wildflowers in spring). Some sections have loose rock and narrow tread requiring careful foot placement, especially in darkness. This trail is NOT on the Western States course -- it is unique to the Canyons 100K route through the Auburn State Recreation Area.",
+      "key_landmarks": [
+        "Mammoth Bar Road -- brief road section before hitting the trail",
+        "Confluence Trail -- singletrack above the Middle Fork American River",
+        "Views of the Middle Fork American River and the confluence area where the Middle Fork and North Fork meet",
+        "Chaparral and grassland terrain -- different character from the forested canyon trails earlier",
+        "Approach to Old Foresthill Road"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Open grassland and chaparral sections are exposed. Back-of-pack runners will be in darkness here.",
+        "shade": "Minimal shade on the open grassland sections. Some tree cover in draws.",
+        "wind": "More exposed than the canyon trails. Wind possible on the open ridgeline.",
+        "temperature": "Cooling in the evening. Night runners may encounter cool to cold temperatures."
+      },
+      "water_crossings": [],
+      "hazards": [
+        "Rocky, technical singletrack is extremely dangerous on fatigued legs, especially in darkness",
+        "Narrow trail with exposure above the river -- fall potential",
+        "Poison oak grows throughout the Auburn State Recreation Area",
+        "Ticks in the grass and chaparral",
+        "Rattlesnakes possible in warm weather",
+        "If running in darkness, the rocks and uneven terrain are difficult to see even with a headlamp",
+        "This section has caused 'falling, slipping, stumbling' per race reports -- described as 'Bambi on Ice'"
+      ],
+      "runner_tips": [
+        "If running in darkness, go slowly and deliberately. The rocks and technical terrain are not worth an ankle injury this close to the finish.",
+        "Keep your headlamp charged and bright -- you need to see every rock on this trail.",
+        "The technical terrain at mile 55-59 is psychologically tough. You are so close to the finish but the trail demands attention.",
+        "Stay on the trail -- the chaparral is full of poison oak and ticks.",
+        "The river views are stunning if you are here at sunset."
+      ],
+      "aid_station": {
+        "name": "Confluence",
+        "mile": 59,
+        "crew_access": false,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Water", "Electrolyte drink", "Cola",
+          "Fruit", "Chips", "Broth/soup",
+          "Candy", "Cookies"
+        ],
+        "notes": "Last aid station before the finish. Top off water and grab any final calories. You have approximately 4-5 miles remaining. The trail from here goes to No Hands Bridge and then the climb to Robie Point and down into Auburn. Mental boost -- you are almost done."
+      }
+    },
+
+    {
+      "segment_number": 11,
+      "segment_name": "Confluence to Auburn Finish",
+      "start_location": "Confluence Aid Station",
+      "end_location": "Downtown Auburn Finish Line",
+      "start_mile": 59,
+      "end_mile": 63,
+      "distance_miles": 4,
+      "start_elevation_ft": 900,
+      "end_elevation_ft": 1300,
+      "elevation_profile_character": "Descent to No Hands Bridge, then a sustained climb of approximately 400-500 feet from the bridge up to Robie Point. The climb begins gradually, steepens through two creek crossings, and pops out onto a fire road near the top. From Robie Point, it is 1.3 miles of paved downhill road through the outskirts of Auburn to the finish line.",
+      "terrain_description": "Mixed terrain for the final push. Trail descends to the iconic No Hands Bridge -- the longest concrete-arch bridge in the world at the time of its construction, crossing the American River. Note: In some years, the course has been rerouted around No Hands Bridge along Highway 49 with highway patrol support, depending on trail/bridge conditions. After crossing, singletrack climbs through oak woodland with two creek crossings before reaching a fire road at Robie Point. The final 1.3 miles are paved road descending into downtown Auburn. The finish crosses Ann Trason's White Bridge.",
+      "key_landmarks": [
+        "No Hands Bridge -- iconic concrete-arch bridge over the American River (may be rerouted in some years)",
+        "Highway 49 crossing -- volunteer-assisted road crossing",
+        "Robie Point -- the iconic final climb, marking the transition from trail to road. Fire road meets pavement at a gate.",
+        "Ann Trason's White Bridge -- crossed in the final approach to the finish line",
+        "Downtown Auburn finish line -- in the historic gold rush town"
+      ],
+      "typical_conditions": {
+        "sun_exposure": "Front-of-pack runners may still have daylight; most mid-pack and back-of-pack runners will be in darkness for this section.",
+        "shade": "Oak woodland provides shade on the climb. Paved road into Auburn is open.",
+        "wind": "River corridor can be breezy. Open road section into Auburn may have wind.",
+        "temperature": "Cool to cold for nighttime finishers. Can still be warm for fast finishers arriving in late afternoon."
+      },
+      "water_crossings": [
+        "Two creek crossings on the climb from No Hands Bridge to Robie Point",
+        "No Hands Bridge crosses the American River (bridge, not a ford)"
+      ],
+      "hazards": [
+        "No Hands Bridge can be a puddle or have standing water -- slippery surface",
+        "The climb to Robie Point is the final significant effort and can break demoralized runners",
+        "Creek crossings on the climb may have slippery rocks",
+        "Highway 49 crossing -- follow volunteer directions carefully",
+        "Paved road descent into Auburn can jar already-battered legs",
+        "In some years, trail conditions or flooding may cause course reroutes around No Hands Bridge"
+      ],
+      "runner_tips": [
+        "When you cross No Hands Bridge, you are DONE with trail running. The final climb to Robie Point is the last real effort.",
+        "The climb to Robie Point starts gradually and steepens. Power-hike the steep sections -- you have earned it.",
+        "Once you pass through the gate at Robie Point and hit pavement, it is 1.3 miles of downhill road to the finish. Run it in.",
+        "The paved descent into Auburn may feel like 'stepping on shards of glass' with beat-up feet. Embrace it -- you are almost done.",
+        "Soak in the final moments. Crossing Ann Trason's White Bridge and finishing in historic downtown Auburn is a special experience.",
+        "The last quarter-mile is on pavement. Give it everything you have left for the finish.",
+        "Total time on feet from Confluence to finish is typically 45-75 minutes depending on fitness and fatigue."
+      ],
+      "aid_station": {
+        "name": "Auburn Finish",
+        "mile": 63,
+        "crew_access": true,
+        "drop_bags": false,
+        "typical_supplies": [
+          "Finish line festivities", "Food and drink at the finish area",
+          "Finisher awards", "Medical support available"
+        ],
+        "notes": "YOU DID IT. The finish in historic downtown Auburn. Post-race food and beverages available. Medical support on site. Crew and spectators waiting. The finish crosses Ann Trason's White Bridge and enters the downtown finish area."
+      }
+    }
+  ],
+
+  "general_race_notes": {
+    "weather_variability": "April weather in the Sierra foothills is highly variable. Runners have experienced everything from snow and freezing rain to 90+ degree heat across different race years. The mandatory gear list reflects this unpredictability. Always prepare for both cold/wet conditions at the start and hot/dry conditions in the canyons.",
+    "poison_oak": "Poison oak is pervasive throughout the course, especially on the Cal Street descent and lower canyon sections. After rain, the plants are lush and droop into the trail at face and arm height. The official runner guide includes specific poison oak warnings. Wear arm sleeves and wash exposed skin with Tecnu or similar product after the race.",
+    "two_way_traffic": "The out-and-back sections in the first half of the race (Devil's Thumb/Swinging Bridge loop) create two-way traffic on very narrow singletrack. This causes congestion, requires yielding, and can be frustrating. Be patient and courteous.",
+    "quad_destruction": "With 17,000 feet of descent, quad strength is arguably more important than climbing ability. Train extensively for downhill running. The Cal Street descent, El Dorado Canyon descent, and early fire road descent will shred unprepared quads.",
+    "heat_management": "The deep canyons trap heat and have no air movement. Temperatures in the canyons can be 10-15 degrees warmer than surrounding areas. Use every creek crossing to cool off. Carry ice in your hat and bandana from aid stations.",
+    "nutrition_strategy": "With 10 aid stations and distances of 3-9 miles between them, plan nutrition carefully. Carry enough for the longest gaps (Cal 2 to Driver's Flat at ~9 miles). Aid stations stock typical ultra fare: fruit, chips, quesadillas, bacon, broth, cola, candy, PB&J. Bring your own preferred nutrition as a backup.",
+    "headlamp_critical": "The race starts at 5 AM in darkness and many runners will finish in darkness. Carry a reliable headlamp (200+ lumens) with spare batteries. The technical trail at night (Confluence Trail, Robie Point climb) demands good lighting.",
+    "trekking_poles": "Highly recommended for the Devil's Thumb climb, El Dorado Canyon climb, Michigan Bluff climb, and the steep climb after Driver's Flat. Poles save your legs significantly on the major climbs.",
+    "western_states_qualifier": "The Canyons 100K is a Western States 100 qualifier (sub-20 hours) and a Golden Ticket race (top 3 men and women earn automatic WS100 entry). This attracts an extremely competitive field.",
+    "course_changes": "The course has been modified in various years due to conditions (snow, fire damage, bridge issues). Always check the current year's course map and runner guide. The 2022 Mosquito Fire significantly altered shade and trail conditions on several segments.",
+    "dnf_rate": "The race has a significant DNF rate (~20-25%), reflecting its difficulty. The combination of technical terrain, elevation change, heat, and distance is very challenging even for experienced ultrarunners."
+  }
+}
