@@ -777,7 +777,7 @@
 </header>
 
 <section class="hero">
-  <div class="kicker" id="heroKicker">§ Nutrition plan · 17:30 target</div>
+  <div class="kicker" id="heroKicker">§ Nutrition plan</div>
   <h1>Fuel plan.</h1>
   <div class="time-card">
     <div class="time-slider-wrap">
@@ -791,7 +791,7 @@
       <input id="timeSlider" class="time-slider" type="range" min="900" max="1230" step="5" value="1050" />
       <div class="time-scale">
         <span>15:00</span>
-        <span>17:30 baseline</span>
+        <span>baseline</span>
         <span>20:30</span>
       </div>
     </div>
@@ -921,7 +921,7 @@
   <span id="footTargetLine">~80 g/hr avg · salty-sweater sodium profile · 17:30 target</span>
 </div>
 
-<script src="assets/course-meta.js"></script>
+<script src="assets/course-meta.js?v=20260422b"></script>
 <script>
   const CM = window.CANYONS;
   const PROFILE = CM.dayProfile;
@@ -1272,7 +1272,7 @@
   function renderHeaderSummary(c) {
     const pace = fmtPace(c.totalElapsedHr * 60 / c.totMi) + fmtPaceUnit();
     timeSlider.value = String(TARGET_MINUTES);
-    document.getElementById('heroKicker').textContent = `§ Nutrition plan · ${hhmm(c.totalElapsedHr)} target`;
+    document.getElementById('heroKicker').textContent = `§ Nutrition plan`;
     document.getElementById('timeTargetVal').textContent = hhmm(c.totalElapsedHr);
     document.getElementById('timeFinishVal').textContent = addClock(START_HOUR, c.totalElapsedHr);
     document.getElementById('timePaceVal').textContent = pace;
