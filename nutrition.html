@@ -1105,7 +1105,7 @@
   const AID = [
     { name: "Start: China Wall", crew: true, mile: 0.0, drop: [] },
     { name: "Deadwood 1", crew: false, mile: 11.2, drop: [] },
-    { name: "Swinging Bridge", crew: false, mile: 13.5, drop: [] },
+    { name: "Swinging Bridge", crew: false, mile: 13.5, drop: [], refill: false },
     { name: "Deadwood 2", crew: false, mile: 15.8, drop: [] },
     { name: "Michigan Bluff", crew: true, mile: 22.6, drop: ["Warm layer if not needed"] },
     { name: "Foresthill", crew: true, mile: 28.5, drop: ["Morning layers", "Wrappers", "Swap socks if needed"] },
@@ -1310,21 +1310,27 @@
   }
 
   function syncBottleDrain(row) {
+    const startSkMl = row.startSkMl ?? SK_FLASK_ML;
+    const startH2OMl = row.startH2OMl ?? H2O_FLASK_ML;
+    const startCMl = row.startCMl ?? (row.hasC ? C_FLASK_ML : 0);
     row.skMl = row.skFlaskCarbsStart > 0
-      ? Math.round((row.skCarbsDrunk / row.skFlaskCarbsStart) * SK_FLASK_ML)
+      ? Math.round((row.skCarbsDrunk / row.skFlaskCarbsStart) * startSkMl)
       : 0;
     const waterNeed = Math.max(0, row.fluid - row.skMl);
-    row.h2oMl = Math.min(H2O_FLASK_ML, waterNeed);
-    row.cMl = Math.min(row.hasC ? C_FLASK_ML : 0, Math.max(0, waterNeed - row.h2oMl));
+    row.h2oMl = Math.min(startH2OMl, waterNeed);
+    row.cMl = Math.min(startCMl, Math.max(0, waterNeed - row.h2oMl));
+    row.hasC = startCMl > 0;
     row.skFlaskCarbsLeft = Math.max(0, row.skFlaskCarbsStart - row.skCarbsDrunk);
-    row.skFlaskMlLeft = Math.max(0, SK_FLASK_ML - row.skMl);
+    row.skFlaskMlLeft = Math.max(0, startSkMl - row.skMl);
+    row.h2oMlLeft = Math.max(0, startH2OMl - row.h2oMl);
+    row.cMlLeft = Math.max(0, startCMl - row.cMl);
     row.totalNa = skSodiumForCarbs(row.skCarbsDrunk) + (row.gels * GEL_NA) + (row.salt * SS_NA);
   }
   function backupCarryMl(rows, idx) {
     if (idx <= 0) return 0;
     const prev = rows[idx - 1];
     if (!prev || !prev.hasC) return 0;
-    return Math.max(0, C_FLASK_ML - prev.cMl);
+    return Math.max(0, prev.cMlLeft ?? 0);
   }
   function backupRefillPlan(rows, idx) {
     const row = rows[idx];
@@ -1366,13 +1372,33 @@
     }
   }
 
+  function syncCarryStarts(rows) {
+    for (let i = 1; i < rows.length; i += 1) {
+      const row = rows[i];
+      if (row.refillAllowed) continue;
+      const prev = rows[i - 1];
+      row.startSkMl = prev.skFlaskMlLeft ?? 0;
+      row.startH2OMl = prev.h2oMlLeft ?? 0;
+      row.startCMl = prev.cMlLeft ?? 0;
+      row.hasC = row.startCMl > 0;
+      syncBottleDrain(row);
+    }
+  }
+
   function syncZiplockUiPlan(rows, skPlan) {
     rows.forEach((row, idx) => {
       const z = skPlan[idx];
       if (!z) return;
+      z.refillAllowed = row.refillAllowed;
       z.startCarbs = Math.round(row.skFlaskCarbsStart);
       z.endCarbs = Math.round(row.skFlaskCarbsLeft);
       z.carbsDrunk = Math.round(row.skCarbsDrunk);
+      z.startSkMl = Math.round(row.startSkMl ?? z.startSkMl ?? SK_FLASK_ML);
+      z.startH2OMl = Math.round(row.startH2OMl ?? z.startH2OMl ?? H2O_FLASK_ML);
+      z.startCMl = Math.round(row.startCMl ?? z.startCMl ?? 0);
+      z.endSkMl = Math.round(row.skFlaskMlLeft ?? z.endSkMl ?? 0);
+      z.endH2OMl = Math.round(row.h2oMlLeft ?? z.endH2OMl ?? 0);
+      z.endCMl = Math.round(row.cMlLeft ?? z.endCMl ?? 0);
       z.skMl = row.skMl;
       z.h2oMl = row.h2oMl;
       z.cMl = row.cMl;
@@ -1416,13 +1442,20 @@
         fluidShort: z.fluidIdeal - z.fluidMl, skMl: z.skMl, h2oMl: z.h2oMl, cMl: z.cMl, hasC: z.hasC, totalNa, pace,
         fluidRate: z.fluidRate,
         legHeatLevel: z.heatLevel,
+        refillAllowed: z.refillAllowed,
+        startSkMl: z.startSkMl,
+        startH2OMl: z.startH2OMl,
+        startCMl: z.startCMl,
         skCarbsDrunk: z.carbsDrunk,
         skFlaskCarbsStart: z.startCarbs,
         skFlaskCarbsLeft: z.endCarbs,
-        skFlaskMlLeft: Math.max(0, SK_FLASK_ML - z.skMl),
+        skFlaskMlLeft: z.endSkMl,
+        h2oMlLeft: z.endH2OMl,
+        cMlLeft: z.endCMl,
       };
     });
     smoothShortLegCarbs(rows);
+    syncCarryStarts(rows);
     syncZiplockUiPlan(rows, skPlan);
     const pockets = simPockets(rows);
     rows.forEach((row, i) => Object.assign(row, pockets[i]));
@@ -1530,18 +1563,24 @@
     const bagSrc = isFirst ? 'from vest ziplock stash' : (isCrewBag ? 'from crew cooler' : 'from vest ziplock stash');
     const cPlan = backupRefillPlan(rows, idx);
 
-    if (z.useBag) {
+    if (!r.refillAllowed) {
+      const leftScoops = Math.round(z.startCarbs / SK_CARBS_PER_SCOOP * 10) / 10;
+      parts.push(planItem('Aid', 'no water / no refill here', 'official turnaround only'));
+      parts.push(planItem(FLASK_UI.carb.full, `keep going with what is left`, `~${z.startCarbs} g left · ${fmtFluid(r.startSkMl)} still in flask · ${leftScoops} scoops remaining`));
+      if (r.startH2OMl > 0) parts.push(planItem(FLASK_UI.water.full, 'keep going with what is left', `${fmtFluid(r.startH2OMl)} remaining`));
+      if (r.startCMl > 0) parts.push(planItem(FLASK_UI.backup.full, 'keep going with what is left', `${fmtFluid(r.startCMl)} remaining`));
+    } else if (z.useBag) {
       parts.push(planItem(FLASK_UI.carb.full, `use 1 carb powder bag and fill with plain water`, `${bagSrc} · ${Math.round(CARB_BAG_CARBS)} g carbs`));
     } else {
       const leftScoops = Math.round(z.startCarbs / SK_CARBS_PER_SCOOP * 10) / 10;
       parts.push(planItem(FLASK_UI.carb.full, `keep the carry-over mix and top off plain water`, `~${z.startCarbs} g left · ${leftScoops} scoops remaining`));
-    }
-    parts.push(planItem(FLASK_UI.water.full, 'top off plain water', '500 ml'));
-    if (r.hasC) {
-      if (cPlan.mode === 'finish-left') {
-        parts.push(planItem(FLASK_UI.backup.full, `finish what's left`, `~${fmtFluid(cPlan.carryMl)} carried over from the last leg · no refill needed`));
-      } else {
-        parts.push(planItem(FLASK_UI.backup.full, 'fill plain water', '600 ml · carry for the extra fluid load'));
+      parts.push(planItem(FLASK_UI.water.full, 'top off plain water', '500 ml'));
+      if (r.hasC) {
+        if (cPlan.mode === 'finish-left') {
+          parts.push(planItem(FLASK_UI.backup.full, `finish what's left`, `~${fmtFluid(cPlan.carryMl)} carried over from the last leg · no refill needed`));
+        } else {
+          parts.push(planItem(FLASK_UI.backup.full, 'fill plain water', '600 ml · carry for the extra fluid load'));
+        }
       }
     }
     if (r.reloadGels > 0 || r.reloadSalt > 0) {
@@ -1564,9 +1603,9 @@
     const L = r.L;
     const carbsFromSk = Math.round(r.skCarbsDrunk);
     const rows = [];
-    rows.push(planItem(FLASK_UI.carb.full, `drink ${fmtFluid(r.skMl)} · ${drinkCue(r.skMl, SK_FLASK_ML)}`, `${leaveCue(r.skMl, SK_FLASK_ML)} · ~${carbsFromSk} g carbs from flask`));
-    if (r.h2oMl > 0) rows.push(planItem(FLASK_UI.water.full, `drink ${fmtFluid(r.h2oMl)} · ${drinkCue(r.h2oMl, H2O_FLASK_ML)}`, `${leaveCue(r.h2oMl, H2O_FLASK_ML)} · plain water`));
-    if (r.cMl > 0) rows.push(planItem(FLASK_UI.backup.full, `drink ${fmtFluid(r.cMl)} · ${drinkCue(r.cMl, C_FLASK_ML)}`, `${leaveCue(r.cMl, C_FLASK_ML)} · plain water`, ''));
+    rows.push(planItem(FLASK_UI.carb.full, `drink ${fmtFluid(r.skMl)} · ${drinkCue(r.skMl, r.startSkMl || SK_FLASK_ML)}`, `${leaveCue(r.skMl, r.startSkMl || SK_FLASK_ML)} · ~${carbsFromSk} g carbs from flask`));
+    if (r.h2oMl > 0) rows.push(planItem(FLASK_UI.water.full, `drink ${fmtFluid(r.h2oMl)} · ${drinkCue(r.h2oMl, r.startH2OMl || H2O_FLASK_ML)}`, `${leaveCue(r.h2oMl, r.startH2OMl || H2O_FLASK_ML)} · plain water`));
+    if (r.cMl > 0) rows.push(planItem(FLASK_UI.backup.full, `drink ${fmtFluid(r.cMl)} · ${drinkCue(r.cMl, r.startCMl || C_FLASK_ML)}`, `${leaveCue(r.cMl, r.startCMl || C_FLASK_ML)} · plain water`, ''));
     if (r.gels > 0) rows.push(planItem(`${r.gels} gel${r.gels>1?'s':''}`, itemTimingCue('gel', r.gels, L.hr)));
     if (r.salt > 0) rows.push(planItem(`${r.salt} salt cap${r.salt>1?'s':''}`, itemTimingCue('salt', r.salt, L.hr)));
     if (r.fluidShort > 0) rows.push(planItem('Carry cap', `plan is still ~${fmtFluid(r.fluidShort)} short of the hourly fluid target`, `all available flask volume is already assigned on this leg`, 'muted'));
@@ -1579,7 +1618,7 @@
     if (z.useBag) {
       pills += `<span class="pill sk">▼ ${compact ? 'carb' : 'carb powder'} · ${Math.round(CARB_BAG_CARBS)}g</span>`;
     } else if (z.startCarbs > 0) {
-      pills += `<span class="pill sk" style="opacity:0.65">▼ ${compact ? 'top off' : 'top off only'} · ${z.startCarbs}g${compact ? '' : ' carry-over'}</span>`;
+      pills += `<span class="pill sk" style="opacity:0.65">▼ ${r.refillAllowed ? (compact ? 'top off' : 'top off only') : (compact ? 'carry only' : 'no refill')} · ${z.startCarbs}g${compact ? '' : ' carry-over'}</span>`;
     }
     if (r.gels > 0) pills += `<span class="pill gel">● ${r.gels} gel${r.gels>1?'s':''}</span>`;
     if (r.salt > 0) pills += `<span class="pill salt">◆ ${r.salt} salt</span>`;
@@ -1702,6 +1741,7 @@
       if (isFirst) crewTag = '<span class="crew-tag">START · crew</span>';
       else if (isFinish) crewTag = '<span class="crew-tag">FINISH</span>';
       else if (a.crew) crewTag = '<span class="crew-tag">CREW ACCESS</span>';
+      else if (a.refill === false) crewTag = '<span class="crew-tag solo">TURNAROUND · NO WATER</span>';
       else if (/water only/.test(a.name)) crewTag = '<span class="crew-tag water">WATER ONLY</span>';
       else crewTag = '<span class="crew-tag solo">SOLO · ~30s</span>';
 
@@ -1728,17 +1768,21 @@
 
       // ==== FLASKS lane ====
       const flasks = [];
-      if (z.useBag) {
+      if (!r.refillAllowed) {
+        flasks.push(`<span class="chip sk" style="opacity:0.75"><b>${FLASK_UI.carb.chip}</b> no refill · carry only · ${z.startCarbs}g left</span>`);
+        flasks.push(`<span class="chip h2o"><b>${FLASK_UI.water.chip}</b> no water at turnaround · carry only</span>`);
+        if (r.startCMl > 0) flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> carry only</span>`);
+      } else if (z.useBag) {
         const src = isFirst ? 'from vest' : (isCrewBag ? 'from crew' : 'from vest');
         flasks.push(`<span class="chip sk"><b>${FLASK_UI.carb.chip}</b> ${isFirst ? 'start full' : 'reload carb powder'} · ${src}</span>`);
       } else {
         flasks.push(`<span class="chip sk" style="opacity:0.75"><b>${FLASK_UI.carb.chip}</b> top off only · ${z.startCarbs}g carry-over</span>`);
-      }
-      flasks.push(`<span class="chip h2o"><b>${FLASK_UI.water.chip}</b> ${isFirst ? 'start full' : 'refill plain water'}</span>`);
-      if (r.hasC) {
-        const cPlan = backupRefillPlan(c.rows, i);
-        if (cPlan.mode === 'finish-left') flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> finish what's left</span>`);
-        else flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+        flasks.push(`<span class="chip h2o"><b>${FLASK_UI.water.chip}</b> ${isFirst ? 'start full' : 'refill plain water'}</span>`);
+        if (r.hasC) {
+          const cPlan = backupRefillPlan(c.rows, i);
+          if (cPlan.mode === 'finish-left') flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> finish what's left</span>`);
+          else flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+        }
       }
 
       // ==== POCKET RELOAD lane ====
@@ -1805,11 +1849,13 @@
   // Bags are sourced from: vest at start (carry some), crew cooler at crew stops.
 
   function simZiplocks(legs) {
-    const BAG_SCOOPS = CARB_BAG_SCOOPS;
     const BAG_CARBS = CARB_BAG_CARBS;
     const MIN_LEAVE_THRESHOLD = SK_CARBS_PER_SCOOP;    // keep flask if >= 1 scoop left
 
     let flaskCarbs = 0;
+    let flaskMl = 0;
+    let h2oCarryMl = 0;
+    let cCarryMl = 0;
     const actions = [];
 
     for (let i = 0; i < legs.length; i++) {
@@ -1818,28 +1864,46 @@
       const rate = heatModel.fluidRate;
       const carbCap = heatModel.carbCap;
       const fluidIdeal = Math.round(L.hr * rate);
-      const hasC = fluidIdeal > (SK_FLASK_ML + H2O_FLASK_ML);
       const target = Math.round(L.hr * CARB_HR);
-      const useBag = flaskCarbs < MIN_LEAVE_THRESHOLD;
-      const startCarbs = useBag ? BAG_CARBS : flaskCarbs;
-      const fluid = Math.min(fluidIdeal, SK_FLASK_ML + H2O_FLASK_ML + (hasC ? C_FLASK_ML : 0));
+      const refillAllowed = AID[i]?.refill !== false;
+      const useBag = refillAllowed && flaskCarbs < MIN_LEAVE_THRESHOLD;
+      const startCarbs = refillAllowed ? (useBag ? BAG_CARBS : flaskCarbs) : flaskCarbs;
+      const startSkMl = refillAllowed ? SK_FLASK_ML : flaskMl;
+      const startH2OMl = refillAllowed ? H2O_FLASK_ML : h2oCarryMl;
+      const startCMl = refillAllowed
+        ? (fluidIdeal > (SK_FLASK_ML + H2O_FLASK_ML) ? C_FLASK_ML : 0)
+        : cCarryMl;
+      const hasC = startCMl > 0;
+      const fluid = Math.min(fluidIdeal, startSkMl + startH2OMl + startCMl);
       const skCarbTarget = Math.min(startCarbs, target);
       const plainWaterFloor = plainWaterFloorMl(fluid, hasC);
-      const skMlCapByWaterFloor = Math.max(0, Math.min(SK_FLASK_ML, fluid - plainWaterFloor));
-      const skCarbCapByWaterFloor = startCarbs * (skMlCapByWaterFloor / SK_FLASK_ML);
+      const skMlCapByWaterFloor = Math.max(0, Math.min(startSkMl, fluid - plainWaterFloor));
+      const skCarbCapByWaterFloor = startSkMl > 0
+        ? startCarbs * (skMlCapByWaterFloor / startSkMl)
+        : 0;
       const skCarbCap = Math.min(startCarbs, fluid * carbCap, skCarbCapByWaterFloor);
       const carbsDrunk = Math.min(skCarbTarget, skCarbCap);
-      const skMl = startCarbs > 0 ? Math.round((carbsDrunk / startCarbs) * SK_FLASK_ML) : 0;
+      const skMl = startCarbs > 0 && startSkMl > 0 ? Math.round((carbsDrunk / startCarbs) * startSkMl) : 0;
       const waterNeed = Math.max(0, fluid - skMl);
-      const h2oMl = Math.min(H2O_FLASK_ML, waterNeed);
-      const cMl = Math.min(hasC ? C_FLASK_ML : 0, Math.max(0, waterNeed - h2oMl));
+      const h2oMl = Math.min(startH2OMl, waterNeed);
+      const cMl = Math.min(startCMl, Math.max(0, waterNeed - h2oMl));
       flaskCarbs = startCarbs - carbsDrunk;
+      flaskMl = Math.max(0, startSkMl - skMl);
+      h2oCarryMl = Math.max(0, startH2OMl - h2oMl);
+      cCarryMl = Math.max(0, startCMl - cMl);
       actions.push({
         legIdx: i,
+        refillAllowed,
         useBag,
         startCarbs: Math.round(startCarbs),
         endCarbs: Math.round(flaskCarbs),
         carbsDrunk: Math.round(carbsDrunk),
+        startSkMl,
+        startH2OMl,
+        startCMl,
+        endSkMl: Math.round(flaskMl),
+        endH2OMl: Math.round(h2oCarryMl),
+        endCMl: Math.round(cCarryMl),
         fluidIdeal,
         fluidMl: fluid,
         fluidRate: rate,

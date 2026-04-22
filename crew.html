@@ -907,6 +907,39 @@
     "Driver's Flat": ['dry hat if needed', 'chapstick', 'replace 5-Hour if used', 'quick feet check only if asked'],
     'Finish': ['warm clothes', 'phone', 'chair ready', 'recovery drink']
   };
+  const MAP_STOPS = {
+    fairgrounds: {
+      label: 'Gold Country Fairgrounds',
+      query: 'Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603',
+      routePoint: 'Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603'
+    },
+    michiganBluff: {
+      label: 'Michigan Bluff parking',
+      // Official runner-guide pin for the walk-in parking area near Michigan Bluff Rd / Chicken Hawk Rd.
+      query: '39.045205,-120.742996',
+      routePoint: '39.045205,-120.742996'
+    },
+    foresthill: {
+      label: 'Foresthill parking',
+      // Official runner-guide pin for the Foresthill crew parking zone shown on the guide map.
+      query: '38.888983,-121.018180',
+      routePoint: '38.888983,-121.018180'
+    },
+    driversFlat: {
+      label: "Driver's Flat parking",
+      // Official runner-guide pin for the Foresthill Rd / Driver's Flat walk-in parking location.
+      query: '38.9736769,-120.9544633',
+      routePoint: '38.9736769,-120.9544633'
+    },
+    finish: {
+      label: 'Downtown Auburn finish',
+      query: 'High St, Auburn, CA 95603',
+      routePoint: 'High St, Auburn, CA 95603'
+    }
+  };
+  Object.values(MAP_STOPS).forEach((stop) => {
+    stop.destination = googleSearch(stop.query);
+  });
   const RUNNER_GUIDE = {
     updated: '4/16/2026',
     page: 'https://canyons.utmb.world/runner-guide',
@@ -918,60 +951,60 @@
         title: 'Michigan Bluff parking',
         note: 'First crew stop. Official parking pin from the guide.',
         img: 'assets/runner-guide/michigan_bluff_official.png',
-        link: 'https://maps.app.goo.gl/unka31nx7UN6oFwf8'
+        link: MAP_STOPS.michiganBluff.destination
       },
       {
         page: 'Runner guide p. 14',
         title: 'Foresthill parking',
         note: 'Primary midday crew hub. Official parking pin from the guide.',
         img: 'assets/runner-guide/foresthill_official.png',
-        link: 'https://maps.app.goo.gl/nbjFvFMT7uwBT8tAA'
+        link: MAP_STOPS.foresthill.destination
       },
       {
         page: 'Runner guide p. 15',
         title: "Driver's Flat parking",
         note: 'Remote dirt-road access. Official parking pin from the guide.',
         img: 'assets/runner-guide/drivers_flat_official.png',
-        link: 'https://maps.app.goo.gl/jKDQ958pPWpF2tVX7'
+        link: MAP_STOPS.driversFlat.destination
       }
     ]
   };
   const MAP_LINKS = {
-    fairgrounds: googleSearch('Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603'),
-    finish: googleSearch('Downtown Auburn, Auburn, CA 95603'),
+    fairgrounds: MAP_STOPS.fairgrounds.destination,
+    finish: MAP_STOPS.finish.destination,
     fullRoute: googleDir(
-      'Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603',
-      'Downtown Auburn, Auburn, CA 95603',
-      ['Michigan Bluff, CA 95631', 'Foresthill, CA 95631', "Driver's Flat Road, Foresthill, CA 95631"]
+      MAP_STOPS.fairgrounds.routePoint,
+      MAP_STOPS.finish.routePoint,
+      [MAP_STOPS.michiganBluff.routePoint, MAP_STOPS.foresthill.routePoint, MAP_STOPS.driversFlat.routePoint]
     ),
     drives: [
       {
         route: googleDir(
-          'Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603',
-          'Michigan Bluff, CA 95631'
+          MAP_STOPS.fairgrounds.routePoint,
+          MAP_STOPS.michiganBluff.routePoint
         ),
-        destination: 'https://maps.app.goo.gl/unka31nx7UN6oFwf8'
+        destination: MAP_STOPS.michiganBluff.destination
       },
       {
         route: googleDir(
-          'Michigan Bluff, CA 95631',
-          'Foresthill, CA 95631'
+          MAP_STOPS.michiganBluff.routePoint,
+          MAP_STOPS.foresthill.routePoint
         ),
-        destination: 'https://maps.app.goo.gl/nbjFvFMT7uwBT8tAA'
+        destination: MAP_STOPS.foresthill.destination
       },
       {
         route: googleDir(
-          'Foresthill, CA 95631',
-          "Driver's Flat Road, Foresthill, CA 95631"
+          MAP_STOPS.foresthill.routePoint,
+          MAP_STOPS.driversFlat.routePoint
         ),
-        destination: 'https://maps.app.goo.gl/jKDQ958pPWpF2tVX7'
+        destination: MAP_STOPS.driversFlat.destination
       },
       {
         route: googleDir(
-          "Driver's Flat Road, Foresthill, CA 95631",
-          'Downtown Auburn, Auburn, CA 95603'
+          MAP_STOPS.driversFlat.routePoint,
+          MAP_STOPS.finish.routePoint
         ),
-        destination: googleSearch('Downtown Auburn, Auburn, CA 95603')
+        destination: MAP_STOPS.finish.destination
       }
     ]
   };
