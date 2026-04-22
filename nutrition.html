@@ -1671,7 +1671,7 @@
       <td class="num-c">${fmtFluid(c.totFluid)}</td>
       <td class="num-c">${bottleTotalsCell(c)}</td>
       <td class="num-c">${(c.totNa/1000).toFixed(1)} g</td>
-      <td><div class="take-cell"><span class="pill sk">${zactions.filter(z=>z.useBag).length} bags</span><span class="pill gel">${c.totGels} gels</span><span class="pill salt">${c.totSalt} salt tabs</span></div></td>
+      <td><div class="take-cell"><span class="pill sk">${zactions.filter(z=>z.useBag).length} bags of carbs</span><span class="pill gel">${c.totGels} gels</span><span class="pill salt">${c.totSalt} salt tabs</span></div></td>
     </tr>`;
     tbody.innerHTML = html;
     mobile.innerHTML = mobileHtml;
