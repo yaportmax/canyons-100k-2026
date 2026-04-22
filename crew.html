@@ -331,52 +331,11 @@
     letter-spacing: 0.03em;
   }
   .drive-chip:hover { background: var(--bg-2); }
-  .guide-grid {
-    display: grid;
-    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.3fr);
-    gap: 14px;
-    align-items: start;
-  }
-  .guide-card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    padding: 18px 18px 16px;
-  }
-  .guide-card .eyebrow {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .guide-card h3 {
-    font-family: var(--serif);
-    font-size: 24px;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin: 0 0 10px;
-    font-weight: 500;
-  }
-  .guide-card p {
-    margin: 0 0 12px;
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-  .guide-card ul {
-    margin: 0;
-    padding-left: 16px;
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-  .guide-card li { margin-bottom: 6px; }
-  .guide-card li::marker { color: var(--ember); }
+  .guide-grid { display: block; }
   .guide-shots {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    gap: 16px;
   }
   .guide-shot {
     background: var(--paper);
@@ -386,7 +345,7 @@
   .guide-shot img {
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: center;
     background: var(--bg);
@@ -618,7 +577,6 @@
     .tl-row .cell:nth-child(5), .tl-row .cell:nth-child(6) { display: none; }
     .kit-grid { grid-template-columns: 220px 1fr; }
     .drives-grid { grid-template-columns: 1fr 1fr; }
-    .guide-grid { grid-template-columns: 1fr; }
     .guide-shots { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .notes-card { max-width: none; }
   }
@@ -690,7 +648,6 @@
     .drive-card .from-to { font-size: 19px; margin: 6px 0 12px; }
     .drive-card .stats-row { gap: 16px; }
     .drive-card .stats-row .s .v { font-size: 18px; }
-    .guide-grid { grid-template-columns: 1fr; }
     .guide-shots { grid-template-columns: 1fr; }
 
     /* Kit — full-width horizontal scroll nav, then stacked content */
@@ -827,7 +784,6 @@
   <p class="drive-source" id="driveSource"></p>
   <div class="drives-grid" id="drivesGrid"></div>
   <div class="guide-grid">
-    <div class="guide-card" id="guideCard"></div>
     <div class="guide-shots" id="guideShots"></div>
   </div>
 </section>
@@ -1442,7 +1398,6 @@
     const toolbar = document.getElementById('driveToolbar');
     const source = document.getElementById('driveSource');
     const dg = document.getElementById('drivesGrid');
-    const guideCard = document.getElementById('guideCard');
     const guideShots = document.getElementById('guideShots');
     const drives = CM.drives.map((d, idx) => ({ ...d, maps: MAP_LINKS.drives[idx] }));
 
@@ -1471,24 +1426,6 @@
         ${d.notes ? `<div class="${d.notes.includes('rough') ? 'warn' : 'route'}" ${!d.notes.includes('rough') ? 'style="margin-top:10px;"' : ''}>${d.notes.includes('rough') ? d.notes : '<b>Notes</b>' + d.notes}</div>` : ''}
       </div>
     `).join('');
-
-    guideCard.innerHTML = `
-      <div class="eyebrow">Official runner guide</div>
-      <h3>Parking and shuttle rules.</h3>
-      <p>These crew rules come from the 2026 official guide and should override any casual plan text.</p>
-      <ul>
-        <li><b>Main event parking:</b> Gold Country Fairgrounds, 209 Fairgate Road, Auburn.</li>
-        <li><b>100K runner shuttle:</b> runners only, 2:45 AM to 3:45 AM, Fairgrounds to China Wall.</li>
-        <li><b>China Wall:</b> no parking, no drop-off, no spectators, no crew.</li>
-        <li><b>No overnight parking or camping</b> in event parking areas.</li>
-        <li><b>No crew access:</b> Deadwood, Cal 2, Mammoth Bar, and Confluence.</li>
-      </ul>
-      <div class="drive-actions" style="margin-top:14px;">
-        <a class="drive-chip" href="${RUNNER_GUIDE.pdfLocal}" target="_blank" rel="noreferrer noopener">Hosted PDF</a>
-        <a class="drive-chip" href="${RUNNER_GUIDE.pdfOfficial}" target="_blank" rel="noreferrer noopener">Official PDF</a>
-        <a class="drive-chip" href="${MAP_LINKS.fullRoute}" target="_blank" rel="noreferrer noopener">All stops route</a>
-      </div>
-    `;
 
     guideShots.innerHTML = RUNNER_GUIDE.shots.map((shot) => `
       <article class="guide-shot">
