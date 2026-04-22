@@ -228,38 +228,194 @@
   .tl-row.finish .dot .d { background: var(--ember); color: var(--paper); border-color: var(--ember); }
 
   /* === Drive cards === */
+  .drive-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .map-btn:hover { background: var(--bg-2); }
+  .map-btn.primary {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .drive-source {
+    margin: 0 0 18px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 74ch;
+  }
+  .drive-source a {
+    color: var(--ember-2);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212, 71, 138, 0.24);
+  }
+  .drive-source a:hover { border-bottom-color: var(--ember); }
   .drives-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 0;
-    border: 1px solid var(--line);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
   }
   .drive-card {
-    padding: 24px 26px 22px;
+    padding: 18px 18px 16px;
     background: var(--paper);
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    display: flex; flex-direction: column;
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
   }
-  .drive-card:last-child { border-right: 0; }
   .drive-card .ord { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; color: var(--muted); }
   .drive-card .from-to {
-    font-family: var(--serif); font-size: 24px; letter-spacing: -0.015em;
-    line-height: 1.1; margin: 8px 0 16px;
+    font-family: var(--serif); font-size: 22px; letter-spacing: -0.015em;
+    line-height: 1.08; margin: 0;
   }
   .drive-card .from-to .arr { color: var(--ember); margin: 0 6px; font-style: italic; }
-  .drive-card .stats-row { display: flex; gap: 24px; margin-bottom: 14px; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 12px 0; }
+  .drive-card .stats-row { display: flex; gap: 18px; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 10px 0; }
   .drive-card .stats-row .s { flex: 1; }
   .drive-card .stats-row .s .k { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
-  .drive-card .stats-row .s .v { font-family: var(--serif); font-size: 22px; letter-spacing: -0.01em; margin-top: 2px; }
+  .drive-card .stats-row .s .v { font-family: var(--serif); font-size: 20px; letter-spacing: -0.01em; margin-top: 2px; }
   .drive-card .stats-row .s .v .u { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-left: 3px; }
-  .drive-card .route { font-size: 13px; line-height: 1.55; color: var(--ink-2); }
-  .drive-card .route b { color: var(--ink); font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; display: block; margin-bottom: 4px; text-transform: uppercase; }
+  .drive-card .route { font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+  .drive-card .route b { color: var(--ink); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; display: block; margin-bottom: 4px; text-transform: uppercase; }
   .drive-card .warn {
-    margin-top: 12px; padding: 10px 12px;
+    padding: 9px 11px;
     background: #fce8f0; border: 1px solid var(--ember);
-    font-size: 12.5px; line-height: 1.5; color: var(--ember-2);
+    font-size: 12px; line-height: 1.5; color: var(--ember-2);
   }
+  .drive-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .drive-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 9px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.03em;
+  }
+  .drive-chip:hover { background: var(--bg-2); }
+  .guide-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.3fr);
+    gap: 14px;
+    align-items: start;
+  }
+  .guide-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 18px 18px 16px;
+  }
+  .guide-card .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .guide-card h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .guide-card p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .guide-card ul {
+    margin: 0;
+    padding-left: 16px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .guide-card li { margin-bottom: 6px; }
+  .guide-card li::marker { color: var(--ember); }
+  .guide-shots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .guide-shot {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .guide-shot img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    background: var(--bg);
+  }
+  .guide-shot .cap {
+    padding: 11px 12px 12px;
+  }
+  .guide-shot .cap .k {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .guide-shot .cap .t {
+    font-family: var(--serif);
+    font-size: 18px;
+    letter-spacing: -0.015em;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+  .guide-shot .cap .s {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .guide-shot .cap .a {
+    margin-top: 9px;
+    display: inline-flex;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ember-2);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212, 71, 138, 0.24);
+  }
+  .guide-shot .cap .a:hover { border-bottom-color: var(--ember); }
 
   /* === Station kit === */
   .kit-grid {
@@ -441,6 +597,9 @@
     .tl-row { grid-template-columns: 90px 1fr 90px 100px; }
     .tl-row .cell:nth-child(5), .tl-row .cell:nth-child(6) { display: none; }
     .kit-grid { grid-template-columns: 220px 1fr; }
+    .drives-grid { grid-template-columns: 1fr 1fr; }
+    .guide-grid { grid-template-columns: 1fr; }
+    .guide-shots { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .prerace { grid-template-columns: 1fr 1fr; }
     .prerace .col:nth-child(2) { border-right: 0; }
     .prerace .col:nth-child(3) { grid-column: 1 / -1; border-top: 1px solid var(--line); }
@@ -501,19 +660,20 @@
     .tl-row .eta .u { display: block; margin: 0; font-size: 9.5px; }
 
     /* Drives — stacked cards */
+    .drive-toolbar { margin-bottom: 12px; }
     .drives-grid {
-      display: block;
-      border: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
     .drive-card {
-      border: 1px solid var(--line);
-      border-bottom: 0;
       padding: 18px 20px;
     }
-    .drive-card:last-child { border-bottom: 1px solid var(--line); }
     .drive-card .from-to { font-size: 19px; margin: 6px 0 12px; }
     .drive-card .stats-row { gap: 16px; }
     .drive-card .stats-row .s .v { font-size: 18px; }
+    .guide-grid { grid-template-columns: 1fr; }
+    .guide-shots { grid-template-columns: 1fr; }
 
     /* Kit — full-width horizontal scroll nav, then stacked content */
     .kit-grid {
@@ -648,7 +808,13 @@
 <!-- ============== DRIVES ============== -->
 <section class="panel">
   <h2><span class="num">§ 02 — DRIVES</span>Between stops.</h2>
+  <div class="drive-toolbar" id="driveToolbar"></div>
+  <p class="drive-source" id="driveSource"></p>
   <div class="drives-grid" id="drivesGrid"></div>
+  <div class="guide-grid">
+    <div class="guide-card" id="guideCard"></div>
+    <div class="guide-shots" id="guideShots"></div>
+  </div>
 </section>
 
 <hr class="hairline" />
@@ -753,6 +919,74 @@
     "Driver's Flat": ['dry hat if needed', 'chapstick', 'replace 5-Hour if used', 'quick feet check only if asked'],
     'Finish': ['warm clothes', 'phone', 'chair ready', 'recovery drink']
   };
+  const RUNNER_GUIDE = {
+    updated: '4/16/2026',
+    page: 'https://canyons.utmb.world/runner-guide',
+    pdfLocal: 'assets/official_runner_guide_2026.pdf',
+    pdfOfficial: 'https://res.cloudinary.com/utmb-world/image/upload/v1776336097/canyons/PDFs/2026_Canyons_Runner_Guide_rs_5_6481b98142.pdf.pdf',
+    shots: [
+      {
+        page: 'Runner guide p. 15',
+        title: 'Michigan Bluff parking',
+        note: 'First crew stop. Official parking pin from the guide.',
+        img: 'assets/runner-guide/michigan_bluff_official.png',
+        link: 'https://maps.app.goo.gl/unka31nx7UN6oFwf8'
+      },
+      {
+        page: 'Runner guide p. 14',
+        title: 'Foresthill parking',
+        note: 'Primary midday crew hub. Official parking pin from the guide.',
+        img: 'assets/runner-guide/foresthill_official.png',
+        link: 'https://maps.app.goo.gl/nbjFvFMT7uwBT8tAA'
+      },
+      {
+        page: 'Runner guide p. 15',
+        title: "Driver's Flat parking",
+        note: 'Remote dirt-road access. Official parking pin from the guide.',
+        img: 'assets/runner-guide/drivers_flat_official.png',
+        link: 'https://maps.app.goo.gl/jKDQ958pPWpF2tVX7'
+      }
+    ]
+  };
+  const MAP_LINKS = {
+    fairgrounds: googleSearch('Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603'),
+    finish: googleSearch('Downtown Auburn, Auburn, CA 95603'),
+    fullRoute: googleDir(
+      'Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603',
+      'Downtown Auburn, Auburn, CA 95603',
+      ['Michigan Bluff, CA 95631', 'Foresthill, CA 95631', "Driver's Flat Road, Foresthill, CA 95631"]
+    ),
+    drives: [
+      {
+        route: googleDir(
+          'Gold Country Fairgrounds, 209 Fairgate Road, Auburn, CA 95603',
+          'Michigan Bluff, CA 95631'
+        ),
+        destination: 'https://maps.app.goo.gl/unka31nx7UN6oFwf8'
+      },
+      {
+        route: googleDir(
+          'Michigan Bluff, CA 95631',
+          'Foresthill, CA 95631'
+        ),
+        destination: 'https://maps.app.goo.gl/nbjFvFMT7uwBT8tAA'
+      },
+      {
+        route: googleDir(
+          'Foresthill, CA 95631',
+          "Driver's Flat Road, Foresthill, CA 95631"
+        ),
+        destination: 'https://maps.app.goo.gl/jKDQ958pPWpF2tVX7'
+      },
+      {
+        route: googleDir(
+          "Driver's Flat Road, Foresthill, CA 95631",
+          'Downtown Auburn, Auburn, CA 95603'
+        ),
+        destination: googleSearch('Downtown Auburn, Auburn, CA 95603')
+      }
+    ]
+  };
   const AID = [
     { name: "Start: China Wall", crew: true, mile: 0.0, drop: [] },
     { name: "Deadwood 1", crew: false, mile: 11.2, drop: [] },
@@ -822,6 +1056,19 @@
     const h = Math.floor(totalMinutes / 60);
     const m = totalMinutes % 60;
     return `${h}:${String(m).padStart(2, '0')}`;
+  }
+  function googleSearch(query) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+  }
+  function googleDir(origin, destination, waypoints = []) {
+    const params = new URLSearchParams({
+      api: '1',
+      origin,
+      destination,
+      travelmode: 'driving'
+    });
+    if (waypoints.length) params.set('waypoints', waypoints.join('|'));
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
   }
   function addClock(startHour, elapsedHours) {
     const mins = Math.round((startHour + elapsedHours) * 60);
@@ -1155,8 +1402,23 @@
     });
   }
   function renderDrives() {
+    const toolbar = document.getElementById('driveToolbar');
+    const source = document.getElementById('driveSource');
     const dg = document.getElementById('drivesGrid');
-    dg.innerHTML = CM.drives.map((d, idx) => `
+    const guideCard = document.getElementById('guideCard');
+    const guideShots = document.getElementById('guideShots');
+    const drives = CM.drives.map((d, idx) => ({ ...d, maps: MAP_LINKS.drives[idx] }));
+
+    toolbar.innerHTML = `
+      <a class="map-btn primary" href="${MAP_LINKS.fullRoute}" target="_blank" rel="noreferrer noopener">All stops route</a>
+      <a class="map-btn" href="${MAP_LINKS.fairgrounds}" target="_blank" rel="noreferrer noopener">Fairgrounds</a>
+      <a class="map-btn" href="${RUNNER_GUIDE.pdfLocal}" target="_blank" rel="noreferrer noopener">Hosted PDF</a>
+      <a class="map-btn" href="${RUNNER_GUIDE.page}" target="_blank" rel="noreferrer noopener">Official page</a>
+    `;
+
+    source.innerHTML = `Official runner guide updated ${RUNNER_GUIDE.updated}: parking rules, shuttle restrictions, and the parking screenshots below come from the <a href="${RUNNER_GUIDE.page}" target="_blank" rel="noreferrer noopener">official runner guide page</a> and this <a href="${RUNNER_GUIDE.pdfLocal}" target="_blank" rel="noreferrer noopener">hosted PDF copy</a>. Drive distances and minutes here are the crew-planning estimates used on this site.`;
+
+    dg.innerHTML = drives.map((d, idx) => `
       <div class="drive-card">
         <div class="ord">${String(idx + 1).padStart(2, '0')} / ${String(CM.drives.length).padStart(2, '0')}</div>
         <div class="from-to">${d.from} <span class="arr">→</span> ${d.to}</div>
@@ -1164,9 +1426,43 @@
           <div class="s"><div class="k">Distance</div><div class="v">${d.miles}<span class="u">mi</span></div></div>
           <div class="s"><div class="k">Drive</div><div class="v">${d.minutes}<span class="u">min</span></div></div>
         </div>
+        <div class="drive-actions">
+          <a class="drive-chip" href="${d.maps.route}" target="_blank" rel="noreferrer noopener">Route</a>
+          <a class="drive-chip" href="${d.maps.destination}" target="_blank" rel="noreferrer noopener">Destination</a>
+        </div>
         <div class="route"><b>Route</b>${d.route}</div>
         ${d.notes ? `<div class="${d.notes.includes('rough') ? 'warn' : 'route'}" ${!d.notes.includes('rough') ? 'style="margin-top:10px;"' : ''}>${d.notes.includes('rough') ? d.notes : '<b>Notes</b>' + d.notes}</div>` : ''}
       </div>
+    `).join('');
+
+    guideCard.innerHTML = `
+      <div class="eyebrow">Official runner guide</div>
+      <h3>Parking and shuttle rules.</h3>
+      <p>These crew rules come from the 2026 official guide and should override any casual plan text.</p>
+      <ul>
+        <li><b>Main event parking:</b> Gold Country Fairgrounds, 209 Fairgate Road, Auburn.</li>
+        <li><b>100K runner shuttle:</b> runners only, 2:45 AM to 3:45 AM, Fairgrounds to China Wall.</li>
+        <li><b>China Wall:</b> no parking, no drop-off, no spectators, no crew.</li>
+        <li><b>No overnight parking or camping</b> in event parking areas.</li>
+        <li><b>No crew access:</b> Deadwood, Cal 2, Mammoth Bar, and Confluence.</li>
+      </ul>
+      <div class="drive-actions" style="margin-top:14px;">
+        <a class="drive-chip" href="${RUNNER_GUIDE.pdfLocal}" target="_blank" rel="noreferrer noopener">Hosted PDF</a>
+        <a class="drive-chip" href="${RUNNER_GUIDE.pdfOfficial}" target="_blank" rel="noreferrer noopener">Official PDF</a>
+        <a class="drive-chip" href="${MAP_LINKS.fullRoute}" target="_blank" rel="noreferrer noopener">All stops route</a>
+      </div>
+    `;
+
+    guideShots.innerHTML = RUNNER_GUIDE.shots.map((shot) => `
+      <article class="guide-shot">
+        <img src="${shot.img}" alt="${shot.title}" />
+        <div class="cap">
+          <span class="k">${shot.page}</span>
+          <div class="t">${shot.title}</div>
+          <div class="s">${shot.note}</div>
+          <a class="a" href="${shot.link}" target="_blank" rel="noreferrer noopener">Open in Google Maps</a>
+        </div>
+      </article>
     `).join('');
   }
   function renderKitNav(c) {
