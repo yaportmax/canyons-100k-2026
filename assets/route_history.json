@@ -1,0 +1,456 @@
+{
+  "source": {
+    "courseSummaryYears": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "segmentHistoryYears": [
+      2024,
+      2025
+    ],
+    "note": "Historical benchmarks come from the earlier Canyons guide and result files. Early-canyon and late-river splits do not map perfectly onto the 2026 alternate course, so combined blocks are labeled explicitly."
+  },
+  "course": {
+    "blended": {
+      "average": "15:36:34",
+      "median": "15:59:34",
+      "finishersAvg": 446,
+      "dnfRatePct": 22.9
+    },
+    "years": [
+      {
+        "year": 2022,
+        "average": "15:01:39",
+        "median": "15:18:04",
+        "p25": "13:01:30",
+        "p75": "17:05:44",
+        "finishers": 422,
+        "dnfs": 103,
+        "dnfRatePct": 19.6
+      },
+      {
+        "year": 2023,
+        "average": "15:39:27",
+        "median": "16:05:15",
+        "p25": "14:03:40",
+        "p75": "17:33:18",
+        "finishers": 391,
+        "dnfs": 144,
+        "dnfRatePct": 26.9
+      },
+      {
+        "year": 2024,
+        "average": "16:06:16",
+        "median": "16:39:31",
+        "p25": "14:22:10",
+        "p75": "18:20:28",
+        "finishers": 445,
+        "dnfs": 141,
+        "dnfRatePct": 24.1
+      },
+      {
+        "year": 2025,
+        "average": "15:38:53",
+        "median": "15:55:27",
+        "p25": "13:41:50",
+        "p75": "18:04:18",
+        "finishers": 526,
+        "dnfs": 141,
+        "dnfRatePct": 21.1
+      }
+    ]
+  },
+  "segments": {
+    "China Wall|Deadwood 1": {
+      "terrain": "Begins on Mitchell Mine Road -- a wide, double-track, rutted fire road (can be very muddy in wet years). After approximately 1.5-2 miles, transitions to singletrack as you drop into Eldorado Canyon. The singletrack descends via switchbacks to the El Dorado Creek crossing (footbridge), then climbs the opposite canyon wall on the Western States Trail toward Deadwood. The trail in this section is moderately technical with some rocky footing and root exposure.",
+      "tips": [
+        "Start conservatively. The temptation to run fast on the opening fire road (sub-6 pace is common among leaders) will cost you later.",
+        "Carry a headlamp with good battery life -- you will be in darkness for the first 1-2 hours.",
+        "Watch your ankles on the rutted fire road, especially if it has rained."
+      ],
+      "hazards": [
+        "Muddy, rutted fire road is extremely slippery when wet -- multiple ankle injuries reported at the start",
+        "Crowded start on narrow fire road leads to congestion and puddle-dodging",
+        "Running in darkness requires reliable headlamp; uneven footing on rutted road"
+      ],
+      "reports": [
+        "\"The China Wall start sucks. Plain and simple, it sucks. 586 runners greeted with about 4 porta potties with an incredibly long line.\" \u2014 Trailmomma, 2024",
+        "\"Sub-6 minute miles on the dirt road leaving China Wall... several screams coming out of the darkness \u2014 ankles were rolling.\" \u2014 Jeff Mogavero, 4th place 2025",
+        "\"Canyons is a course where the race is decided in the first 2 miles.\" \u2014 Rod Farvard, 9th place 2025",
+        "\"Double-wide rutted fire road, rolling their ankles every other step.\" \u2014 Rod Farvard, 1st place 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "2:08:54",
+          "median": "2:14:04",
+          "dnfPct": 0.17,
+          "distanceMiles": 9.9
+        },
+        {
+          "year": 2025,
+          "mode": "exact",
+          "label": null,
+          "average": "2:28:35",
+          "median": "2:32:32",
+          "dnfPct": 2.25,
+          "distanceMiles": 10.9
+        }
+      ]
+    },
+    "Deadwood 1|Swinging Bridge": {
+      "terrain": "Tight, narrow singletrack switchbacks. The trail is steep, loose, and dusty in dry conditions. Footing is challenging with exposed rock, loose dirt, and leaf litter covering the trail. The 36 switchbacks are relentless with very little flat ground between them. Almost all runners will power-hike this entire section. Narrow singletrack descending steeply into Deadwood Canyon. The trail is covered with oak leaves making footing slippery and uncertain. Sections are rocky and rutted. The descent is fast for confident runners but treacherous for those with tired quads. The final approach to Swinging Bridge levels out briefly at the canyon bottom.",
+      "tips": [
+        "Power-hike the entire climb. Do not try to run the switchbacks -- virtually no one does.",
+        "Fill up on water at Deadwood before starting the climb.",
+        "Use trekking poles if you have them -- this is where they pay off most.",
+        "Control your descent speed -- you have to climb back up this section very soon.",
+        "This is a bib-check/turnaround point. Get your bib marked at Swinging Bridge before heading back."
+      ],
+      "hazards": [
+        "Extremely steep and loose footing on the switchbacks",
+        "Two-way traffic on very narrow trail creates collision risk -- runners going out to Swinging Bridge and runners returning must share the trail",
+        "Face-height poison oak reported midway through the section",
+        "Steep descent is very hard on the quads -- save your legs for the return climb",
+        "Oak leaves covering the trail hide rocks and roots, creating trip and ankle-roll hazards"
+      ],
+      "reports": [
+        "\"The first 10 miles or so are punchy, with steep climbs and descents, eventually dropping runners into Deadwood and then Devil's Thumb.\" \u2014 Jade Belzberg, 2024",
+        "\"Very very narrow trail with two-way traffic. Angry runners shouldered you hard as you passed.\" \u2014 Trailmomma, 2024",
+        "\"I slipped so bad that I almost went over the edge of the cliff.\" \u2014 Trailmomma, 2024",
+        "\"1.5 miles one way with 1,500 feet of vert... descent and climb at a 19.5% average grade.\" \u2014 Nills F, race prep 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "combined",
+          "label": "Deadwood 1 \u2192 Deadwood 2 loop",
+          "average": "2:13:39",
+          "median": "2:15:16",
+          "dnfPct": 0.68,
+          "distanceMiles": 7.9
+        },
+        {
+          "year": 2025,
+          "mode": "combined",
+          "label": "Deadwood 1 \u2192 Deadwood 2 loop",
+          "average": "1:21:53",
+          "median": "1:22:25",
+          "dnfPct": 0.46,
+          "distanceMiles": 7.0
+        }
+      ]
+    },
+    "Swinging Bridge|Deadwood 2": {
+      "terrain": "Singletrack trail on Outer Loop 6. The trail climbs out of the canyon on a more moderate grade than the Devil's Thumb switchbacks. Footing is mixed -- some smooth singletrack, some rocky sections with loose dirt. After gaining the ridgeline, the trail rolls along to the second visit to the Deadwood aid station.",
+      "tips": [
+        "This is a recovery section relative to the Devil's Thumb climb. Use it to settle into a sustainable rhythm.",
+        "Eat and drink consistently -- you have already burned through significant calories in the first 15 miles.",
+        "The terrain is less severe here, so try to run the flats and gentle downhills."
+      ],
+      "hazards": [
+        "Fatigue from the Devil's Thumb climb and Swinging Bridge descent accumulates here",
+        "Navigation -- make sure to follow Loop 6 trail and not retrace back up Devil's Thumb",
+        "Poison oak present along trail"
+      ],
+      "reports": [
+        "\"I felt extremely strong on The Thumb.\" \u2014 Rod Farvard, 1st place 2024",
+        "\"Stop and start and jump up on rocks or trees to let runners pass. It was hard.\" \u2014 Trailmomma, 2024",
+        "\"The climbs to Deadwood Cemetery and Michigan Bluff take you more than 45 minutes each. Relax and focus on hydration and calories.\" \u2014 Coach Andrew Taylor"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "combined",
+          "label": "Deadwood 1 \u2192 Deadwood 2 loop",
+          "average": "2:13:39",
+          "median": "2:15:16",
+          "dnfPct": 0.68,
+          "distanceMiles": 7.9
+        },
+        {
+          "year": 2025,
+          "mode": "combined",
+          "label": "Deadwood 1 \u2192 Deadwood 2 loop",
+          "average": "1:21:53",
+          "median": "1:22:25",
+          "dnfPct": 0.46,
+          "distanceMiles": 7.0
+        }
+      ]
+    },
+    "Deadwood 2|Michigan Bluff": {
+      "terrain": "The descent from Deadwood past the old cemetery down to El Dorado Creek is fast, rugged singletrack with some exposure. The trail passes through the historic Deadwood Cemetery (1850s miners' graves) about one-third of the way down. Below the cemetery, the trail becomes steeper and more technical. At the bottom, a footbridge crosses El Dorado Creek. The climb up to Michigan Bluff begins on steep singletrack switchbacks, then transitions to a rutted dirt road approximately half a mile before the aid station where running can resume.",
+      "tips": [
+        "Don't be surprised if the climb to Michigan Bluff takes over 45 minutes.",
+        "Get wet at El Dorado Creek! Soak everything -- hat, bandana, shirt. It is critical for cooling.",
+        "Carry enough water for 6 miles. The canyon is hot and exposed."
+      ],
+      "hazards": [
+        "Extreme heat exposure in the canyon, especially with post-fire loss of shade",
+        "Steep, rugged descent is hard on quads -- control speed",
+        "Narrow trail with exposure on the descent"
+      ],
+      "reports": [
+        "\"I went from feeling pretty good to feeling like I could not take another step \u2014 did a death march almost the whole four miles.\" \u2014 Trailmomma, 2024",
+        "\"Super duper warm out. Brutal.\" \u2014 Trailmomma, 2024, on the Michigan Bluff climb",
+        "\"The long, smooth descent into Eldorado Canyon, following the Western States trail, is \u2014 as always \u2014 sublime.\" \u2014 Dominick Layfield, 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "1:34:13",
+          "median": "1:37:14",
+          "dnfPct": 7.4,
+          "distanceMiles": 5.9
+        },
+        {
+          "year": 2025,
+          "mode": "combined",
+          "label": "Deadwood 2 \u2192 Foresthill block",
+          "average": "3:14:18",
+          "median": "3:15:44",
+          "dnfPct": 5.24,
+          "distanceMiles": 12.0
+        }
+      ]
+    },
+    "Michigan Bluff|Foresthill": {
+      "terrain": "Narrow, rocky singletrack descends into Volcano Canyon. The canyon is boulder-filled with a challenging creek crossing at Volcano Creek (can be roaring and strong depending on water year -- potential for thigh-deep, fast-moving water requiring rope assistance in high water). After the creek crossing, the trail climbs steeply up the opposite wall. The final section includes the infamous Bath Road -- a paved road climb that is brutally steep but allows for purposeful power-hiking on asphalt. The segment ends at the old Foresthill Elementary School.",
+      "tips": [
+        "Take advantage of the Volcano Creek crossing to cool off completely -- get wet, soak your hat, fill bottles with cold water.",
+        "Power-hike Bath Road with purpose -- it is steep pavement and nobody runs it gracefully.",
+        "Consider changing socks at Foresthill if you have crew, especially after the Volcano Creek crossing."
+      ],
+      "hazards": [
+        "Volcano Creek crossing can be dangerous in high water -- fast-moving, cold water with rocky/slippery bottom",
+        "Rocky, technical descent into Volcano Canyon with boulder fields",
+        "Bath Road paved climb is brutally steep and exposed to sun"
+      ],
+      "reports": [
+        "\"The descent into Volcano Canyon was brutal, but it provided an opportunity to get wet and cool off, which felt amazing.\" \u2014 Trailmomma, 2024",
+        "\"Take advantage of the creek crossings! Every time you see accessible water, get in it!\" \u2014 Coach Andrew Taylor",
+        "\"She came into Foresthill at 5 hours, 10 minutes. My feet were not in great shape. Toes felt bruised; pads burned.\" \u2014 Jade Belzberg, 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "1:27:30",
+          "median": "1:29:23",
+          "dnfPct": 5.19,
+          "distanceMiles": 5.8
+        },
+        {
+          "year": 2025,
+          "mode": "combined",
+          "label": "Deadwood 2 \u2192 Foresthill block",
+          "average": "3:14:18",
+          "median": "3:15:44",
+          "dnfPct": 5.24,
+          "distanceMiles": 12.0
+        }
+      ]
+    },
+    "Foresthill|Cal 2": {
+      "terrain": "Begins on Cal Street leaving Foresthill -- paved road transitions quickly to singletrack descending into the canyon. Fast, flowy singletrack winds around drainages trending downhill. Tight switchbacks interspersed with grunty short climbs. The 'rollers' are a series of 15 short ups and downs on singletrack that test already-fatigued quads. Senseman Hill is a fire road climb that is extremely steep but mercifully short. The singletrack is generally well-maintained but has rocky sections, root exposure, and narrow tread.",
+      "tips": [
+        "This is where the race character changes. The big canyon climbs are behind you. Settle into a rhythm and run the downhills.",
+        "The Cal Street descent is a chance to make up time, but don't destroy your quads -- you still have 30+ miles to go.",
+        "Carry sufficient water from Foresthill -- Cal 1 is about 3 miles out, and Cal 2 is 8 miles from Foresthill."
+      ],
+      "hazards": [
+        "Poison oak 'drooping all over the trail' -- particularly bad after rain when plants are lush and hang into the trail",
+        "Vicious mosquitoes reported at Cal 2 aid station",
+        "The Elevator Shaft descent is rugged and can destroy already-tired quads"
+      ],
+      "reports": [
+        "\"Cal Street seems to go on forever... wind and wind around drainages. Rain had poison oak drooping all over the trail.\" \u2014 Jeff Mogavero, 4th place 2025",
+        "\"Senseman Hill \u2014 0.34 miles at 18.7% grade. It's such a pure and obvious example of your growth.\" \u2014 Rod Farvard, 2024",
+        "\"New shoes helped me feel like a different runner and the next few miles were some of my fastest of the entire race, despite being 50+ miles in.\" \u2014 Jade Belzberg, 2024",
+        "\"All the trees are gone and much of the vegetation is black from fire damage, with slick mud and water everywhere.\" \u2014 Dominick Layfield, 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "2:02:45",
+          "median": "2:04:12",
+          "dnfPct": 3.7,
+          "distanceMiles": 8.1
+        },
+        {
+          "year": 2025,
+          "mode": "exact",
+          "label": null,
+          "average": "2:06:05",
+          "median": "2:07:42",
+          "dnfPct": 9.21,
+          "distanceMiles": 8.2
+        }
+      ]
+    },
+    "Cal 2|Driver's Flat": {
+      "terrain": "Mix of singletrack and fire road. After Cal 2, the trail descends with switchbacks before hitting 'six-minute hill' -- a fire road climb that is mentally challenging when legs are fatigued. Beyond the hill, the trail descends on singletrack toward the Middle Fork American River, becoming increasingly runnable and less technical. Some sections are fast and flowy. The approach to Driver's Flat is on fire road. This segment includes access to the river for cooling.",
+      "tips": [
+        "Fill up completely at Cal 2. This is the longest aid-station gap on the course.",
+        "Take advantage of EVERY creek crossing to cool off -- get wet, soak your hat, pour water on yourself.",
+        "The fire road to Driver's Flat looks shorter on the map than it feels in person. Stay patient."
+      ],
+      "hazards": [
+        "Longest segment between aid stations (~9 miles) -- carry 1.5+ liters of water minimum",
+        "Six-minute hill can cause cramping and bonking if underfueled",
+        "Afternoon heat in the exposed canyon is significant"
+      ],
+      "reports": [
+        "\"Almost unbearable.\" \u2014 Francesco Puppi, 1st place 2025 (course record), on this segment",
+        "\"Can be very exposed to the heat of the day. Fill up at Cal 2 \u2014 it's almost 8 miles to Rucky Chucky in the heat of the day.\" \u2014 Coach Andrew Taylor",
+        "\"My legs felt like lead on the climbs.\" \u2014 Rod Farvard, 2024",
+        "\"Brushing past wildflowers and hopping over streams in extended solitude along the river.\" \u2014 Jade Belzberg, 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "2:34:44",
+          "median": "2:37:07",
+          "dnfPct": 6.67,
+          "distanceMiles": 9.2
+        },
+        {
+          "year": 2025,
+          "mode": "exact",
+          "label": null,
+          "average": "2:27:01",
+          "median": "2:30:23",
+          "dnfPct": 6.19,
+          "distanceMiles": 9.3
+        }
+      ]
+    },
+    "Driver's Flat|Mammoth Bar": {
+      "terrain": "Singletrack trail along the American River corridor. The trail is described as 'absolutely gorgeous' with sunset views over the river canyon. Mixed singletrack -- some sections are smooth and fast (sub-7 pace possible on the flats and descents), while others are rocky and technical, especially as you get closer to Mammoth Bar. The endless rollers -- mixed gradient pitches of short climbs and descents -- are the defining feature of this segment. Some fire road sections interspersed.",
+      "tips": [
+        "Fuel heavily at Driver's Flat before leaving. This section has relentless rollers that burn calories.",
+        "The 700-foot climb right after Driver's Flat is the hardest thing you will do all day at this point in the race. Power-hike it and do not panic.",
+        "Run the downhills and flats aggressively on this section -- they are your opportunity to bank time."
+      ],
+      "hazards": [
+        "Steep 700-foot climb immediately after Driver's Flat is described as 'hands on knees, bent over steep' -- feels like 7,000 feet on tired legs",
+        "Endless rollers are physically and mentally draining at 50+ miles",
+        "Rocky, technical sections require attention on fatigued legs"
+      ],
+      "reports": [
+        "\"Endless rollers to Mammoth Bar... they all hurt. All it would take is me having to walk up one of the last two ~600-foot climbs.\" \u2014 Rod Farvard, 2024",
+        "\"People were laying down and flopped in chairs.\" \u2014 Will to Run, 2024, describing Mammoth Bar aid station",
+        "\"Hot pasta with red sauce that tasted amazing and went down well. Back in business mode.\" \u2014 Will to Run, 2024, at Driver's Flat"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "2:05:50",
+          "median": "2:06:58",
+          "dnfPct": 4.32,
+          "distanceMiles": 7.8
+        },
+        {
+          "year": 2025,
+          "mode": "combined",
+          "label": "Drivers Flat \u2192 Confluence block",
+          "average": "3:10:08",
+          "median": "3:07:01",
+          "dnfPct": 3.15,
+          "distanceMiles": 11.7
+        }
+      ]
+    },
+    "Mammoth Bar|Confluence": {
+      "terrain": "The Confluence Trail is a 1.8-mile singletrack trail that is the most technical section in this area. Rocky, narrow singletrack with significant exposure above the river. The trail passes through rolling chaparral and open grasslands (wildflowers in spring). Some sections have loose rock and narrow tread requiring careful foot placement, especially in darkness. This trail is NOT on the Western States course -- it is unique to the Canyons 100K route through the Auburn State Recreation Area.",
+      "tips": [
+        "If running in darkness, go slowly and deliberately. The rocks and technical terrain are not worth an ankle injury this close to the finish.",
+        "Keep your headlamp charged and bright -- you need to see every rock on this trail.",
+        "The technical terrain at mile 55-59 is psychologically tough. You are so close to the finish but the trail demands attention."
+      ],
+      "hazards": [
+        "Rocky, technical singletrack is extremely dangerous on fatigued legs, especially in darkness",
+        "Narrow trail with exposure above the river -- fall potential",
+        "Poison oak grows throughout the Auburn State Recreation Area"
+      ],
+      "reports": [
+        "\"Harder than it should have been, down these rutted out mountain bike trails.\" \u2014 Will to Run, 2024",
+        "\"Once the route pushed us onto singletrack trails with steep descents, the mud got bad and runners cursed as they slipped.\" \u2014 Race reports, 2025",
+        "\"A steep 700-foot climb departure caused nausea.\" \u2014 Trailmomma, 2024"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "1:10:08",
+          "median": "1:10:09",
+          "dnfPct": 0.23,
+          "distanceMiles": 3.6
+        },
+        {
+          "year": 2025,
+          "mode": "combined",
+          "label": "Drivers Flat \u2192 Confluence block",
+          "average": "3:10:08",
+          "median": "3:07:01",
+          "dnfPct": 3.15,
+          "distanceMiles": 11.7
+        }
+      ]
+    },
+    "Confluence|Auburn Finish": {
+      "terrain": "Mixed terrain for the final push. Trail descends to the iconic No Hands Bridge -- the longest concrete-arch bridge in the world at the time of its construction, crossing the American River. Note: In some years, the course has been rerouted around No Hands Bridge along Highway 49 with highway patrol support, depending on trail/bridge conditions. After crossing, singletrack climbs through oak woodland with two creek crossings before reaching a fire road at Robie Point. The final 1.3 miles are paved road descending into downtown Auburn. The finish crosses Ann Trason's White Bridge.",
+      "tips": [
+        "When you cross No Hands Bridge, you are DONE with trail running. The final climb to Robie Point is the last real effort.",
+        "The climb to Robie Point starts gradually and steepens. Power-hike the steep sections -- you have earned it.",
+        "Once you pass through the gate at Robie Point and hit pavement, it is 1.3 miles of downhill road to the finish. Run it in."
+      ],
+      "hazards": [
+        "No Hands Bridge can be a puddle or have standing water -- slippery surface",
+        "The climb to Robie Point is the final significant effort and can break demoralized runners",
+        "Creek crossings on the climb may have slippery rocks"
+      ],
+      "reports": [
+        "\"I was happy for the pavement, less rocks to trip over. We power hiked and talked the entire time. Our spirits were lifting because we were finishing this thing.\" \u2014 Trailmomma, 2024",
+        "\"I mean, I cried \u2014 a lot \u2014 at the end of Canyons. I was so tired that I was just crying and running for probably 10 miles.\" \u2014 EmKay Sullivan, 2nd place women 2024",
+        "\"It's a great feeling. On one hand I wish those moments could last forever; on the other hand, it's super painful and you want it done. That's the beauty of racing.\" \u2014 Francesco Puppi, 2025",
+        "\"I could push even though I was feeling bad, and found strength I didn't know I had.\" \u2014 Keely Henninger, 3rd place women 2025"
+      ],
+      "history": [
+        {
+          "year": 2024,
+          "mode": "exact",
+          "label": null,
+          "average": "1:05:29",
+          "median": "1:05:20",
+          "dnfPct": 0.0,
+          "distanceMiles": 4.0
+        },
+        {
+          "year": 2025,
+          "mode": "exact",
+          "label": null,
+          "average": "1:04:39",
+          "median": "1:04:10",
+          "dnfPct": 0.38,
+          "distanceMiles": 4.0
+        }
+      ]
+    }
+  }
+}

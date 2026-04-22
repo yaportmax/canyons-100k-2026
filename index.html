@@ -57,6 +57,91 @@
   .sb-pace input[type=range] { flex: 1; accent-color: var(--ember); }
   .sb-pace .fin { font-family: var(--serif); font-size: 13px; color: var(--ink); letter-spacing: -0.01em; min-width: 76px; text-align: right; }
 
+  .sb-history {
+    padding: 14px 20px 16px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(244,232,208,0.42) 0%, rgba(251,246,234,0) 100%);
+  }
+  .sb-history .hd {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .sb-history .topline {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    margin-bottom: 10px;
+  }
+  .sb-history .stat {
+    min-width: 0;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 8px;
+  }
+  .sb-history .k {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sb-history .v {
+    display: block;
+    margin-top: 3px;
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .sb-history .sub {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+  }
+  .sb-history .years {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .sb-history .year {
+    border: 1px solid var(--line-soft);
+    padding: 8px 9px;
+    background: rgba(251, 246, 234, 0.72);
+    min-width: 0;
+  }
+  .sb-history .year .yr {
+    display: block;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sb-history .year b {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .sb-history .year span {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--ink-2);
+  }
+
   .aid-list { padding: 0; }
   .aid-row {
     display: grid;
@@ -297,6 +382,20 @@
   .drawer-body h3 { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 14px 0 8px; font-weight: 500; }
   .drawer-body h3:first-child { margin-top: 0; }
   .drawer-body p { font-size: 13.5px; line-height: 1.55; margin: 0 0 10px; color: var(--ink-2); }
+  .drawer-body .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .drawer-body .meta-line {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-2);
+    margin: 0 0 10px;
+  }
   .drawer-body .warn {
     background: #fce8f0;
     border: 1px solid var(--ember);
@@ -320,6 +419,84 @@
   .seg-card .pill { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; padding: 2px 6px; margin-right: 4px; border: 1px solid var(--line-soft); color: var(--muted); }
   .seg-card .pill.up { color: var(--ember-2); border-color: var(--ember); }
   .seg-card .pill.dn { color: var(--sierra); border-color: var(--sierra); }
+  .mini-list {
+    margin: 0 0 10px;
+    padding-left: 16px;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .mini-list li { margin-bottom: 5px; }
+  .history-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .history-card {
+    border: 1px solid var(--line-soft);
+    padding: 10px 11px;
+    background: rgba(251, 246, 234, 0.72);
+    min-width: 0;
+  }
+  .history-card .yr {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .history-card .mode {
+    margin-top: 3px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--ink-2);
+  }
+  .history-card .time {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .history-card .time b {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+  .history-card .time span {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .history-card .sub {
+    margin-top: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-2);
+  }
+  .history-note {
+    margin-top: -2px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .quote-list {
+    display: grid;
+    gap: 8px;
+  }
+  .quote {
+    border-left: 2px solid var(--ember);
+    padding: 7px 0 7px 10px;
+    color: var(--ink-2);
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
 
   /* Legend — compact inline strip */
   .legend {
@@ -413,6 +590,13 @@
     }
     .sb-pace input[type=range] { grid-column: 1 / -1; width: 100%; }
     .sb-pace .fin { min-width: 0; }
+    .sb-history {
+      padding: 12px 16px 14px;
+    }
+    .sb-history .topline,
+    .sb-history .years {
+      grid-template-columns: 1fr;
+    }
     .aid-list {
       width: 100%;
       padding-bottom: 12px;
@@ -449,6 +633,7 @@
     .drawer-body { padding: 16px 20px 24px; }
     .stat-grid .s { padding: 10px 20px; }
     .stat-grid .s .v { font-size: 18px; }
+    .history-grid { grid-template-columns: 1fr; }
 
     .legend { display: none; }
     .leaflet-control-layers { font-size: 11px !important; }
@@ -486,6 +671,7 @@
       <input type="range" id="paceSlider" min="14" max="20" step="0.5" value="17.5" />
       <span class="fin" id="paceReadout">17:30</span>
     </div>
+    <div class="sb-history" id="sbHistory"></div>
     <div class="aid-list" id="aidList"></div>
   </aside>
 
@@ -522,17 +708,54 @@
 <script src="assets/course-meta.js?v=20260422b"></script>
 <script>
 (async () => {
-  const course = await fetch('assets/course.json').then(r => r.json());
+  const [course, routeHistory] = await Promise.all([
+    fetch('assets/course.json').then(r => r.json()),
+    fetch('assets/route_history.json').then(r => r.json())
+  ]);
   const track = course.track;
   const aid = course.aid;
   const meta = course.meta;
   const CM = window.CANYONS;
+
+  const esc = (value) => String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+  const pct = (value) => `${Number(value).toFixed(1).replace(/\\.0$/, '')}%`;
+  const segKey = (fromName, toName) => `${fromName}|${toName}`;
 
   // === sidebar stats ===
   document.getElementById('sbStats').innerHTML = `
     <div><b>${meta.totalMi.toFixed(1)}</b> mi</div>
     <div><b>${meta.gainFt.toLocaleString()}</b> ft ↑</div>
     <div><b>${meta.lossFt.toLocaleString()}</b> ft ↓</div>
+  `;
+
+  document.getElementById('sbHistory').innerHTML = `
+    <div class="hd">Historical finish benchmarks</div>
+    <div class="topline">
+      <div class="stat">
+        <span class="k">4-year average</span>
+        <span class="v">${routeHistory.course.blended.average}</span>
+        <span class="sub">median ${routeHistory.course.blended.median}</span>
+      </div>
+      <div class="stat">
+        <span class="k">Average field</span>
+        <span class="v">${routeHistory.course.blended.finishersAvg}</span>
+        <span class="sub">${pct(routeHistory.course.blended.dnfRatePct)} DNF rate</span>
+      </div>
+    </div>
+    <div class="years">
+      ${routeHistory.course.years.map((y) => `
+        <div class="year">
+          <span class="yr">${y.year}</span>
+          <b>${y.median}</b>
+          <span>avg ${y.average} · ${pct(y.dnfRatePct)} DNF</span>
+        </div>
+      `).join('')}
+    </div>
   `;
 
   // === sidebar aid list ===
@@ -762,6 +985,48 @@
     if (location.hash.startsWith('#aid-')) history.replaceState(null, '', location.pathname + location.search);
   });
 
+  function renderHistoryGrid(segmentData) {
+    if (!segmentData?.history?.length) return '';
+    const hasCombined = segmentData.history.some((row) => row.mode !== 'exact');
+    return `
+      <h3>Historical split times</h3>
+      <div class="history-grid">
+        ${segmentData.history.map((row) => `
+          <div class="history-card">
+            <div class="yr">${row.year}</div>
+            <div class="mode">${esc(row.mode === 'exact' ? 'Exact segment' : row.label || 'Combined block')} · ${row.distanceMiles.toFixed(1)} mi</div>
+            <div class="time">
+              <div><b>${row.median}</b><span>median</span></div>
+              <div><b>${row.average}</b><span>average</span></div>
+            </div>
+            <div class="sub">${pct(row.dnfPct)} DNF on this block</div>
+          </div>
+        `).join('')}
+      </div>
+      ${hasCombined ? `<p class="history-note">${esc(routeHistory.source.note)}</p>` : ''}
+    `;
+  }
+
+  function renderBulletList(title, items) {
+    if (!items?.length) return '';
+    return `
+      <h3>${title}</h3>
+      <ul class="mini-list">
+        ${items.map((item) => `<li>${esc(item)}</li>`).join('')}
+      </ul>
+    `;
+  }
+
+  function renderReports(segmentData) {
+    if (!segmentData?.reports?.length) return '';
+    return `
+      <h3>Race reports</h3>
+      <div class="quote-list">
+        ${segmentData.reports.map((quote) => `<div class="quote">${esc(quote)}</div>`).join('')}
+      </div>
+    `;
+  }
+
   function selectAid(i, opts = {}) {
     const { updateHash = true } = opts;
     const a = aid[i];
@@ -778,6 +1043,8 @@
 
     const prev = i > 0 ? aid[i-1] : null;
     const next = i < aid.length-1 ? aid[i+1] : null;
+    const prevShort = prev ? (CM.short[prev.name] || prev.name) : null;
+    const nextShort = next ? (CM.short[next.name] || next.name) : null;
     const distFromPrev = prev ? (a.miles - prev.miles).toFixed(2) : '—';
     const distToNext = next ? (next.miles - a.miles).toFixed(2) : '—';
 
@@ -810,33 +1077,43 @@
       <div class="s"><div class="k">To next</div><div class="v">${distToNext}<span class="u">mi</span></div></div>
     `;
 
+    const segInKey = prev ? segKey(prevShort, short) : null;
+    const segOutKey = next ? segKey(short, nextShort) : null;
+    const segmentData = routeHistory.segments[segInKey] || routeHistory.segments[segOutKey] || null;
+    const segOutData = segOutKey ? routeHistory.segments[segOutKey] : null;
+
     let body = '';
-    if (prev) {
-      body += `<h3>Segment in</h3>
-        <p style="font-family: var(--mono); font-size: 11.5px; color: var(--ink-2);">${CM.short[prev.name] || prev.name} → ${short} &nbsp; · &nbsp; +${Math.round(segGain).toLocaleString()} ft / −${Math.round(segLoss).toLocaleString()} ft</p>`;
-      // find matching segment note
-      const segNote = CM.segments.find(s => {
-        const ps = CM.short[prev.name] || prev.name;
-        const ss = short;
-        return s.from === ps && s.to === ss;
-      });
-      if (segNote) body += `<p>${segNote.terrain}</p>`;
+    if (segmentData) {
+      const segLabel = prev ? 'Segment in' : 'Opening segment';
+      const segMeta = prev
+        ? `${esc(prevShort)} → ${esc(short)} · +${Math.round(segGain).toLocaleString()} ft / −${Math.round(segLoss).toLocaleString()} ft`
+        : `${esc(short)} → ${esc(nextShort || '—')} · start of race`;
+      body += `
+        <h3>${segLabel}</h3>
+        <div class="eyebrow">${segMeta}</div>
+        <p>${esc(segmentData.terrain)}</p>
+        ${renderHistoryGrid(segmentData)}
+        ${renderBulletList('What usually works', segmentData.tips)}
+        ${renderBulletList('Watch for', segmentData.hazards)}
+        ${renderReports(segmentData)}
+      `;
     }
-    if (m.note) body += `<h3>Notes</h3><p>${m.note}</p>`;
-    if (m.warning) body += `<div class="warn">⚠ ${m.warning}</div>`;
-    if (m.parking) body += `<h3>Access</h3><p>${m.parking}</p>`;
-    if (m.twice) body += `<p style="font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em;">▸ PASSED THROUGH TWICE</p>`;
+
+    if (m.note || m.parking || m.twice) {
+      body += `<h3>Station note</h3>`;
+      if (m.note) body += `<p>${esc(m.note)}</p>`;
+      if (m.parking) body += `<p>${esc(m.parking)}</p>`;
+      if (m.twice) body += `<p class="meta-line">Passed through twice on the course.</p>`;
+    }
+    if (m.warning) body += `<div class="warn">⚠ ${esc(m.warning)}</div>`;
 
     if (next) {
-      const segNote = CM.segments.find(s => {
-        const ss = short, ns = CM.short[next.name] || next.name;
-        return s.from === ss && s.to === ns;
-      });
-      if (segNote) {
+      const nextTerrain = segOutData?.terrain || CM.segments.find((s) => s.from === short && s.to === nextShort)?.terrain;
+      if (nextTerrain) {
         body += `<h3>Next up</h3>
           <div class="seg-card">
-            <div class="r1"><div class="nm">${CM.short[next.name] || next.name}</div><div class="mi">${distToNext} mi</div></div>
-            <div class="terr">${segNote.terrain}</div>
+            <div class="r1"><div class="nm">${esc(nextShort)}</div><div class="mi">${distToNext} mi</div></div>
+            <div class="terr">${esc(nextTerrain)}</div>
           </div>`;
       }
     }
