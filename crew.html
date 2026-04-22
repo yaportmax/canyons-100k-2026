@@ -908,6 +908,7 @@
   const CARB_HR = 80;
   const NA_MIN_PER_HR = { cool: 400, moderate: 500, hot: 575 };
   const NA_MIN_PER_L = { cool: 800, moderate: 875, hot: 925 };
+  const C_SKIP_REFILL_TOLERANCE_ML = 10;
   const FLASK_UI = {
     carb: { code: 'A', name: 'Carbs', full: 'Flask A · Carbs', chip: 'A · Carbs', bag: 'carb powder bag' },
     water: { code: 'B', name: 'H2O', full: 'Flask B · H2O', chip: 'B · H2O' },
@@ -1121,6 +1122,22 @@
     row.skFlaskCarbsLeft = Math.max(0, row.skFlaskCarbsStart - row.skCarbsDrunk);
     row.skFlaskMlLeft = Math.max(0, SK_FLASK_ML - row.skMl);
     row.totalNa = skSodiumForCarbs(row.skCarbsDrunk) + (row.gels * GEL_NA) + (row.salt * SS_NA);
+  }
+  function backupCarryMl(rows, idx) {
+    if (idx <= 0) return 0;
+    const prev = rows[idx - 1];
+    if (!prev || !prev.hasC) return 0;
+    return Math.max(0, C_FLASK_ML - prev.cMl);
+  }
+  function backupRefillPlan(rows, idx) {
+    const row = rows[idx];
+    if (!row?.hasC) return { mode: 'none', carryMl: 0, refillMl: 0 };
+    const carryMl = backupCarryMl(rows, idx);
+    const refillMl = Math.max(0, row.cMl - carryMl);
+    if (carryMl > 0 && refillMl <= C_SKIP_REFILL_TOLERANCE_ML) {
+      return { mode: 'finish-left', carryMl, refillMl };
+    }
+    return { mode: 'fill', carryMl, refillMl };
   }
   function smoothShortLegCarbs(rows) {
     for (let i = 0; i < rows.length - 1; i += 1) {
@@ -1527,12 +1544,16 @@
     const isCrewBag = /^(Michigan|Foresthill|Driver)/.test(stop.name);
     const spareBags = Math.max(0, (handoffs[idx] || 0) - (z.useBag ? 1 : 0));
     const nextCrewEta = nextCrew ? addClock(START_HOUR, c.aidStops[AID_INDEX.get(nextCrew.name)].arrH) : 'Finish';
+    const cPlan = backupRefillPlan(c.rows, idx);
 
     const flaskChips = [];
     if (z.useBag) flaskChips.push(`<span class="chip carb"><b>${FLASK_UI.carb.chip}</b> reload carb powder · ${isCrewBag ? 'from crew' : 'from vest'}</span>`);
     else flaskChips.push(`<span class="chip carb"><b>${FLASK_UI.carb.chip}</b> top off only · ${z.startCarbs}g carry-over</span>`);
     flaskChips.push(`<span class="chip water"><b>${FLASK_UI.water.chip}</b> refill plain water</span>`);
-    if (r.hasC) flaskChips.push(`<span class="chip backup"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+    if (r.hasC) {
+      if (cPlan.mode === 'finish-left') flaskChips.push(`<span class="chip backup"><b>${FLASK_UI.backup.chip}</b> finish what's left</span>`);
+      else flaskChips.push(`<span class="chip backup"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+    }
 
     const loadChips = [];
     if (r.reloadGels > 0) loadChips.push(`<span class="chip gel"><b>load</b> ${fmtCount(r.reloadGels, 'gel')}</span>`);

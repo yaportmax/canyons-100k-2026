@@ -1218,6 +1218,7 @@
   const SHORT_LEG_CARB_FLOOR_HR = 70;
   const FOLLOW_LEG_CARB_FLOOR_HR = 80;
   const SHORT_LEG_MAX_PULL_G = 6;
+  const C_SKIP_REFILL_TOLERANCE_ML = 10;
 
   function skSodiumForCarbs(carbs) {
     return Math.round(carbs * (SK_NA_PER_SCOOP / SK_CARBS_PER_SCOOP));
@@ -1233,6 +1234,22 @@
     row.skFlaskCarbsLeft = Math.max(0, row.skFlaskCarbsStart - row.skCarbsDrunk);
     row.skFlaskMlLeft = Math.max(0, SK_FLASK_ML - row.skMl);
     row.totalNa = skSodiumForCarbs(row.skCarbsDrunk) + (row.gels * GEL_NA) + (row.salt * SS_NA);
+  }
+  function backupCarryMl(rows, idx) {
+    if (idx <= 0) return 0;
+    const prev = rows[idx - 1];
+    if (!prev || !prev.hasC) return 0;
+    return Math.max(0, C_FLASK_ML - prev.cMl);
+  }
+  function backupRefillPlan(rows, idx) {
+    const row = rows[idx];
+    if (!row?.hasC) return { mode: 'none', carryMl: 0, refillMl: 0 };
+    const carryMl = backupCarryMl(rows, idx);
+    const refillMl = Math.max(0, row.cMl - carryMl);
+    if (carryMl > 0 && refillMl <= C_SKIP_REFILL_TOLERANCE_ML) {
+      return { mode: 'finish-left', carryMl, refillMl };
+    }
+    return { mode: 'fill', carryMl, refillMl };
   }
 
   function smoothShortLegCarbs(rows) {
@@ -1406,13 +1423,14 @@
   }
 
   // Build the "what to pack leaving [aid]" for a given leg.
-  function packListForLeg(r, idx, z) {
+  function packListForLeg(rows, r, idx, z) {
     const L = r.L;
     const aidName = L.from;
     const parts = [];
     const isFirst = idx === 0;
     const isCrewBag = /^(Michigan|Foresthill|Driver)/.test(aidName);
     const bagSrc = isFirst ? 'from vest ziplock stash' : (isCrewBag ? 'from crew cooler' : 'from vest ziplock stash');
+    const cPlan = backupRefillPlan(rows, idx);
 
     if (z.useBag) {
       parts.push(planItem(FLASK_UI.carb.full, `dump in carb powder and fill plain water`, `${bagSrc} · ${Math.round(CARB_BAG_CARBS)} g carbs`));
@@ -1422,7 +1440,11 @@
     }
     parts.push(planItem(FLASK_UI.water.full, 'top off plain water', '500 ml'));
     if (r.hasC) {
-      parts.push(planItem(FLASK_UI.backup.full, 'fill plain water', '600 ml · carry for the extra fluid load'));
+      if (cPlan.mode === 'finish-left') {
+        parts.push(planItem(FLASK_UI.backup.full, `finish what's left`, `~${fmtFluid(cPlan.carryMl)} carried over from the last leg · no refill needed`));
+      } else {
+        parts.push(planItem(FLASK_UI.backup.full, 'fill plain water', '600 ml · carry for the extra fluid load'));
+      }
     }
     if (r.reloadGels > 0 || r.reloadSalt > 0) {
       const reload = [];
@@ -1492,7 +1514,7 @@
         <td class="num-c">${r.totalNa} mg</td>
         <td>${pills}</td>
       </tr>
-      <tr class="leg-expand" data-expand="${idx}"><td colspan="11"><div class="expand-grid">${packListForLeg(r, idx, z)}${drinkPlanForLeg(r)}<div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div></div></td></tr>`;
+      <tr class="leg-expand" data-expand="${idx}"><td colspan="11"><div class="expand-grid">${packListForLeg(c.rows, r, idx, z)}${drinkPlanForLeg(r)}<div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div></div></td></tr>`;
 
       mobileHtml += `<details class="m-leg-card ${L.crew?'crew':''}">
         <summary>
@@ -1530,7 +1552,7 @@
         </summary>
         <div class="m-body">
           <div class="expand-grid">
-            ${packListForLeg(r, idx, z)}
+            ${packListForLeg(c.rows, r, idx, z)}
             ${drinkPlanForLeg(r)}
             <div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div>
           </div>
@@ -1615,7 +1637,11 @@
         flasks.push(`<span class="chip sk" style="opacity:0.75"><b>${FLASK_UI.carb.chip}</b> top off only · ${z.startCarbs}g carry-over</span>`);
       }
       flasks.push(`<span class="chip h2o"><b>${FLASK_UI.water.chip}</b> ${isFirst ? 'start full' : 'refill plain water'}</span>`);
-      if (r.hasC) flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+      if (r.hasC) {
+        const cPlan = backupRefillPlan(c.rows, i);
+        if (cPlan.mode === 'finish-left') flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> finish what's left</span>`);
+        else flasks.push(`<span class="chip c"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+      }
 
       // ==== POCKET RELOAD lane ====
       const pocket = [];
