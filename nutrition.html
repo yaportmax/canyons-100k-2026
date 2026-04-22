@@ -727,8 +727,8 @@
     <div class="toggle-group">
       <span class="lab">Conditions</span>
       <div class="heat-toggle" id="heatToggle">
-        <button data-heat="cool" class="active">Cool 50–60°</button>
-        <button data-heat="moderate">Moderate 60–75°</button>
+        <button data-heat="cool">Cool 50–60°</button>
+        <button data-heat="moderate" class="active">Moderate 60–75°</button>
         <button data-heat="hot">Hot 75–90°</button>
       </div>
     </div>
@@ -872,8 +872,10 @@
   // pushed toward endurance-drink / salty-sweater territory.
   const NA_MIN_PER_HR = { cool: 400, moderate: 500, hot: 575 };
   const NA_MIN_PER_L = { cool: 800, moderate: 875, hot: 925 };
+  const HEAT_STORAGE_KEY = 'canyons_nut_heat_v2';
+  const DEFAULT_HEAT = 'moderate';
 
-  let HEAT = localStorage.getItem('canyons_nut_heat') || 'cool';
+  let HEAT = localStorage.getItem(HEAT_STORAGE_KEY) || DEFAULT_HEAT;
   let UNIT = localStorage.getItem('canyons_unit') || 'us';
   let TARGET_MINUTES = loadTargetMinutes();
 
@@ -1570,7 +1572,7 @@
   setToggle('unitToggle', 'unit', UNIT);
   document.getElementById('heatToggle').addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
-    HEAT = b.dataset.heat; localStorage.setItem('canyons_nut_heat', HEAT);
+    HEAT = b.dataset.heat; localStorage.setItem(HEAT_STORAGE_KEY, HEAT);
     setToggle('heatToggle', 'heat', HEAT); renderAll();
   });
   document.getElementById('unitToggle').addEventListener('click', e => {
