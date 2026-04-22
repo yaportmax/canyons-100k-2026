@@ -357,8 +357,8 @@
       <a href="#legs">Legs</a>
       <a href="#leg-1">Start</a>
       <a href="#leg-5">Foresthill</a>
-      <a href="#leg-8">Driver's Flat</a>
-      <a href="#leg-10">Finish push</a>
+      <a href="#leg-7">Driver's Flat</a>
+      <a href="#leg-9">Finish push</a>
     </div>
   </header>
 
@@ -392,10 +392,10 @@ const DATA = {
     "target": "17:30",
     "start": "5:00 AM",
     "finish": "10:30 PM",
-    "carbs": 1340,
+    "carbs": 1328,
     "fluid": "9.03 L",
-    "sodium": 9065,
-    "gels": 25,
+    "sodium": 9101,
+    "gels": 24,
     "salt": 27,
     "scoops": 56
   },
@@ -468,62 +468,36 @@ const DATA = {
         "A: 500 ml - finish it - ~100g carbs",
         "B: 500 ml - finish it",
         "C: 343 ml - drink about half",
-        "6 gels - about every 20 min",
+        "6 gels - after finishing A, about every 15 min",
         "4 salt tabs - about every 30 min"
       ]
     },
     {
       "from": "Deadwood 1",
-      "to": "Swinging Bridge",
-      "crew": false,
-      "mile": 2.3,
-      "gain": 179,
-      "loss": 1770,
-      "time": "0:26",
-      "dep": "7:54 AM",
-      "arr": "8:20 AM",
-      "pace": "11'22\"/mi",
-      "carbs": 31,
-      "fluidMl": 216,
-      "sodium": 339,
-      "bottles": { "A": 31, "B": 12, "C": null },
-      "topPills": { "bag": "carb powder - 100g", "gels": 0, "salt": 1 },
-      "leaving": [
-        "A Carbs: use 1 carb powder bag + fill with water",
-        "B H2O: top off water"
-      ],
-      "onLeg": [
-        "A: 155 ml - drink about 1/3 - ~31g carbs",
-        "B: 61 ml - just a few pulls",
-        "1 salt tab - take it late on the leg"
-      ]
-    },
-    {
-      "from": "Swinging Bridge",
       "to": "Deadwood 2",
       "crew": false,
-      "mile": 2.3,
-      "gain": 1767,
-      "loss": 176,
-      "time": "1:02",
-      "dep": "8:25 AM",
+      "mile": 4.6,
+      "gain": 1946,
+      "loss": 1946,
+      "time": "1:28",
+      "dep": "7:54 AM",
       "arr": "9:27 AM",
-      "pace": "26'56\"/mi",
-      "carbs": 84,
-      "fluidMl": 526,
-      "sodium": 467,
-      "bottles": { "A": 62, "B": 43, "C": null },
-      "topPills": { "bag": "no refill - 69g", "gels": 1, "salt": 1 },
+      "pace": "19'09\"/mi",
+      "carbs": 122,
+      "fluidMl": 742,
+      "sodium": 834,
+      "bottles": { "A": 100, "B": 48, "C": null },
+      "topPills": { "bag": "carb powder - 100g", "gels": 1, "salt": 2 },
       "leaving": [
-        "Aid: no water / no refill here",
-        "A Carbs: keep going with what is left (69g / 345 ml)",
-        "B H2O: keep going with what is left (439 ml)"
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "Turnaround: Swinging Bridge bib check only - no water / no refill"
       ],
       "onLeg": [
-        "A: 310 ml - drink almost all of it - ~62g carbs",
-        "B: 216 ml - drink about half",
-        "1 gel - use it around halfway",
-        "1 salt tab - take it around halfway"
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 242 ml - drink about half",
+        "1 gel - after finishing A, use it in the back half of the leg",
+        "2 salt tabs - take one in the first half and one in the second half"
       ]
     },
     {
@@ -551,7 +525,7 @@ const DATA = {
         "A: 500 ml - finish it - ~100g carbs",
         "B: 500 ml - finish it",
         "C: 22 ml - just a few sips",
-        "2 gels - use one in the first half and one in the second half",
+        "2 gels - after finishing A, use one soon after and one later",
         "3 salt tabs - about every 30 min"
       ]
     },
@@ -579,7 +553,7 @@ const DATA = {
       "onLeg": [
         "A: 500 ml - finish it - ~100g carbs",
         "B: 488 ml - drink almost all of it",
-        "2 gels - use one in the first half and one in the second half",
+        "2 gels - after finishing A, use one soon after and one later",
         "3 salt tabs - about every 30 min"
       ]
     },
@@ -609,7 +583,7 @@ const DATA = {
         "A: 500 ml - finish it - ~100g carbs",
         "B: 500 ml - finish it",
         "C: 272 ml - drink about half",
-        "3 gels - about every 30 min",
+        "3 gels - after finishing A, about every 20 min",
         "4 salt tabs - about every 20 min"
       ]
     },
@@ -638,7 +612,7 @@ const DATA = {
         "A: 500 ml - finish it - ~100g carbs",
         "B: 500 ml - finish it",
         "C: 577 ml - drink almost all of it",
-        "5 gels - about every 30 min",
+        "5 gels - after finishing A, about every 20 min",
         "5 salt tabs - about every 30 min"
       ]
     },
@@ -668,7 +642,7 @@ const DATA = {
         "A: 500 ml - finish it - ~100g carbs",
         "B: 500 ml - finish it",
         "C: 28 ml - just a few sips",
-        "2 gels - use one in the first half and one in the second half",
+        "2 gels - after finishing A, use one soon after and one later",
         "3 salt tabs - about every 30 min"
       ]
     },
@@ -683,19 +657,18 @@ const DATA = {
       "dep": "8:16 PM",
       "arr": "9:13 PM",
       "pace": "15'37\"/mi",
-      "carbs": 83,
+      "carbs": 77,
       "fluidMl": 478,
-      "sodium": 463,
-      "bottles": { "A": 61, "B": 35, "C": null },
-      "topPills": { "bag": "carb powder - 100g", "gels": 1, "salt": 1 },
+      "sodium": 523,
+      "bottles": { "A": 77, "B": 19, "C": null },
+      "topPills": { "bag": "carb powder - 100g", "gels": 0, "salt": 1 },
       "leaving": [
         "A Carbs: use 1 carb powder bag + fill with water",
         "B H2O: top off water"
       ],
       "onLeg": [
-        "A: 303 ml - drink about 2/3 - ~61g carbs",
-        "B: 175 ml - drink about 1/3",
-        "1 gel - use it around halfway",
+        "A: 385 ml - drink about 3/4 to 4/5 - ~77g carbs",
+        "B: 93 ml - just a few pulls",
         "1 salt tab - take it around halfway"
       ]
     },
@@ -710,19 +683,19 @@ const DATA = {
       "dep": "9:18 PM",
       "arr": "10:30 PM",
       "pace": "17'53\"/mi",
-      "carbs": 102,
+      "carbs": 89,
       "fluidMl": 575,
-      "sodium": 586,
-      "bottles": { "A": 92, "B": 23, "C": null },
-      "topPills": { "bag": "top off - 39g", "gels": 3, "salt": 2 },
+      "sodium": 534,
+      "bottles": { "A": 100, "B": 15, "C": null },
+      "topPills": { "bag": "top off - 23g", "gels": 3, "salt": 2 },
       "leaving": [
-        "A Carbs: keep carry-over + top off (39g left)",
+        "A Carbs: keep carry-over + top off lightly (~216ml total, 23g left)",
         "B H2O: top off water"
       ],
       "onLeg": [
-        "A: 460 ml - drink almost all of it - ~36g carbs",
-        "B: 115 ml - just a few pulls",
-        "3 gels - about every 20 min",
+        "A: 216 ml - finish it - ~23g carbs",
+        "B: 359 ml - drink about 2/3",
+        "3 gels - after finishing A, about every 15 min",
         "2 salt tabs - take one in the first half and one in the second half"
       ]
     }
@@ -748,6 +721,9 @@ function summaryCard(label, value, sub) {
 
 function pill(label, cls) {
   return `<span class="pill ${cls}">${esc(label)}</span>`;
+}
+function countLabel(n, singular, plural = `${singular}s`) {
+  return `${n} ${n === 1 ? singular : plural}`;
 }
 
 summaryGrid.innerHTML = [
@@ -797,8 +773,8 @@ crewGrid.innerHTML = DATA.crewStops.map((stop) => {
 legList.innerHTML = DATA.legs.map((leg, idx) => {
   const pills = [
     pill(leg.topPills.bag, 'carb'),
-    leg.topPills.gels ? pill(`${leg.topPills.gels} gels`, 'gel') : '',
-    leg.topPills.salt ? pill(`${leg.topPills.salt} salt`, 'salt') : '',
+    leg.topPills.gels ? pill(countLabel(leg.topPills.gels, 'gel'), 'gel') : '',
+    leg.topPills.salt ? pill(countLabel(leg.topPills.salt, 'salt tab', 'salt tabs'), 'salt') : '',
     leg.crew ? pill('leave crew', 'crew') : ''
   ].filter(Boolean).join('');
 
