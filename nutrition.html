@@ -864,11 +864,11 @@
         </div>
         <div class="delta" id="timeDeltaVal">Baseline GPX pace</div>
       </div>
-      <input id="timeSlider" class="time-slider" type="range" min="900" max="1230" step="5" value="1050" />
+      <input id="timeSlider" class="time-slider" type="range" min="960" max="1200" step="5" value="1050" />
       <div class="time-scale">
-        <span>15:00</span>
+        <span>16:00</span>
         <span>baseline</span>
-        <span>20:30</span>
+        <span>20:00</span>
       </div>
     </div>
     <div class="time-meta">
@@ -1044,8 +1044,8 @@
   ];
   const START_HOUR = 5;
   const BASE_TOTAL_HOURS = BASE_LEGS.reduce((sum, leg) => sum + leg.hr, 0);
-  const TARGET_MIN_MINUTES = 15 * 60;
-  const TARGET_MAX_MINUTES = 20 * 60 + 30;
+  const TARGET_MIN_MINUTES = 16 * 60;
+  const TARGET_MAX_MINUTES = 20 * 60;
   const TARGET_STEP_MINUTES = 5;
   const DEFAULT_TARGET_MINUTES = Math.round(BASE_TOTAL_HOURS * 60);
   const TOTAL_AID_STOP_MINUTES = PROFILE.totalAidStopMinutes(AID);

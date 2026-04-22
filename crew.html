@@ -751,11 +751,11 @@
         </div>
         <div class="delta" id="timeDeltaVal">Baseline GPX pace</div>
       </div>
-      <input id="timeSlider" class="time-slider" type="range" min="900" max="1230" step="5" value="1050" />
+      <input id="timeSlider" class="time-slider" type="range" min="960" max="1200" step="5" value="1050" />
       <div class="time-scale">
-        <span>15:00</span>
+        <span>16:00</span>
         <span>baseline</span>
-        <span>20:30</span>
+        <span>20:00</span>
       </div>
     </div>
     <div class="time-meta">
@@ -887,8 +887,8 @@
   const START_HOUR = 5;
   const TARGET_STORAGE_KEY = 'canyons_target_minutes';
   const HEAT_STORAGE_KEY = PROFILE.storageKey || 'canyons_nut_heat_v2';
-  const TARGET_MIN_MINUTES = 15 * 60;
-  const TARGET_MAX_MINUTES = 20 * 60 + 30;
+  const TARGET_MIN_MINUTES = 16 * 60;
+  const TARGET_MAX_MINUTES = 20 * 60;
   const TARGET_STEP_MINUTES = 5;
   const DEFAULT_TARGET_MINUTES = Math.round((CM.meta.basePlanHours || CM.meta.targetHours || 17.5) * 60);
   const HEAT_LABELS = { cool: 'Cool 50–60°', moderate: 'Moderate 60–75°', hot: 'Hot 75–90°' };
