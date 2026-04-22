@@ -1533,7 +1533,7 @@
     const cPlan = backupRefillPlan(rows, idx);
 
     if (z.useBag) {
-      parts.push(planItem(FLASK_UI.carb.full, `dump in carb powder and fill plain water`, `${bagSrc} · ${Math.round(CARB_BAG_CARBS)} g carbs`));
+      parts.push(planItem(FLASK_UI.carb.full, `use 1 carb powder bag and fill with plain water`, `${bagSrc} · ${Math.round(CARB_BAG_CARBS)} g carbs`));
     } else {
       const leftScoops = Math.round(z.startCarbs / SK_CARBS_PER_SCOOP * 10) / 10;
       parts.push(planItem(FLASK_UI.carb.full, `keep the carry-over mix and top off plain water`, `~${z.startCarbs} g left · ${leftScoops} scoops remaining`));
