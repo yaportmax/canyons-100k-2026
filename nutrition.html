@@ -224,11 +224,11 @@
   .mobile-legs .m-stats {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px 12px;
-    margin-top: 14px;
+    gap: 8px 10px;
+    margin-top: 12px;
   }
   .mobile-legs .m-stat {
-    padding-top: 8px;
+    padding-top: 7px;
     border-top: 1px solid var(--line-soft);
     min-width: 0;
   }
@@ -244,7 +244,7 @@
   .mobile-legs .m-stat .v {
     display: block;
     font-family: var(--serif);
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.1;
     letter-spacing: -0.015em;
     color: var(--ink);
@@ -456,8 +456,8 @@
     text-align: left;
   }
   .mobile-legs .m-bottle-card {
-    margin-top: 12px;
-    padding: 12px 12px 10px;
+    margin-top: 10px;
+    padding: 10px 11px 9px;
     background: rgba(251, 246, 234, 0.72);
     border: 1px solid var(--line-soft);
   }
@@ -727,6 +727,9 @@
     .mobile-legs .m-leg-card summary,
     .mobile-legs .m-body { padding-left: 14px; padding-right: 14px; }
     .mobile-legs .m-title { font-size: 17px; }
+    .mobile-legs .m-stats { gap: 7px 8px; }
+    .mobile-legs .m-stat .v { font-size: 14px; }
+    .mobile-legs .m-stat .subv { font-size: 9.5px; }
     .time-head { flex-direction: column; align-items: flex-start; }
     .time-head .delta { text-align: left; }
     .time-meta { grid-template-columns: 1fr; }
@@ -734,7 +737,11 @@
   @media (max-width: 420px) {
     .totals { grid-template-columns: 1fr; }
     .totals .cell { border-right: 0; }
-    .mobile-legs .m-stats { grid-template-columns: 1fr; }
+    .mobile-legs .m-stat .v { font-size: 13.5px; }
+    .mobile-legs .m-bottle-card .bot-row {
+      grid-template-columns: minmax(76px, auto) minmax(0, 1fr) 40px;
+      gap: 6px;
+    }
   }
 </style>
 </head>
@@ -837,7 +844,7 @@
   <div class="mobile-legs" id="mobileLegs"></div>
 
   <div class="legend-row">
-    <span class="l-sk"><i></i>Flask A · Carbs (500 ml flask; 1 scoop = 15 g carbs · 57 mg Na; 7 scoops = 105 g carbs · 399 mg Na)</span>
+    <span class="l-sk"><i></i>Flask A · Carbs (500 ml flask; 1 scoop = 14.3 g carbs · 57 mg Na; 7 scoops = 100 g carbs · 399 mg Na)</span>
     <span class="l-h2o"><i></i>Flask B · H2O (500 ml plain water)</span>
     <span class="l-h2o"><i></i>Flask C · H2O (600 ml backup water — long/hot legs only)</span>
     <span class="l-gel"><i></i>Gel (22 g · 40 mg Na)</span>
@@ -868,8 +875,8 @@
       <div class="row"><span class="k">Sodium density floor <small>cool / mod / hot</small></span><span class="v">800 / 875 / 925 mg/L</span></div>
       <div class="row"><span class="k">Fluid <small>cool / mod / hot</small></span><span class="v">450 / 600 / 750 ml/hr</span></div>
       <div class="row"><span class="k">Caffeine <small>on demand</small></span><span class="v">5-Hour Energy bottle</span></div>
-      <div class="row"><span class="k">Skratch Super High-Carb <small>per scoop</small></span><span class="v">15 g carbs · 57 mg Na</span></div>
-      <div class="row"><span class="k">Skratch Super High-Carb <small>7-scoop flask</small></span><span class="v">105 g carbs · 399 mg Na / 500 ml</span></div>
+      <div class="row"><span class="k">Skratch Super High-Carb <small>per scoop</small></span><span class="v">14.3 g carbs · 57 mg Na</span></div>
+      <div class="row"><span class="k">Skratch Super High-Carb <small>7-scoop flask</small></span><span class="v">100 g carbs · 399 mg Na / 500 ml</span></div>
       <div class="row"><span class="k">Gel</span><span class="v">22 g carbs · 40 mg Na</span></div>
       <div class="row"><span class="k">SaltStick caps</span><span class="v">215 mg Na / cap</span></div>
       <div class="row"><span class="k">5-Hour Energy</span><span class="v">200 mg caffeine · ~57 ml</span></div>
@@ -929,13 +936,16 @@
 
   const FLUID_RATES = { cool: 450, moderate: 600, hot: 750 };
   const FLUID_LAB = { cool: "cool", moderate: "moderate", hot: "hot" };
-  // Skratch Ultra High Carb: 100g carbs / 400mg Na per scoop, mixed in 500ml SK flask
-  // Skratch Super High-Carb: per-scoop is ~15g carbs / ~57mg Na. Max recommended in a
+  // Skratch Super High-Carb: 7 scoops = 100g carbs / 399mg Na in a 500ml carb flask.
+  // Per scoop is ~14.3g carbs / ~57mg Na. Max recommended in a
   // 500ml flask is 7 scoops (100g carbs, 400mg Na); sweet spot per Skratch is 6 scoops
   // (80g carbs / ~340mg Na) — clear/water-like consistency, no GI issues.
-  const SK_CARBS_PER_SCOOP = 15;
-  const SK_NA_PER_SCOOP = 57;
-  const MAX_SCOOPS_PER_FLASK = 7;  // hard cap per Skratch
+  const CARB_BAG_SCOOPS = 7;
+  const CARB_BAG_CARBS = 100;
+  const CARB_BAG_NA = 399;
+  const SK_CARBS_PER_SCOOP = CARB_BAG_CARBS / CARB_BAG_SCOOPS;
+  const SK_NA_PER_SCOOP = CARB_BAG_NA / CARB_BAG_SCOOPS;
+  const MAX_SCOOPS_PER_FLASK = CARB_BAG_SCOOPS;  // hard cap per Skratch
   const SK_FLASK_ML = 500;   // Flask SK (Skratch)
   const H2O_FLASK_ML = 500;  // Flask H₂O (primary water)
   const C_FLASK_ML = 600;    // Flask C (optional backup water for long/hot legs)
@@ -950,7 +960,7 @@
   const SS_NA = 215;  // SaltStick FastChews / caps
   const CARB_HR = 80;
   const FLASK_UI = {
-    carb: { code: 'A', name: 'Carbs', full: 'Flask A · Carbs', chip: 'A · Carbs', bag: 'Carb bag' },
+    carb: { code: 'A', name: 'Carbs', full: 'Flask A · Carbs', chip: 'A · Carbs', bag: 'carb powder bag' },
     water: { code: 'B', name: 'H2O', full: 'Flask B · H2O', chip: 'B · H2O' },
     backup: { code: 'C', name: 'H2O', full: 'Flask C · H2O', chip: 'C · H2O' },
   };
@@ -1238,7 +1248,7 @@
     const bagSrc = isFirst ? 'from vest ziplock stash' : (isCrewBag ? 'from crew cooler' : 'from vest ziplock stash');
 
     if (z.useBag) {
-      parts.push(planItem(FLASK_UI.carb.full, `dump 1 fresh ziplock and fill plain water`, `${bagSrc} · 105 g carbs`));
+      parts.push(planItem(FLASK_UI.carb.full, `dump in carb powder and fill plain water`, `${bagSrc} · ${Math.round(CARB_BAG_CARBS)} g carbs`));
     } else {
       const leftScoops = Math.round(z.startCarbs / SK_CARBS_PER_SCOOP * 10) / 10;
       parts.push(planItem(FLASK_UI.carb.full, `keep the carry-over mix and top off plain water`, `~${z.startCarbs} g left · ${leftScoops} scoops remaining`));
@@ -1279,7 +1289,7 @@
   function legPillsHtml(r, z, cls = 'seg-table') {
     let pills = '';
     if (z.useBag) {
-      pills += `<span class="pill sk">▼ new bag · 105g</span>`;
+      pills += `<span class="pill sk">▼ carb powder · ${Math.round(CARB_BAG_CARBS)}g</span>`;
     } else if (z.startCarbs > 0) {
       pills += `<span class="pill sk" style="opacity:0.65">▼ top off only · ${z.startCarbs}g carry-over</span>`;
     }
@@ -1345,11 +1355,6 @@
               <span class="k">Fluid</span>
               <span class="v">${fmtFluid(r.fluid)}</span>
               <span class="subv">${r.totalNa} mg Na</span>
-            </div>
-            <div class="m-stat">
-              <span class="k">Clock</span>
-              <span class="v">${addClock(START_HOUR, r.arrHr)}</span>
-              <span class="subv">left ${addClock(START_HOUR, r.depHr)}</span>
             </div>
           </div>
           ${mobileBottleCard(r)}
@@ -1453,7 +1458,7 @@
       const flasks = [];
       if (z.useBag) {
         const src = isFirst ? 'from vest' : (isCrewBag ? 'from crew' : 'from vest');
-        flasks.push(`<span class="chip sk"><b>${FLASK_UI.carb.chip}</b> ${isFirst ? 'start full' : 'refill with 1 bag'} · ${src}</span>`);
+        flasks.push(`<span class="chip sk"><b>${FLASK_UI.carb.chip}</b> ${isFirst ? 'start full' : 'reload carb powder'} · ${src}</span>`);
       } else {
         flasks.push(`<span class="chip sk" style="opacity:0.75"><b>${FLASK_UI.carb.chip}</b> top off only · ${z.startCarbs}g carry-over</span>`);
       }
@@ -1517,15 +1522,15 @@
 
   // ====== Packing ======
   // ====== Skratch ziplock system ======
-  // Rule: 1 ziplock = 7 scoops = 1 full flask refill. One bag, one refill, no measuring.
+  // Rule: 1 carb powder bag = 7 scoops = 1 full flask refill. One bag, one refill, no measuring.
   // If enough Skratch remains in the flask, keep that mix and top with water only.
   // On the leg, still prioritize Skratch before leaning on gels, but cap the bottle-derived
   // carb density so each leg carries real plain water alongside the concentrated SK flask.
   // Bags are sourced from: vest at start (carry some), crew cooler at crew stops.
 
   function simZiplocks(legs) {
-    const BAG_SCOOPS = 7;
-    const BAG_CARBS = BAG_SCOOPS * SK_CARBS_PER_SCOOP; // 105g
+    const BAG_SCOOPS = CARB_BAG_SCOOPS;
+    const BAG_CARBS = CARB_BAG_CARBS;
     const MIN_LEAVE_THRESHOLD = SK_CARBS_PER_SCOOP;    // keep flask if >= 1 scoop left
 
     let flaskCarbs = 0;
