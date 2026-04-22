@@ -24,6 +24,117 @@
   .hero h1 em { font-style: italic; color: var(--ember-2); }
   .hero p { font-size: 16px; line-height: 1.6; color: var(--ink-2); max-width: 64ch; margin: 0; }
 
+  .time-card {
+    margin-top: 10px;
+    max-width: 960px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 18px 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(260px, 1fr);
+    gap: 18px 24px;
+    align-items: start;
+  }
+  .time-slider-wrap { min-width: 0; }
+  .time-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .time-head .lab,
+  .time-meta .k,
+  .heat-row .lab,
+  .kit-summary .k,
+  .lane .lane-hd {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .time-head .val {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--serif);
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 0.95;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .time-head .delta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 1.4;
+    text-align: right;
+  }
+  .time-slider {
+    width: 100%;
+    margin: 0;
+    accent-color: var(--ember);
+  }
+  .time-scale {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .time-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 14px;
+  }
+  .time-meta .meta {
+    padding-top: 9px;
+    border-top: 1px solid var(--line-soft);
+    min-width: 0;
+  }
+  .time-meta .v {
+    display: block;
+    margin-top: 5px;
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    word-break: break-word;
+  }
+  .heat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px 0 24px;
+    flex-wrap: wrap;
+  }
+  .heat-toggle {
+    display: inline-flex;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .heat-toggle button {
+    background: transparent;
+    border: 0;
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+    border-right: 1px solid var(--line-soft);
+  }
+  .heat-toggle button:last-child { border-right: 0; }
+  .heat-toggle button.active { background: var(--ink); color: var(--paper); }
+  .heat-toggle button:hover:not(.active) { background: var(--bg-2); }
+
   .panel {
     padding: 48px 56px;
     max-width: 1400px;
@@ -181,28 +292,120 @@
   .kit-body { padding: 28px 32px 32px; background: var(--paper); min-height: 440px; }
   .kit-body .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
   .kit-body h3 { font-family: var(--serif); font-weight: 500; font-size: 34px; letter-spacing: -0.02em; margin: 6px 0 6px; line-height: 1; }
-  .kit-body .eta-line { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); margin-bottom: 24px; }
+  .kit-body .eta-line { font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); margin-bottom: 24px; line-height: 1.6; }
   .kit-body .eta-line b { color: var(--ember-2); font-weight: 600; }
-
-  .kit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  .kit-cols h4 { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; font-weight: 500; }
-  .kit-cols ul { list-style: none; padding: 0; margin: 0; }
-  .kit-cols li { padding: 9px 0; border-top: 1px solid var(--line-soft); font-size: 13.5px; line-height: 1.45; display: flex; gap: 10px; align-items: flex-start; }
-  .kit-cols li:first-child { border-top: 1px solid var(--line); }
-  .kit-cols li .chk { flex-shrink: 0; width: 14px; height: 14px; border: 1.5px solid var(--line); margin-top: 2px; }
-  .kit-cols li .t { flex: 1; color: var(--ink); }
-  .kit-cols li .t span { color: var(--muted); font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; display: block; margin-top: 2px; }
-
-  .prompt {
-    margin-top: 24px;
-    padding: 16px 20px;
-    border: 1px dashed var(--line);
+  .kit-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px 14px;
+    margin: 0 0 22px;
+  }
+  .kit-summary .stat {
+    padding-top: 9px;
+    border-top: 1px solid var(--line-soft);
+    min-width: 0;
+  }
+  .kit-summary .v {
+    display: block;
+    margin-top: 5px;
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .kit-summary .subv {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .kit-lanes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+  }
+  .lane {
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+    min-width: 0;
+  }
+  .lane .lane-hd { margin-bottom: 10px; font-weight: 500; }
+  .lane .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 9px;
+    border: 1px solid var(--line);
     background: var(--bg);
-    font-size: 13.5px;
-    line-height: 1.5;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+  .chip b { font-weight: 500; }
+  .chip.carb { background: rgba(193, 147, 46, 0.08); border-color: var(--gold); }
+  .chip.water { background: rgba(46, 93, 122, 0.09); border-color: var(--crew); color: var(--crew); }
+  .chip.backup { background: rgba(46, 93, 122, 0.05); border-color: var(--crew); color: var(--crew); border-style: dashed; }
+  .chip.gel { background: rgba(212, 71, 138, 0.12); border-color: var(--ember); color: var(--ember-2); }
+  .chip.salt { background: rgba(91, 58, 110, 0.08); border-color: #5B3A6E; color: #5B3A6E; }
+  .chip.optional { color: var(--muted); }
+  .chip.warn { background: rgba(27, 20, 16, 0.04); border-color: var(--ink); }
+  .chip.finish { background: rgba(212, 71, 138, 0.08); border-color: var(--ember); color: var(--ember-2); }
+  .bot-cell {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .bot-row {
+    display: grid;
+    grid-template-columns: minmax(78px, auto) minmax(0, 1fr) 40px;
+    gap: 8px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .lab2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+  .fid {
+    font-size: 12px;
     color: var(--ink-2);
   }
-  .prompt b { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember-2); display: block; margin-bottom: 4px; font-weight: 500; }
+  .fname { color: var(--ink-2); }
+  .bot-bar {
+    height: 5px;
+    border: 1px solid var(--line);
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .bot-bar i {
+    display: block;
+    position: absolute;
+    inset: 0 auto 0 0;
+    height: 100%;
+    background: var(--gold);
+  }
+  .bot-bar.h2o i { background: var(--crew); opacity: 0.55; }
+  .val2 {
+    font-size: 11px;
+    color: var(--ink);
+    text-align: right;
+  }
 
   /* === Pre-race === */
   .prerace {
@@ -236,7 +439,7 @@
   @media (max-width: 960px) and (min-width: 721px) {
     .hero, .panel { padding-left: 28px; padding-right: 28px; }
     .tl-row { grid-template-columns: 90px 1fr 90px 100px; }
-    .tl-row .cell.win, .tl-row .cell.dot { display: none; }
+    .tl-row .cell:nth-child(5), .tl-row .cell:nth-child(6) { display: none; }
     .kit-grid { grid-template-columns: 220px 1fr; }
     .prerace { grid-template-columns: 1fr 1fr; }
     .prerace .col:nth-child(2) { border-right: 0; }
@@ -250,25 +453,27 @@
     .hero h1 { font-size: 44px; margin: 8px 0 14px; }
     .hero p { font-size: 15px; }
 
+    .time-card {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 16px;
+    }
+    .time-head .val { font-size: 34px; }
+    .time-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .heat-row { margin-top: 14px; margin-bottom: 20px; }
+    .heat-toggle {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .heat-toggle button {
+      flex: 1 0 auto;
+      white-space: nowrap;
+    }
+
     .panel { padding: 32px 20px; }
     .panel h2 { font-size: 28px; margin: 0 0 22px; }
     .panel h2 .num { font-size: 10px; margin-bottom: 10px; }
-
-    /* Pace bar — horizontal scroll with snap */
-    .pace-bar {
-      width: 100%;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      margin-bottom: 20px;
-    }
-    .pace-bar button {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      padding: 10px 14px;
-      font-size: 10.5px;
-      letter-spacing: 0.08em;
-    }
 
     /* Timeline — card stack, not a table */
     .timeline {
@@ -342,7 +547,12 @@
     .kit-body { padding: 22px 20px 26px; min-height: 0; }
     .kit-body h3 { font-size: 26px; }
     .kit-body .eta-line { font-size: 11.5px; margin-bottom: 18px; }
-    .kit-cols { grid-template-columns: 1fr; gap: 22px; }
+    .kit-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kit-lanes { grid-template-columns: 1fr; gap: 16px; }
+    .bot-row {
+      grid-template-columns: minmax(72px, auto) minmax(0, 1fr) 36px;
+      gap: 6px;
+    }
 
     /* Pre-race — stack */
     .prerace { grid-template-columns: 1fr; }
@@ -372,20 +582,62 @@
 <section class="hero" style="padding-bottom: 24px;">
   <div class="kicker">§ Crew guide</div>
   <h1>Crew <em>guide.</em></h1>
+  <div class="time-card">
+    <div class="time-slider-wrap">
+      <div class="time-head">
+        <div>
+          <span class="lab">Target Finish Time</span>
+          <span class="val" id="timeTargetVal">17:30</span>
+        </div>
+        <div class="delta" id="timeDeltaVal">Baseline GPX pace</div>
+      </div>
+      <input id="timeSlider" class="time-slider" type="range" min="900" max="1230" step="5" value="1050" />
+      <div class="time-scale">
+        <span>15:00</span>
+        <span>baseline</span>
+        <span>20:30</span>
+      </div>
+    </div>
+    <div class="time-meta">
+      <div class="meta">
+        <span class="k">Start</span>
+        <span class="v">5:00 AM</span>
+      </div>
+      <div class="meta">
+        <span class="k">Projected Finish</span>
+        <span class="v" id="timeFinishVal">10:30 PM</span>
+      </div>
+      <div class="meta">
+        <span class="k">Moving Time</span>
+        <span class="v" id="timeMovingVal">16:30</span>
+      </div>
+      <div class="meta">
+        <span class="k">Aid Time</span>
+        <span class="v" id="timeAidVal">1:00</span>
+      </div>
+      <div class="meta">
+        <span class="k">Conditions</span>
+        <span class="v" id="timeHeatVal">Moderate 60–75°</span>
+      </div>
+      <div class="meta">
+        <span class="k">Crew Stops</span>
+        <span class="v">3 crew + finish</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ============== TIMELINE ============== -->
 <section class="panel">
   <h2><span class="num">§ 01 — TIMELINE</span>Runner ETAs.</h2>
 
-  <div class="pace-bar" id="paceBar">
-    <button data-h="15">15h · Strong</button>
-    <button data-h="16">16h</button>
-    <button data-h="17">17h</button>
-    <button data-h="17.5" class="active">17.5h · Target</button>
-    <button data-h="18">18h</button>
-    <button data-h="19">19h · Safe</button>
-    <button data-h="20">20h · Cutoff</button>
+  <div class="heat-row">
+    <span class="lab">Conditions</span>
+    <div class="heat-toggle" id="heatToggle">
+      <button data-heat="cool">Cool 50–60°</button>
+      <button data-heat="moderate" class="active">Moderate 60–75°</button>
+      <button data-heat="hot">Hot 75–90°</button>
+    </div>
   </div>
 
   <div class="timeline" id="timeline"></div>
@@ -403,7 +655,7 @@
 
 <!-- ============== KITS ============== -->
 <section class="panel">
-  <h2><span class="num">§ 03 — KITS</span>Station by station.</h2>
+  <h2><span class="num">§ 03 — HANDOFFS</span>Crew handoffs.</h2>
   <div class="kit-grid">
     <nav class="kit-nav" id="kitNav"></nav>
     <div class="kit-body" id="kitBody"></div>
@@ -420,10 +672,10 @@
       <div class="t">Friday PM</div>
       <h3>Pack the car.</h3>
       <ol>
-        <li>One labeled kit per crew station (Michigan Bluff, Foresthill, Driver's Flat, Finish)</li>
-        <li>Cooler with ice — Tailwind premix, Coke, pickles, iced coffee</li>
-        <li>Every restock comes from crew only.</li>
-        <li>Chair, shade, blanket, headlamps (×2), extra batteries</li>
+        <li>One labeled crew bin per stop: Michigan Bluff, Foresthill, Driver's Flat, Finish</li>
+        <li>Pre-portion carb powder bags: 7 scoops = 100 g carbs per bag</li>
+        <li>Load plain water, ice, Flask A/B/C, gels, salt caps, and 5-Hour</li>
+        <li>Chair, shade, blanket, headlamps (×2), extra batteries, charging cable</li>
         <li>Full tank of gas. Foresthill has no 24h pump.</li>
         <li>Download offline maps for Auburn, Foresthill, Mosquito Ridge, Driver's Flat Rd</li>
       </ol>
@@ -435,9 +687,10 @@
         <li>Confirm the runner's bib number — it's their tracker ID on live results</li>
         <li>Bookmark the UTMB live-tracking page on every phone</li>
         <li>Agree on a text check-in after every aid station</li>
+        <li>Confirm the target finish time and the weather mode you want the crew page to use</li>
         <li>Runner in bed by 20:00. Set three alarms.</li>
         <li>Crew meet-up time: 03:30 at the Auburn finish lot, or wherever you're staying</li>
-        <li>Runner eats breakfast ~03:15 (2h before start). Coffee, toast, banana, honey.</li>
+        <li>Runner breakfast around 03:15. Keep vest flasks and pocket fuel staged before bed.</li>
       </ul>
     </div>
     <div class="col">
@@ -447,7 +700,7 @@
         <li>Shuttle to China Wall leaves from Auburn — check exact time in runner guide</li>
         <li>Start is 05:00. Crew does <b>not</b> drive to China Wall — head directly to Michigan Bluff via Foresthill Rd</li>
         <li>Plan to arrive Michigan Bluff early enough to park, walk in, and be ready before the runner arrives.</li>
-        <li>Keep the runner's phone charging in the car. Weigh-in bag in the car.</li>
+        <li>Keep the runner's phone charging in the car and the finish clothes bag ready.</li>
         <li>Text the runner's family a live-tracking link once the race starts</li>
       </ol>
     </div>
@@ -455,7 +708,7 @@
 </section>
 
 <footer>
-  <div>v1 · April 2026</div>
+  <div>April 2026</div>
 </footer>
 
 <script src="assets/course-meta.js?v=20260422b"></script>
@@ -465,263 +718,592 @@
   const aid = course.aid;
   const CM = window.CANYONS;
   const PROFILE = CM.dayProfile;
-  const BASE_PLAN_HOURS = CM.meta.basePlanHours || CM.meta.targetHours || 17.5;
-  const AID_INDEX = new Map(aid.map((a, i) => [a.name, i]));
+  const START_HOUR = 5;
+  const TARGET_STORAGE_KEY = 'canyons_target_minutes';
+  const HEAT_STORAGE_KEY = PROFILE.storageKey || 'canyons_nut_heat_v2';
+  const TARGET_MIN_MINUTES = 15 * 60;
+  const TARGET_MAX_MINUTES = 20 * 60 + 30;
+  const TARGET_STEP_MINUTES = 5;
+  const DEFAULT_TARGET_MINUTES = Math.round((CM.meta.basePlanHours || CM.meta.targetHours || 17.5) * 60);
+  const HEAT_LABELS = { cool: 'Cool 50–60°', moderate: 'Moderate 60–75°', hot: 'Hot 75–90°' };
+  const FLUID_RATES = { cool: 450, moderate: 600, hot: 750 };
+  const LEG_DRINK_CARB_CAP = { cool: 0.13, moderate: 0.12, hot: 0.11 };
+  const CARB_BAG_SCOOPS = 7;
+  const CARB_BAG_CARBS = 100;
+  const CARB_BAG_NA = 400;
+  const SK_CARBS_PER_SCOOP = CARB_BAG_CARBS / CARB_BAG_SCOOPS;
+  const SK_NA_PER_SCOOP = CARB_BAG_NA / CARB_BAG_SCOOPS;
+  const SK_FLASK_ML = 500;
+  const H2O_FLASK_ML = 500;
+  const C_FLASK_ML = 600;
+  const GEL_CARBS = 22;
+  const GEL_NA = 4;
+  const SS_NA = 215;
+  const CARB_HR = 80;
+  const NA_MIN_PER_HR = { cool: 400, moderate: 500, hot: 575 };
+  const NA_MIN_PER_L = { cool: 800, moderate: 875, hot: 925 };
+  const FLASK_UI = {
+    carb: { code: 'A', name: 'Carbs', full: 'Flask A · Carbs', chip: 'A · Carbs', bag: 'carb powder bag' },
+    water: { code: 'B', name: 'H2O', full: 'Flask B · H2O', chip: 'B · H2O' },
+    backup: { code: 'C', name: 'H2O', full: 'Flask C · H2O', chip: 'C · H2O' },
+  };
+  const CREW_OPTIONAL = {
+    'Michigan Bluff': ['sunscreen stick', 'swap hat if soaked', 'take wrappers', 'replace 5-Hour if used'],
+    'Foresthill': ['fresh shirt', 'fresh socks', 'fresh shoes if needed', 'headlamp into vest', 'light layer into vest', 'quick lube'],
+    "Driver's Flat": ['dry hat if needed', 'chapstick', 'replace 5-Hour if used', 'quick feet check only if asked'],
+    'Finish': ['warm clothes', 'phone', 'chair ready', 'recovery drink']
+  };
+  const AID = [
+    { name: "Start: China Wall", crew: true, mile: 0.0, drop: [] },
+    { name: "Deadwood 1", crew: false, mile: 11.2, drop: [] },
+    { name: "Swinging Bridge", crew: false, mile: 13.5, drop: [] },
+    { name: "Deadwood 2", crew: false, mile: 15.8, drop: [] },
+    { name: "Michigan Bluff", crew: true, mile: 22.6, drop: ["Warm layer if not needed"] },
+    { name: "Foresthill", crew: true, mile: 28.5, drop: ["Morning layers", "Wrappers", "Swap socks if needed"] },
+    { name: "Cal 2", crew: false, mile: 36.7, drop: [] },
+    { name: "Driver's Flat", crew: true, mile: 46.0, drop: [] },
+    { name: "Mammoth Bar", crew: false, mile: 53.9, drop: [] },
+    { name: "Confluence", crew: false, mile: 57.6, drop: [] },
+    { name: "Finish", crew: true, mile: 61.6, drop: ["Everything"] },
+  ];
+  const AID_INDEX = new Map(AID.map((a, i) => [a.name, i]));
+  const CREW_STOPS = AID.filter((a, idx) => idx > 0 && a.crew);
+  const MI_TO_KM = 1.609344;
+  const CREW_DEPARTURES = new Set(
+    Object.entries(CM.aidMeta)
+      .filter(([, meta]) => meta.crew && !meta.start && !meta.finish)
+      .map(([name]) => CM.short[name] || PROFILE.normalizeCourseName(name))
+  );
+  const BASE_LEGS = [
+    { from: "China Wall",        to: "Deadwood 1",       mi: 11.2, gain: 2382, loss: 3081, hr: 3.05, terrain: "Long opening descent on rolling singletrack. Stay relaxed and don't redline.", crew: false },
+    { from: "Deadwood 1",        to: "Swinging Bridge",  mi: 2.3,  gain:  179, loss: 1770, hr: 0.47, terrain: "Steep drop into the canyon to the turnaround. Quick and controlled.", crew: false },
+    { from: "Swinging Bridge",   to: "Deadwood 2",       mi: 2.3,  gain: 1767, loss:  176, hr: 1.11, terrain: "The climb back out. Power-hike the switchbacks and keep the effort capped.", crew: false },
+    { from: "Deadwood 2",        to: "Michigan Bluff",   mi: 6.8,  gain: 1937, loss: 2778, hr: 2.02, terrain: "Ridge running, creek drop, then the grind up to Michigan Bluff.", crew: false },
+    { from: "Michigan Bluff",    to: "Foresthill",       mi: 5.9,  gain: 1233, loss: 1430, hr: 1.74, terrain: "Volcano Canyon down, Bath Road back up. Stay smooth.", crew: false },
+    { from: "Foresthill",        to: "Cal 2",            mi: 8.2,  gain: 1103, loss: 2691, hr: 2.03, terrain: "Cal Street is runnable but expensive. Keep the governor on.", crew: false },
+    { from: "Cal 2",             to: "Driver's Flat",    mi: 9.3,  gain: 1938, loss: 1939, hr: 2.69, terrain: "Long exposed pull out of the canyon. This is a patience leg.", crew: false },
+    { from: "Driver's Flat",     to: "Mammoth Bar",      mi: 7.9,  gain: 1219, loss: 2285, hr: 2.06, terrain: "Drop back to the river, then keep moving through the rollers.", crew: false },
+    { from: "Mammoth Bar",       to: "Confluence",       mi: 3.7,  gain:  797, loss:  844, hr: 1.04, terrain: "Technical river singletrack through the No Hands section.", crew: false },
+    { from: "Confluence",        to: "Finish",           mi: 4.0,  gain: 1093, loss:  401, hr: 1.29, terrain: "Robie Point and the last climb to Auburn. Empty the tank late.", crew: false },
+  ].map((leg) => {
+    const shared = PROFILE.findSegment(leg.from, leg.to);
+    return {
+      ...leg,
+      crew: CREW_DEPARTURES.has(leg.from),
+      hr: shared?.hours ?? leg.hr,
+      exposure: shared?.exposure ?? 0.6
+    };
+  });
 
-  // Helpers
-  function fmtTime(hoursFromStart) {
-    // start 05:00
-    const totalMin = Math.round((5 * 60) + (hoursFromStart * 60));
-    const h = Math.floor(totalMin / 60) % 24;
-    const m = ((totalMin % 60) + 60) % 60;
-    const next = totalMin >= 24 * 60 ? '+1' : '';
-    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}${next}`;
+  let HEAT = localStorage.getItem(HEAT_STORAGE_KEY) || (PROFILE.defaultHeat || 'moderate');
+  let TARGET_MINUTES = loadTargetMinutes();
+  let activeStop = CREW_STOPS[0].name;
+
+  function clampNumber(v, min, max) {
+    return Math.min(max, Math.max(min, v));
   }
-
-  function movingTargetHours(planHours = currentH) {
-    return Math.max(0.25, planHours - (PROFILE.totalAidStopMinutes(aid) / 60));
+  function loadTargetMinutes() {
+    const raw = Number.parseInt(localStorage.getItem(TARGET_STORAGE_KEY), 10);
+    const safe = Number.isFinite(raw) ? raw : DEFAULT_TARGET_MINUTES;
+    const snapped = TARGET_MIN_MINUTES + Math.round((safe - TARGET_MIN_MINUTES) / TARGET_STEP_MINUTES) * TARGET_STEP_MINUTES;
+    return clampNumber(snapped, TARGET_MIN_MINUTES, TARGET_MAX_MINUTES);
   }
-
-  function buildSchedule(planHours = currentH) {
-    const heatMode = localStorage.getItem(PROFILE.storageKey) || PROFILE.defaultHeat;
-    const legs = PROFILE.buildPlan(CM.segments, movingTargetHours(planHours), heatMode, { startHour: 5 });
-    const aidSchedule = PROFILE.buildAidSchedule(aid, legs);
-    return { stops: aidSchedule.stops, legs, heatMode, totalElapsedHours: aidSchedule.totalElapsedHours, totalDwellHours: aidSchedule.totalDwellHours };
+  function defaultMovingTargetHours() {
+    return Math.max(0.25, (DEFAULT_TARGET_MINUTES - PROFILE.totalAidStopMinutes(AID)) / 60);
   }
+  function currentMovingTargetHours() {
+    return Math.max(0.25, (TARGET_MINUTES - PROFILE.totalAidStopMinutes(AID)) / 60);
+  }
+  function currentLegs() {
+    return PROFILE.buildPlan(BASE_LEGS, currentMovingTargetHours(), HEAT, { startHour: START_HOUR });
+  }
+  function hhmm(hours) {
+    const totalMinutes = Math.max(0, Math.round(hours * 60));
+    const h = Math.floor(totalMinutes / 60);
+    const m = totalMinutes % 60;
+    return `${h}:${String(m).padStart(2, '0')}`;
+  }
+  function addClock(startHour, elapsedHours) {
+    const mins = Math.round((startHour + elapsedHours) * 60);
+    const h24 = ((Math.floor(mins / 60) % 24) + 24) % 24;
+    const m = ((mins % 60) + 60) % 60;
+    const suffix = h24 >= 12 ? 'PM' : 'AM';
+    const h12 = (h24 % 12) || 12;
+    return `${h12}:${String(m).padStart(2, '0')} ${suffix}`;
+  }
+  function fmtFluid(ml) {
+    return ml >= 1000 ? `${(ml / 1000).toFixed(2)} L` : `${Math.round(ml)} ml`;
+  }
+  function fmtPace(paceMinPerMi) {
+    let minutes = Math.floor(paceMinPerMi);
+    let seconds = Math.round((paceMinPerMi - minutes) * 60);
+    if (seconds === 60) { minutes += 1; seconds = 0; }
+    return `${minutes}'${String(seconds).padStart(2, '0')}"`;
+  }
+  function fmtCount(n, singular, plural = singular + 's') {
+    return `${n} ${n === 1 ? singular : plural}`;
+  }
+  function cleanAidName(name) {
+    return name.replace(/^Start:\s*/, '').replace(/\s*<em>[^<]*<\/em>/g, '');
+  }
+  function targetDeltaLabel() {
+    const delta = TARGET_MINUTES - DEFAULT_TARGET_MINUTES;
+    if (delta === 0) return 'Baseline GPX pace';
+    return `${Math.abs(delta)} min ${delta < 0 ? 'faster' : 'slower'} vs baseline`;
+  }
+  function legHydrationModel(leg) {
+    const heatLevel = leg.dayHeatLevel ?? PROFILE.heatLevelAtHour(HEAT, START_HOUR + (leg.startH || 0) + (leg.hr / 2));
+    return {
+      heatLevel,
+      fluidRate: PROFILE.interpolateByHeatLevel(FLUID_RATES, heatLevel),
+      carbCap: PROFILE.interpolateByHeatLevel(LEG_DRINK_CARB_CAP, heatLevel),
+      naMinPerHr: PROFILE.interpolateByHeatLevel(NA_MIN_PER_HR, heatLevel),
+      naMinPerL: PROFILE.interpolateByHeatLevel(NA_MIN_PER_L, heatLevel),
+    };
+  }
+  function skSodiumForCarbs(carbs) {
+    return Math.round(carbs * (SK_NA_PER_SCOOP / SK_CARBS_PER_SCOOP));
+  }
+  function syncBottleDrain(row) {
+    row.skMl = row.skFlaskCarbsStart > 0
+      ? Math.round((row.skCarbsDrunk / row.skFlaskCarbsStart) * SK_FLASK_ML)
+      : 0;
+    const waterNeed = Math.max(0, row.fluid - row.skMl);
+    row.h2oMl = Math.min(H2O_FLASK_ML, waterNeed);
+    row.cMl = Math.min(row.hasC ? C_FLASK_ML : 0, Math.max(0, waterNeed - row.h2oMl));
+    row.skFlaskCarbsLeft = Math.max(0, row.skFlaskCarbsStart - row.skCarbsDrunk);
+    row.skFlaskMlLeft = Math.max(0, SK_FLASK_ML - row.skMl);
+    row.totalNa = skSodiumForCarbs(row.skCarbsDrunk) + (row.gels * GEL_NA) + (row.salt * SS_NA);
+  }
+  function smoothShortLegCarbs(rows) {
+    for (let i = 0; i < rows.length - 1; i += 1) {
+      const row = rows[i];
+      const next = rows[i + 1];
+      if (row.L.hr > 0.6) continue;
+      if (row.gels > 0) continue;
+      if (row.hasC) continue;
+      if (Math.abs(next.skFlaskCarbsStart - row.skFlaskCarbsLeft) > 1) continue;
 
-  // ====== TIMELINE ======
-  let currentH = 17.5;
-  function renderTimeline() {
+      const currentFloor = Math.ceil(row.L.hr * 70);
+      const followFloor = Math.ceil(next.L.hr * 80);
+      const needed = currentFloor - row.carbs;
+      const spare = next.carbs - followFloor;
+      const available = row.skFlaskCarbsLeft;
+      const grams = Math.min(6, needed, spare, available);
+
+      if (!Number.isFinite(grams) || grams < 1) continue;
+
+      row.skCarbsDrunk += grams;
+      row.carbs += grams;
+      syncBottleDrain(row);
+
+      next.skFlaskCarbsStart = row.skFlaskCarbsLeft;
+      next.skCarbsDrunk = Math.max(0, next.skCarbsDrunk - grams);
+      next.carbs = Math.max(0, next.carbs - grams);
+      syncBottleDrain(next);
+    }
+  }
+  function simZiplocks(legs) {
+    const MIN_LEAVE_THRESHOLD = SK_CARBS_PER_SCOOP;
+    let flaskCarbs = 0;
+    const actions = [];
+
+    for (let i = 0; i < legs.length; i += 1) {
+      const L = legs[i];
+      const heatModel = legHydrationModel(L);
+      const fluidIdeal = Math.round(L.hr * heatModel.fluidRate);
+      const hasC = fluidIdeal > (SK_FLASK_ML + H2O_FLASK_ML);
+      const target = Math.round(L.hr * CARB_HR);
+      const useBag = flaskCarbs < MIN_LEAVE_THRESHOLD;
+      const startCarbs = useBag ? CARB_BAG_CARBS : flaskCarbs;
+      const fluid = Math.min(fluidIdeal, SK_FLASK_ML + H2O_FLASK_ML + (hasC ? C_FLASK_ML : 0));
+      const skCarbTarget = Math.min(startCarbs, target);
+      const skCarbCap = Math.min(startCarbs, fluid * heatModel.carbCap);
+      const carbsDrunk = Math.min(skCarbTarget, skCarbCap);
+      const skMl = startCarbs > 0 ? Math.round((carbsDrunk / startCarbs) * SK_FLASK_ML) : 0;
+      const waterNeed = Math.max(0, fluid - skMl);
+      const h2oMl = Math.min(H2O_FLASK_ML, waterNeed);
+      const cMl = Math.min(hasC ? C_FLASK_ML : 0, Math.max(0, waterNeed - h2oMl));
+      flaskCarbs = startCarbs - carbsDrunk;
+      actions.push({
+        legIdx: i,
+        useBag,
+        startCarbs: Math.round(startCarbs),
+        endCarbs: Math.round(flaskCarbs),
+        carbsDrunk: Math.round(carbsDrunk),
+        fluidIdeal,
+        fluidMl: fluid,
+        fluidRate: heatModel.fluidRate,
+        heatLevel: heatModel.heatLevel,
+        naMinPerHr: heatModel.naMinPerHr,
+        naMinPerL: heatModel.naMinPerL,
+        hasC,
+        skMl,
+        h2oMl,
+        cMl
+      });
+    }
+    return actions;
+  }
+  function simPockets(rows) {
+    const crewReloadIdxs = AID
+      .map((a, i) => ({ a, i }))
+      .filter(({ a, i }) => i < rows.length && a.crew)
+      .map(({ i }) => i);
+
+    const reloadPlan = {};
+    crewReloadIdxs.forEach((idx, pos) => {
+      const nextIdx = crewReloadIdxs[pos + 1] ?? rows.length;
+      let gels = 0;
+      let salt = 0;
+      for (let i = idx; i < nextIdx; i += 1) {
+        gels += rows[i].gels;
+        salt += rows[i].salt;
+      }
+      reloadPlan[idx] = {
+        reloadGels: gels,
+        reloadSalt: salt,
+        pocketSource: idx === 0 ? 'Start' : cleanAidName(AID[idx].name),
+      };
+    });
+
+    let carryGels = 0;
+    let carrySalt = 0;
+    let source = 'Start';
+    return rows.map((row, idx) => {
+      const reload = reloadPlan[idx];
+      if (reload) {
+        carryGels = reload.reloadGels;
+        carrySalt = reload.reloadSalt;
+        source = reload.pocketSource;
+      }
+      const pocketGelsStart = carryGels;
+      const pocketSaltStart = carrySalt;
+      carryGels = Math.max(0, carryGels - row.gels);
+      carrySalt = Math.max(0, carrySalt - row.salt);
+      return {
+        reloadGels: reload ? reload.reloadGels : 0,
+        reloadSalt: reload ? reload.reloadSalt : 0,
+        pocketSource: source,
+        pocketGelsStart,
+        pocketSaltStart,
+      };
+    });
+  }
+  function crewRestocks(actions) {
+    const names = AID.map(a => a.name);
+    const isBagCrew = n => /^(Michigan|Foresthill|Driver)/.test(n);
+    const crewIdxs = [];
+    names.forEach((name, idx) => {
+      if (isBagCrew(name)) crewIdxs.push(idx);
+    });
+    let startBags = 0;
+    const handoffs = {};
+    const boundaries = [0, ...crewIdxs, actions.length];
+    for (let s = 0; s < boundaries.length - 1; s += 1) {
+      const from = boundaries[s];
+      const to = boundaries[s + 1];
+      let count = 0;
+      for (let i = from; i < to; i += 1) if (actions[i].useBag) count += 1;
+      if (s === 0) startBags = count;
+      else handoffs[boundaries[s]] = count;
+    }
+    return { startBags, handoffs };
+  }
+  function computed() {
+    const legs = currentLegs();
+    const aidSchedule = PROFILE.buildAidSchedule(AID, legs);
+    const timelineSchedule = PROFILE.buildAidSchedule(aid, legs);
+    const aidStops = aidSchedule.stops;
+    const skPlan = simZiplocks(legs);
+
+    const rows = legs.map((L, i) => {
+      const z = skPlan[i];
+      const target = Math.round(L.hr * CARB_HR);
+      const skCarbsDrunk = z.carbsDrunk;
+      const gap = Math.max(0, target - skCarbsDrunk);
+      const gels = Math.round(gap / GEL_CARBS);
+      const carbs = Math.round(skCarbsDrunk + gels * GEL_CARBS);
+      const skNa = skSodiumForCarbs(skCarbsDrunk);
+      const gelsNa = gels * GEL_NA;
+      const naTarget = Math.max(
+        Math.round(L.hr * z.naMinPerHr),
+        Math.round((z.fluidMl / 1000) * z.naMinPerL)
+      );
+      const naGap = Math.max(0, naTarget - skNa - gelsNa);
+      const salt = Math.ceil(naGap / SS_NA);
+      const totalNa = skNa + gelsNa + salt * SS_NA;
+      const pace = (L.hr * 60) / L.mi;
+      return {
+        L,
+        depHr: aidStops[i].depH,
+        arrHr: aidStops[i + 1].arrH,
+        gels,
+        salt,
+        carbs,
+        fluid: z.fluidMl,
+        fluidIdeal: z.fluidIdeal,
+        fluidShort: z.fluidIdeal - z.fluidMl,
+        skMl: z.skMl,
+        h2oMl: z.h2oMl,
+        cMl: z.cMl,
+        hasC: z.hasC,
+        totalNa,
+        pace,
+        skCarbsDrunk: z.carbsDrunk,
+        skFlaskCarbsStart: z.startCarbs,
+        skFlaskCarbsLeft: z.endCarbs,
+        skFlaskMlLeft: Math.max(0, SK_FLASK_ML - z.skMl)
+      };
+    });
+    smoothShortLegCarbs(rows);
+    const pockets = simPockets(rows);
+    rows.forEach((row, idx) => Object.assign(row, pockets[idx]));
+
+    const totals = rows.reduce((acc, row) => {
+      acc.totHr += row.L.hr;
+      acc.totCarbs += row.carbs;
+      acc.totFluid += row.fluid;
+      acc.totNa += row.totalNa;
+      return acc;
+    }, { totHr: 0, totCarbs: 0, totFluid: 0, totNa: 0 });
+
+    return {
+      rows,
+      legs,
+      aidStops,
+      timelineStops: timelineSchedule.stops,
+      skPlan,
+      ...totals,
+      totalElapsedHr: timelineSchedule.totalElapsedHours,
+      totalDwellHr: timelineSchedule.totalDwellHours
+    };
+  }
+  function bottleLabelHtml(code, name) {
+    return `<span class="lab2"><span class="fid">${code}</span><span class="fname">${name}</span></span>`;
+  }
+  function bottleCell(r) {
+    const skPct = Math.round((r.skMl / SK_FLASK_ML) * 100);
+    const h2oPct = Math.round((r.h2oMl / H2O_FLASK_ML) * 100);
+    const cPct = r.hasC ? Math.round((r.cMl / C_FLASK_ML) * 100) : 0;
+    return `<div class="bot-cell">
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.carb.code, FLASK_UI.carb.name)}<div class="bot-bar"><i style="width:${Math.min(100, skPct)}%"></i></div><span class="val2">${skPct}%</span></div>
+      <div class="bot-row">${bottleLabelHtml(FLASK_UI.water.code, FLASK_UI.water.name)}<div class="bot-bar h2o"><i style="width:${Math.min(100, h2oPct)}%"></i></div><span class="val2">${h2oPct}%</span></div>
+      <div class="bot-row" style="${r.hasC ? '' : 'opacity:0.35'}">${bottleLabelHtml(FLASK_UI.backup.code, FLASK_UI.backup.name)}<div class="bot-bar h2o"><i style="width:${Math.min(100, cPct)}%"></i></div><span class="val2">${r.hasC ? `${cPct}%` : '—'}</span></div>
+    </div>`;
+  }
+  function renderHeader(c) {
+    document.getElementById('timeTargetVal').textContent = hhmm(c.totalElapsedHr);
+    document.getElementById('timeFinishVal').textContent = addClock(START_HOUR, c.totalElapsedHr);
+    document.getElementById('timeMovingVal').textContent = hhmm(c.totHr);
+    document.getElementById('timeAidVal').textContent = hhmm(c.totalDwellHr);
+    document.getElementById('timeHeatVal').textContent = HEAT_LABELS[HEAT];
+    document.getElementById('timeDeltaVal').textContent = targetDeltaLabel();
+    document.getElementById('timeSlider').value = String(TARGET_MINUTES);
+  }
+  function renderTimeline(c) {
     const tl = document.getElementById('timeline');
     tl.innerHTML = '';
-    const schedule = buildSchedule(currentH);
-    // header
     const head = document.createElement('div');
     head.className = 'tl-row head';
     head.innerHTML = `
       <div class="cell">Mile</div>
       <div class="cell">Station</div>
       <div class="cell">Elev</div>
-      <div class="cell">ETA</div>
+      <div class="cell">In / out</div>
       <div class="cell">Window</div>
       <div class="cell" style="text-align:center;">#</div>
     `;
     tl.appendChild(head);
 
-    aid.forEach((a, i) => {
-      const m = CM.aidMeta[a.name] || {};
-      const short = CM.short[a.name] || a.name;
-      const etaH = schedule.stops[i]?.arrH || 0;
-      const etaStr = fmtTime(etaH);
-
-      // window: ±15 min for fast stations, ±30 for later
-      const buf = 15 + Math.round(a.miles / 5);
-      const early = fmtTime(etaH - buf / 60);
-      const late  = fmtTime(etaH + buf / 60);
+    aid.forEach((courseAid, idx) => {
+      const meta = CM.aidMeta[courseAid.name] || {};
+      const short = CM.short[courseAid.name] || courseAid.name;
+      const stop = c.timelineStops[idx];
+      const arrStr = addClock(START_HOUR, stop.arrH);
+      const outStr = stop.finish ? 'finish' : `out ${addClock(START_HOUR, stop.depH)}`;
+      const buf = 15 + Math.round(courseAid.miles / 5);
+      const early = addClock(START_HOUR, stop.arrH - buf / 60);
+      const late = addClock(START_HOUR, stop.arrH + buf / 60);
+      const stopType = stop.start ? 'start' : stop.finish ? 'finish' : `${stop.crew ? 'crew' : 'solo'} · ${stop.dwellMinutes} min`;
 
       let cls = 'tl-row';
-      if (m.start) cls += ' start';
-      else if (m.finish) cls += ' finish';
-      else if (m.crew) cls += ' crew';
+      if (meta.start) cls += ' start';
+      else if (meta.finish) cls += ' finish';
+      else if (meta.crew) cls += ' crew';
 
       let tags = '';
-      if (m.start) tags += '<span class="tag" style="background:#1b1410;color:#fbf6ea;border-color:#1b1410;">Start</span>';
-      if (m.finish) tags += '<span class="tag" style="background:#d4478a;color:#fbf6ea;border-color:#d4478a;">Finish</span>';
-      else if (m.crew) tags += '<span class="tag crew">Crew</span>';
-      if (m.water) tags += '<span class="tag">Water only</span>';
-      if (m.twice && !m.crew && !m.finish) tags += '<span class="tag">Passed 2×</span>';
+      if (meta.start) tags += '<span class="tag" style="background:#1b1410;color:#fbf6ea;border-color:#1b1410;">Start</span>';
+      else if (meta.finish) tags += '<span class="tag" style="background:#d4478a;color:#fbf6ea;border-color:#d4478a;">Finish</span>';
+      else if (meta.crew) tags += '<span class="tag crew">Crew</span>';
+      if (meta.twice && !meta.crew && !meta.finish) tags += '<span class="tag">Passed 2×</span>';
 
       const row = document.createElement('div');
       row.className = cls;
       row.innerHTML = `
-        <div class="cell mi"><span class="k">Mile</span>${a.miles.toFixed(2)}</div>
+        <div class="cell mi"><span class="k">Mile</span>${courseAid.miles.toFixed(1)}</div>
         <div class="cell">
           <div class="nm">${short}${tags}</div>
-          <div class="sub">${a.name.replace(/: Aid Station.*$/,'').replace(/ - Turnaround$/,'')}</div>
+          <div class="sub">${stopType}</div>
         </div>
-        <div class="cell ele">${Math.round(a.ele_ft).toLocaleString()} ft</div>
-        <div class="cell"><div class="eta">${etaStr}</div></div>
+        <div class="cell ele">${Math.round(courseAid.ele_ft).toLocaleString()} ft</div>
+        <div class="cell"><div class="eta">${arrStr}<span class="u">${outStr}</span></div></div>
         <div class="cell win">${early} – ${late}</div>
-        <div class="cell dot"><div class="d">${i}</div></div>
+        <div class="cell dot"><div class="d">${idx === 0 ? 'S' : (meta.finish ? 'F' : idx)}</div></div>
       `;
       tl.appendChild(row);
     });
   }
-  renderTimeline();
-
-  document.getElementById('paceBar').addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    document.querySelectorAll('#paceBar button').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    currentH = parseFloat(b.dataset.h);
-    renderTimeline();
-    // sync kit ETAs
-    renderKit();
-  });
-
-  // ====== DRIVES ======
-  const drives = CM.drives;
-  const dg = document.getElementById('drivesGrid');
-  drives.forEach((d, i) => {
-    const card = document.createElement('div');
-    card.className = 'drive-card';
-    card.innerHTML = `
-      <div class="ord">${String(i+1).padStart(2,'0')} / ${String(drives.length).padStart(2,'0')}</div>
-      <div class="from-to">${d.from} <span class="arr">→</span> ${d.to}</div>
-      <div class="stats-row">
-        <div class="s"><div class="k">Distance</div><div class="v">${d.miles}<span class="u">mi</span></div></div>
-        <div class="s"><div class="k">Drive</div><div class="v">${d.minutes}<span class="u">min</span></div></div>
+  function renderDrives() {
+    const dg = document.getElementById('drivesGrid');
+    dg.innerHTML = CM.drives.map((d, idx) => `
+      <div class="drive-card">
+        <div class="ord">${String(idx + 1).padStart(2, '0')} / ${String(CM.drives.length).padStart(2, '0')}</div>
+        <div class="from-to">${d.from} <span class="arr">→</span> ${d.to}</div>
+        <div class="stats-row">
+          <div class="s"><div class="k">Distance</div><div class="v">${d.miles}<span class="u">mi</span></div></div>
+          <div class="s"><div class="k">Drive</div><div class="v">${d.minutes}<span class="u">min</span></div></div>
+        </div>
+        <div class="route"><b>Route</b>${d.route}</div>
+        ${d.notes ? `<div class="${d.notes.includes('rough') ? 'warn' : 'route'}" ${!d.notes.includes('rough') ? 'style="margin-top:10px;"' : ''}>${d.notes.includes('rough') ? d.notes : '<b>Notes</b>' + d.notes}</div>` : ''}
       </div>
-      <div class="route"><b>Route</b>${d.route}</div>
-      ${d.notes ? `<div class="${d.notes.includes('⚠️') || d.notes.includes('rough') ? 'warn' : 'route'}" ${!d.notes.includes('⚠️') && !d.notes.includes('rough') ? 'style="margin-top:10px;"' : ''}>${d.notes.includes('⚠️') || d.notes.includes('rough') ? d.notes : '<b>Notes</b>' + d.notes}</div>` : ''}
-    `;
-    dg.appendChild(card);
-  });
-
-  // ====== KITS ======
-  const crewStops = aid.filter(a => (CM.aidMeta[a.name] || {}).crew && !(CM.aidMeta[a.name] || {}).start);
-  // Kit data per station
-  const kits = {
-    "Michigan Bluff: Aid Station # 3": {
-      tag: "Aid #3 · Mile 22.6",
-      prompt: "First crew meet. Runner is warming up, still fresh. Stay <5 min. Check feet only if they ask. Top off bottles, swap gels, send them up the hill.",
-      nutrition: [
-        ["500 ml bottle #1 — Tailwind (2 scoops)", "swap full-for-empty"],
-        ["500 ml bottle #2 — water", ""],
-        ["6 gels — 3 caffeine, 3 plain", "replenish"],
-        ["Salt caps — refill baggie (6)", ""],
-        ["Coke, ~4 oz in cup", "ready to hand"],
-        ["Potato chips, pickle spear", "optional"],
-      ],
-      gear: [
-        ["Buff / bandana", "sun getting strong"],
-        ["Sunscreen stick (face)", ""],
-        ["Fresh hat", "if sweat-soaked"],
-        ["Chapstick", ""],
-        ["Trash pocket swap", "take their wrappers"],
-      ]
-    },
-    "Foresthill: Aid Station # 4": {
-      tag: "Aid #4 · Mile 28.5 · CREW · HQ",
-      prompt: "This is the big one. Halfway, midday heat, everyone's tired. Plan on 5–8 min. Set up chair. Let them sit. Weigh-in at the medical tent if available — check weight vs. start.",
-      nutrition: [
-        ["Full nutrition reset", "restock all gels (10+), salt (full bottle)"],
-        ["Cold Tailwind bottles ×2", "pre-mixed in cooler"],
-        ["Iced Coke", "in cup, not can"],
-        ["Real food: PB&J quarter / turkey wrap", "their choice"],
-        ["Watermelon, pickles", "salt + fluid"],
-        ["Tums (4)", "stomach reset"],
-      ],
-      gear: [
-        ["Fresh shoes + socks", "dusty pair swap"],
-        ["Fresh shirt (dry)", ""],
-        ["Headlamp + backup", "put IN pack now"],
-        ["Warm layer (light puffy)", "in pack — nights get cold"],
-        ["Gloves (light)", "in pack"],
-        ["Chafe cream / body glide reapply", ""],
-        ["Fresh sunscreen", "afternoon sun"],
-        ["Phone charge if possible", "quick top-up"],
-      ]
-    },
-    "Drivers Flat: Aid Station # 6": {
-      tag: "Aid #6 · Mile 46.0 · CREW",
-      prompt: "Remote stop, rough road in. Runner has climbed out of the river — legs are cooked. Expect low mood. Short, kind, efficient. Push calories, push forward.",
-      nutrition: [
-        ["500 ml Tailwind ×2 — cold", "from cooler"],
-        ["Broth / soup if you have it", "stomach settler"],
-        ["Ginger chews (2)", ""],
-        ["6 gels topped off", ""],
-        ["Salt caps top-off", ""],
-        ["Coke", ""],
-        ["Real food — crackers, potato, pretzel", "simple, salty"],
-      ],
-      gear: [
-        ["Headlamp already on?", "confirm"],
-        ["Warm layer on?", "sun dropping"],
-        ["Hat swap", "dry one"],
-        ["Chapstick", ""],
-        ["Quick feet check", "blisters — tape, don't drain unless they ask"],
-      ]
-    },
-    "Finish: Downtown Auburn": {
-      tag: "Finish · Mile 61.6",
-      prompt: "You made it. They made it. Have their warm clothes, their phone, a recovery drink, and a chair ready before they cross the line.",
-      nutrition: [
-        ["Recovery shake / chocolate milk", "cold"],
-        ["Water, electrolyte", ""],
-        ["Pizza / burger / whatever they said they wanted at mile 40", ""],
-        ["Tums", ""],
-        ["Advil — only if they want it AND they've peed", ""],
-      ],
-      gear: [
-        ["Dry warm clothes (full change)", "puffy, sweats, beanie"],
-        ["Flip flops / Crocs", ""],
-        ["Towel, wet wipes", ""],
-        ["Phone (charged)", ""],
-        ["Medal photo, THEN let them sit", "non-negotiable"],
-      ]
+    `).join('');
+  }
+  function renderKitNav(c) {
+    const nav = document.getElementById('kitNav');
+    nav.innerHTML = CREW_STOPS.map((stop) => {
+      const idx = AID_INDEX.get(stop.name);
+      const eta = addClock(START_HOUR, c.aidStops[idx].arrH);
+      return `<button data-name="${stop.name}" class="${stop.name === activeStop ? 'active' : ''}">
+        ${stop.name}<span class="sub">${stop.mile.toFixed(1)} mi · ${eta}</span>
+      </button>`;
+    }).join('');
+    nav.querySelectorAll('button').forEach((button) => {
+      button.addEventListener('click', () => {
+        activeStop = button.dataset.name;
+        renderAll();
+      });
+    });
+  }
+  function gearDropChips(stop) {
+    const chips = [];
+    if (stop.name === 'Michigan Bluff') chips.push('<span class="chip optional">drop headlamp with crew</span>');
+    if (stop.name === "Driver's Flat") {
+      chips.push('<span class="chip optional">headlamp on</span>');
+      chips.push('<span class="chip optional">pick up long-sleeve / jacket</span>');
     }
-  };
-
-  const nav = document.getElementById('kitNav');
-  const body = document.getElementById('kitBody');
-  const crewStopsIncludingFinish = aid.filter(a => {
-    const m = CM.aidMeta[a.name] || {};
-    return (m.crew && !m.start) || m.finish;
-  });
-  let activeStop = crewStopsIncludingFinish[0].name;
-
-  crewStopsIncludingFinish.forEach(a => {
-    const short = CM.short[a.name] || a.name;
-    const btn = document.createElement('button');
-    btn.dataset.name = a.name;
-    btn.innerHTML = `${short}<span class="sub">MILE ${a.miles.toFixed(1)}</span>`;
-    btn.addEventListener('click', () => {
-      activeStop = a.name;
-      renderKit();
+    stop.drop.forEach((item) => {
+      const label = /^swap\b/i.test(item) ? item.toLowerCase() : `drop ${item.toLowerCase()}`;
+      chips.push(`<span class="chip optional">${label}</span>`);
     });
-    nav.appendChild(btn);
-  });
+    return chips;
+  }
+  function renderKit(c) {
+    const body = document.getElementById('kitBody');
+    const stop = CREW_STOPS.find((item) => item.name === activeStop) || CREW_STOPS[0];
+    const idx = AID_INDEX.get(stop.name);
+    const timelineIdx = idx;
+    const aidStop = c.aidStops[idx];
+    const nextCrew = CREW_STOPS.find((item) => AID_INDEX.get(item.name) > idx);
 
-  function renderKit() {
-    document.querySelectorAll('.kit-nav button').forEach(b => {
-      b.classList.toggle('active', b.dataset.name === activeStop);
-    });
-    const a = aid.find(x => x.name === activeStop);
-    const k = kits[activeStop];
-    const short = CM.short[a.name] || a.name;
-    const schedule = buildSchedule(currentH);
-    const aidIdx = AID_INDEX.get(a.name) ?? 0;
-    const etaH = schedule.stops[aidIdx]?.arrH || 0;
-    const etaStr = fmtTime(etaH);
-    const bufMin = 15 + Math.round(a.miles / 5);
-    const early = fmtTime(etaH - bufMin/60);
-    const late  = fmtTime(etaH + bufMin/60);
+    if (stop.name === 'Finish') {
+      body.innerHTML = `
+        <div class="tag">Finish · Mile 61.6</div>
+        <h3>Finish</h3>
+        <div class="eta-line">arr <b>${addClock(START_HOUR, aidStop.arrH)}</b> · total time ${hhmm(c.totalElapsedHr)} · total fuel ${c.totCarbs} g · total fluid ${fmtFluid(c.totFluid)}</div>
+        <div class="kit-summary">
+          <div class="stat"><span class="k">On course</span><span class="v">${hhmm(c.totalElapsedHr)}</span><span class="subv">moving ${hhmm(c.totHr)} · aid ${hhmm(c.totalDwellHr)}</span></div>
+          <div class="stat"><span class="k">Carbs</span><span class="v">${c.totCarbs} g</span><span class="subv">race total</span></div>
+          <div class="stat"><span class="k">Fluid</span><span class="v">${fmtFluid(c.totFluid)}</span><span class="subv">race total</span></div>
+          <div class="stat"><span class="k">Sodium</span><span class="v">${(c.totNa / 1000).toFixed(1)} g</span><span class="subv">${Math.round(c.totNa / c.totalElapsedHr)} mg/hr avg</span></div>
+        </div>
+        <div class="kit-lanes">
+          <div class="lane"><div class="lane-hd">Finish</div><div class="chips"><span class="chip finish">shotgun a beer</span><span class="chip optional">warm clothes</span><span class="chip optional">phone</span><span class="chip optional">chair</span></div></div>
+          <div class="lane"><div class="lane-hd">Recovery</div><div class="chips"><span class="chip optional">recovery drink</span><span class="chip optional">flip flops</span><span class="chip optional">towel / wipes</span></div></div>
+        </div>
+      `;
+      return;
+    }
+
+    const r = c.rows[idx];
+    const z = c.skPlan[idx];
+    const { startBags, handoffs } = crewRestocks(c.skPlan);
+    const isCrewBag = /^(Michigan|Foresthill|Driver)/.test(stop.name);
+    const spareBags = Math.max(0, (handoffs[idx] || 0) - (z.useBag ? 1 : 0));
+    const nextCrewEta = nextCrew ? addClock(START_HOUR, c.aidStops[AID_INDEX.get(nextCrew.name)].arrH) : 'Finish';
+
+    const flaskChips = [];
+    if (z.useBag) flaskChips.push(`<span class="chip carb"><b>${FLASK_UI.carb.chip}</b> reload carb powder · ${isCrewBag ? 'from crew' : 'from vest'}</span>`);
+    else flaskChips.push(`<span class="chip carb"><b>${FLASK_UI.carb.chip}</b> top off only · ${z.startCarbs}g carry-over</span>`);
+    flaskChips.push(`<span class="chip water"><b>${FLASK_UI.water.chip}</b> refill plain water</span>`);
+    if (r.hasC) flaskChips.push(`<span class="chip backup"><b>${FLASK_UI.backup.chip}</b> fill plain water</span>`);
+
+    const loadChips = [];
+    if (r.reloadGels > 0) loadChips.push(`<span class="chip gel"><b>load</b> ${fmtCount(r.reloadGels, 'gel')}</span>`);
+    if (r.reloadSalt > 0) loadChips.push(`<span class="chip salt"><b>load</b> ${fmtCount(r.reloadSalt, 'salt cap')}</span>`);
+    if (spareBags > 0) loadChips.push(`<span class="chip carb"><b>take</b> ${fmtCount(spareBags, `spare ${FLASK_UI.carb.bag}`)} · from crew</span>`);
+    if (!loadChips.length) loadChips.push(`<span class="chip optional">no extra pocket reload</span>`);
+
+    const swapChips = gearDropChips(stop);
+    if (!swapChips.length) swapChips.push('<span class="chip optional">nothing to drop here</span>');
+
+    const optionalChips = (CREW_OPTIONAL[stop.name] || []).map((item) => `<span class="chip optional">${item}</span>`);
+    const nextLegChips = [
+      `<span class="chip optional">${r.L.mi.toFixed(1)} mi</span>`,
+      `<span class="chip optional">${hhmm(r.L.hr)}</span>`,
+      `<span class="chip optional">${r.carbs} g</span>`,
+      `<span class="chip optional">${fmtFluid(r.fluid)}</span>`,
+      `<span class="chip optional">${r.totalNa} mg Na</span>`
+    ];
+    if (r.fluidShort > 0) nextLegChips.push(`<span class="chip warn">carry cap · ${fmtFluid(r.fluidShort)} short</span>`);
 
     body.innerHTML = `
-      <div class="tag">${k.tag}</div>
-      <h3>${short}</h3>
-      <div class="eta-line">Runner ETA at ${currentH}h target · <b>${etaStr}</b> &nbsp;·&nbsp; arrival window ${early} – ${late} &nbsp;·&nbsp; ${Math.round(a.ele_ft).toLocaleString()} ft elevation</div>
-
-      <div class="prompt"><b>Crew chief brief</b>${k.prompt}</div>
-
-      <div class="kit-cols" style="margin-top: 24px;">
-        <div>
-          <h4>Nutrition</h4>
-          <ul>
-            ${k.nutrition.map(([t, s]) => `<li><span class="chk"></span><div class="t">${t}${s ? `<span>${s}</span>` : ''}</div></li>`).join('')}
-          </ul>
+      <div class="tag">Crew stop · Mile ${stop.mile.toFixed(1)}</div>
+      <h3>${stop.name}</h3>
+      <div class="eta-line">arr <b>${addClock(START_HOUR, aidStop.arrH)}</b> · out <b>${addClock(START_HOUR, aidStop.depH)}</b> · next crew ${nextCrew ? nextCrew.name : 'Finish'} ${nextCrewEta}</div>
+      <div class="kit-summary">
+        <div class="stat"><span class="k">Stop time</span><span class="v">${aidStop.dwellMinutes} min</span><span class="subv">${stop.name === 'Foresthill' ? 'main midday reset' : 'crew-only handoff'}</span></div>
+        <div class="stat"><span class="k">Next leg</span><span class="v">${hhmm(r.L.hr)}</span><span class="subv">${r.L.mi.toFixed(1)} mi · ${fmtPace(r.pace)}/mi</span></div>
+        <div class="stat"><span class="k">Fuel load</span><span class="v">${r.carbs} g</span><span class="subv">${r.gels} gels · ${r.salt} salt</span></div>
+        <div class="stat"><span class="k">Fluid load</span><span class="v">${fmtFluid(r.fluid)}</span><span class="subv">${r.totalNa} mg Na</span></div>
+      </div>
+      <div class="kit-lanes">
+        <div class="lane"><div class="lane-hd">Flasks</div><div class="chips">${flaskChips.join('')}</div></div>
+        <div class="lane"><div class="lane-hd">Load / Carry</div><div class="chips">${loadChips.join('')}</div></div>
+        <div class="lane"><div class="lane-hd">Swap / Drop</div><div class="chips">${swapChips.join('')}</div></div>
+        <div class="lane">
+          <div class="lane-hd">Next leg</div>
+          <div class="chips">${nextLegChips.join('')}</div>
+          ${bottleCell(r)}
         </div>
-        <div>
-          <h4>Gear &amp; care</h4>
-          <ul>
-            ${k.gear.map(([t, s]) => `<li><span class="chk"></span><div class="t">${t}${s ? `<span>${s}</span>` : ''}</div></li>`).join('')}
-          </ul>
-        </div>
+        ${optionalChips.length ? `<div class="lane"><div class="lane-hd">Crew Optional</div><div class="chips">${optionalChips.join('')}</div></div>` : ''}
       </div>
     `;
   }
-  renderKit();
+  function renderAll() {
+    const c = computed();
+    renderHeader(c);
+    renderTimeline(c);
+    renderKitNav(c);
+    renderKit(c);
+  }
+
+  document.getElementById('timeSlider').addEventListener('input', (e) => {
+    TARGET_MINUTES = Number.parseInt(e.target.value, 10);
+    localStorage.setItem(TARGET_STORAGE_KEY, String(TARGET_MINUTES));
+    renderAll();
+  });
+  document.getElementById('heatToggle').addEventListener('click', (e) => {
+    const button = e.target.closest('button');
+    if (!button) return;
+    HEAT = button.dataset.heat;
+    localStorage.setItem(HEAT_STORAGE_KEY, HEAT);
+    document.querySelectorAll('#heatToggle button').forEach((el) => el.classList.toggle('active', el.dataset.heat === HEAT));
+    renderAll();
+  });
+  document.querySelectorAll('#heatToggle button').forEach((el) => el.classList.toggle('active', el.dataset.heat === HEAT));
+  renderDrives();
+  renderAll();
 })();
 </script>
 </body>
