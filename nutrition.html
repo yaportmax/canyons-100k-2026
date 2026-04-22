@@ -844,7 +844,7 @@
   <div class="mobile-legs" id="mobileLegs"></div>
 
   <div class="legend-row">
-    <span class="l-sk"><i></i>Flask A · Carbs (500 ml flask; 1 scoop = 14.3 g carbs · 57 mg Na; 7 scoops = 100 g carbs · 399 mg Na)</span>
+    <span class="l-sk"><i></i>Flask A · Carbs (500 ml flask; 1 scoop = 14.3 g carbs · 57 mg Na; 7 scoops = 100 g carbs · 400 mg Na)</span>
     <span class="l-h2o"><i></i>Flask B · H2O (500 ml plain water)</span>
     <span class="l-h2o"><i></i>Flask C · H2O (600 ml backup water — long/hot legs only)</span>
     <span class="l-gel"><i></i>Gel (22 g · 4 mg Na)</span>
@@ -870,13 +870,13 @@
   <div class="assume-grid">
     <div class="assume-card">
       <h3>Targets &amp; sources</h3>
-      <div class="row"><span class="k">Carbs <small>per hour</small></span><span class="v">80 g</span></div>
+      <div class="row"><span class="k">Carbs <small>avg target</small></span><span class="v">~80 g/hr</span></div>
       <div class="row"><span class="k">Sodium floor <small>cool / mod / hot</small></span><span class="v">400 / 500 / 575 mg/hr</span></div>
       <div class="row"><span class="k">Sodium density floor <small>cool / mod / hot</small></span><span class="v">800 / 875 / 925 mg/L</span></div>
       <div class="row"><span class="k">Fluid <small>cool / mod / hot</small></span><span class="v">450 / 600 / 750 ml/hr</span></div>
       <div class="row"><span class="k">Caffeine <small>on demand</small></span><span class="v">5-Hour Energy bottle</span></div>
       <div class="row"><span class="k">Skratch Super High-Carb <small>per scoop</small></span><span class="v">14.3 g carbs · 57 mg Na</span></div>
-      <div class="row"><span class="k">Skratch Super High-Carb <small>7-scoop flask</small></span><span class="v">100 g carbs · 399 mg Na / 500 ml</span></div>
+      <div class="row"><span class="k">Skratch Super High-Carb <small>7-scoop flask</small></span><span class="v">100 g carbs · 400 mg Na / 500 ml</span></div>
       <div class="row"><span class="k">Gel</span><span class="v">22 g carbs · 4 mg Na</span></div>
       <div class="row"><span class="k">SaltStick caps</span><span class="v">215 mg Na / cap</span></div>
       <div class="row"><span class="k">5-Hour Energy</span><span class="v">200 mg caffeine · ~57 ml</span></div>
@@ -898,7 +898,7 @@
 
 <div class="foot">
   <span>§ Nutrition · Canyons 100K · 25 April 2026</span>
-  <span id="footTargetLine">80 g/hr · salty-sweater sodium profile · 17:30 target</span>
+  <span id="footTargetLine">~80 g/hr avg · salty-sweater sodium profile · 17:30 target</span>
 </div>
 
 <script src="assets/course-meta.js"></script>
@@ -933,22 +933,37 @@
       exposure: shared?.exposure ?? 0.6
     };
   });
+  const AID = [
+    { name: "Start: China Wall", crew: true, mile: 0.0, drop: [] },
+    { name: "Deadwood 1", crew: false, mile: 11.2, drop: [] },
+    { name: "Swinging Bridge", crew: false, mile: 13.5, drop: [] },
+    { name: "Deadwood 2", crew: false, mile: 15.8, drop: [] },
+    { name: "Michigan Bluff", crew: true, mile: 22.6, drop: ["Warm layer if not needed"] },
+    { name: "Foresthill", crew: true, mile: 28.5, drop: ["Morning layers", "Wrappers", "Swap socks if needed"] },
+    { name: "Cal 2", crew: false, mile: 36.7, drop: [] },
+    { name: "Driver's Flat", crew: true, mile: 46.0, drop: [] },
+    { name: "Mammoth Bar", crew: false, mile: 53.9, drop: [] },
+    { name: "Confluence", crew: false, mile: 57.6, drop: [] },
+    { name: "Finish", crew: true, mile: 61.6, drop: ["Everything"] },
+  ];
   const START_HOUR = 5;
   const BASE_TOTAL_HOURS = BASE_LEGS.reduce((sum, leg) => sum + leg.hr, 0);
   const TARGET_MIN_MINUTES = 15 * 60;
   const TARGET_MAX_MINUTES = 20 * 60 + 30;
   const TARGET_STEP_MINUTES = 5;
   const DEFAULT_TARGET_MINUTES = Math.round(BASE_TOTAL_HOURS * 60);
+  const TOTAL_AID_STOP_MINUTES = PROFILE.totalAidStopMinutes(AID);
+  const MI_TO_KM = 1.609344;
 
   const FLUID_RATES = { cool: 450, moderate: 600, hot: 750 };
   const FLUID_LAB = { cool: "cool", moderate: "moderate", hot: "hot" };
-  // Skratch Super High-Carb: 7 scoops = 100g carbs / 399mg Na in a 500ml carb flask.
+  // Skratch Super High-Carb: 7 scoops = 100g carbs / 400mg Na in a 500ml carb flask.
   // Per scoop is ~14.3g carbs / ~57mg Na. Max recommended in a
   // 500ml flask is 7 scoops (100g carbs, 400mg Na); sweet spot per Skratch is 6 scoops
   // (80g carbs / ~340mg Na) — clear/water-like consistency, no GI issues.
   const CARB_BAG_SCOOPS = 7;
   const CARB_BAG_CARBS = 100;
-  const CARB_BAG_NA = 399;
+  const CARB_BAG_NA = 400;
   const SK_CARBS_PER_SCOOP = CARB_BAG_CARBS / CARB_BAG_SCOOPS;
   const SK_NA_PER_SCOOP = CARB_BAG_NA / CARB_BAG_SCOOPS;
   const MAX_SCOOPS_PER_FLASK = CARB_BAG_SCOOPS;  // hard cap per Skratch
@@ -995,19 +1010,17 @@
     const snapped = TARGET_MIN_MINUTES + Math.round((safe - TARGET_MIN_MINUTES) / TARGET_STEP_MINUTES) * TARGET_STEP_MINUTES;
     return clampNumber(snapped, TARGET_MIN_MINUTES, TARGET_MAX_MINUTES);
   }
-  function currentTargetHours() {
-    return TARGET_MINUTES / 60;
+  function defaultMovingTargetHours() {
+    return Math.max(0.25, (DEFAULT_TARGET_MINUTES - TOTAL_AID_STOP_MINUTES) / 60);
+  }
+  function currentMovingTargetHours() {
+    return Math.max(0.25, (TARGET_MINUTES - TOTAL_AID_STOP_MINUTES) / 60);
   }
   function currentLegs() {
-    return PROFILE.buildPlan(BASE_LEGS, currentTargetHours(), HEAT, { startHour: START_HOUR });
+    return PROFILE.buildPlan(BASE_LEGS, currentMovingTargetHours(), HEAT, { startHour: START_HOUR });
   }
   function buildAidStops(legs) {
-    let elapsed = 0;
-    return AID.map((aid, idx) => {
-      const stop = { ...aid, etaH: elapsed };
-      if (idx < legs.length) elapsed += legs[idx].hr;
-      return stop;
-    });
+    return PROFILE.buildAidSchedule(AID, legs).stops;
   }
   function fmtDurationMinutes(totalMinutes) {
     const safe = Math.max(0, Math.round(totalMinutes));
@@ -1019,23 +1032,20 @@
     return fmtDurationMinutes(hr * 60);
   }
   function addClock(start, hr){
-    let mins = Math.round((start + hr) * 60);
+    const mins = Math.round((start + hr) * 60);
     let h24 = ((Math.floor(mins / 60) % 24) + 24) % 24;
     const m = ((mins % 60) + 60) % 60;
-    if (m === 60) {
-      h24 = (h24 + 1) % 24;
-    }
     const suffix = h24 >= 12 ? 'PM' : 'AM';
     const h12 = (h24 % 12) || 12;
     return `${h12}:${String(m).padStart(2,'0')} ${suffix}`;
   }
-  function fmtMi(mi){ return UNIT === 'us' ? mi.toFixed(1) + 'mi' : (mi*1.609).toFixed(1) + 'km'; }
+  function fmtMi(mi){ return UNIT === 'us' ? mi.toFixed(1) + 'mi' : (mi*MI_TO_KM).toFixed(1) + 'km'; }
   function fmtFt(ft){ return UNIT === 'us' ? Math.round(ft) + 'ft' : Math.round(ft*0.3048) + 'm'; }
   // Always mL for fluid (per request)
   function fmtFluid(ml){ return ml >= 1000 ? (ml/1000).toFixed(2) + ' L' : Math.round(ml) + ' ml'; }
   function fmtPace(paceMinPerMi){
     // metric: min/km. pace is in min/mi
-    const p = UNIT === 'us' ? paceMinPerMi : paceMinPerMi / 1.609;
+    const p = UNIT === 'us' ? paceMinPerMi : paceMinPerMi / MI_TO_KM;
     let mi = Math.floor(p);
     let sec = Math.round((p - mi) * 60);
     if (sec === 60) { mi += 1; sec = 0; }
@@ -1060,7 +1070,7 @@
     return `${Math.abs(delta)} min ${delta < 0 ? 'faster' : 'slower'} vs baseline`;
   }
   function targetScaleLabel() {
-    return `${Math.round((currentTargetHours() / BASE_TOTAL_HOURS) * 100)}% of baseline`;
+    return `${Math.round((currentMovingTargetHours() / defaultMovingTargetHours()) * 100)}% of baseline`;
   }
   function legHydrationModel(leg) {
     const heatLevel = leg.dayHeatLevel ?? PROFILE.heatLevelAtHour(HEAT, START_HOUR + (leg.startH || 0) + (leg.hr / 2));
@@ -1111,7 +1121,8 @@
 
   function computed() {
     const legs = currentLegs();
-    const aidStops = buildAidStops(legs);
+    const aidSchedule = PROFILE.buildAidSchedule(AID, legs);
+    const aidStops = aidSchedule.stops;
     let totMi=0, totHr=0, totCarbs=0, totFluid=0, totFluidIdeal=0, totNa=0, totGain=0, totLoss=0;
     let totGels=0, totSalt=0, totSk=0, totSkMl=0, totH2oMl=0, totCMl=0;
     const skPlan = simZiplocks(legs);
@@ -1138,8 +1149,8 @@
       const pace = (L.hr * 60) / L.mi;
 
       const addScoops = z.useBag ? 7 : 0;
-      const depHr = aidStops[i].etaH;
-      const arrHr = aidStops[i + 1].etaH;
+      const depHr = aidStops[i].depH;
+      const arrHr = aidStops[i + 1].arrH;
 
       totMi += L.mi; totHr += L.hr; totCarbs += carbs; totFluid += z.fluidMl; totFluidIdeal += z.fluidIdeal; totNa += totalNa;
       totGain += L.gain; totLoss += L.loss;
@@ -1181,20 +1192,22 @@
       totCMl,
       maxGels: Math.max(...rows.map(r => r.gels), 0),
       maxSalt: Math.max(...rows.map(r => r.salt), 0),
-      carryLimitedLegs: rows.filter(r => r.fluidShort > 0)
+      carryLimitedLegs: rows.filter(r => r.fluidShort > 0),
+      totalElapsedHr: aidSchedule.totalElapsedHours,
+      totalDwellHr: aidSchedule.totalDwellHours
     };
   }
 
   function renderHeaderSummary(c) {
-    const pace = fmtPace(c.totHr * 60 / c.totMi) + fmtPaceUnit();
+    const pace = fmtPace(c.totalElapsedHr * 60 / c.totMi) + fmtPaceUnit();
     timeSlider.value = String(TARGET_MINUTES);
-    document.getElementById('heroKicker').textContent = `§ Nutrition plan · ${hhmm(c.totHr)} target`;
-    document.getElementById('timeTargetVal').textContent = hhmm(c.totHr);
-    document.getElementById('timeFinishVal').textContent = addClock(START_HOUR, c.totHr);
+    document.getElementById('heroKicker').textContent = `§ Nutrition plan · ${hhmm(c.totalElapsedHr)} target`;
+    document.getElementById('timeTargetVal').textContent = hhmm(c.totalElapsedHr);
+    document.getElementById('timeFinishVal').textContent = addClock(START_HOUR, c.totalElapsedHr);
     document.getElementById('timePaceVal').textContent = pace;
     document.getElementById('timeDeltaVal').textContent = targetDeltaLabel();
     document.getElementById('timeScaleVal').textContent = targetScaleLabel();
-    document.getElementById('footTargetLine').textContent = `80 g/hr · salty-sweater sodium profile · ${hhmm(c.totHr)} target`;
+    document.getElementById('footTargetLine').textContent = `~80 g/hr avg · salty-sweater sodium profile · ${hhmm(c.totalElapsedHr)} target`;
   }
 
   function renderTotals(c) {
@@ -1202,13 +1215,14 @@
     const skBottles = c.totSkMl / SK_FLASK_ML;
     const h2oBottles = c.totH2oMl / H2O_FLASK_ML;
     const cBottles = c.totCMl / C_FLASK_ML;
-    const avgFluidTarget = c.totHr > 0 ? (c.totFluidIdeal / c.totHr).toFixed(0) : '0';
-    const fluidSub = `${(c.totFluid/c.totHr).toFixed(0)} ml/hr avg · ${avgFluidTarget} ml/hr target${c.totFluidShort > 0 ? ` · ${fmtFluid(c.totFluidShort)} carry-limited` : ''}`;
+    const elapsedHr = c.totalElapsedHr || c.totHr || 1;
+    const avgFluidTarget = elapsedHr > 0 ? (c.totFluidIdeal / elapsedHr).toFixed(0) : '0';
+    const fluidSub = `${(c.totFluid/elapsedHr).toFixed(0)} ml/hr avg · ${avgFluidTarget} ml/hr target${c.totFluidShort > 0 ? ` · ${fmtFluid(c.totFluidShort)} carry-limited` : ''}`;
     document.getElementById('totalsStrip').innerHTML = `
-      <div class="cell"><div class="lab">On course</div><div class="val">${hhmm(c.totHr)}<small>hr</small></div><div class="sub">${addClock(START_HOUR, 0)} → ${addClock(START_HOUR, c.totHr)}</div></div>
-      <div class="cell"><div class="lab">Distance</div><div class="val">${UNIT==='us' ? c.totMi.toFixed(1) : (c.totMi*1.609).toFixed(1)}<small>${UNIT==='us'?'mi':'km'}</small></div><div class="sub">${UNIT==='us'?'+'+c.totGain.toLocaleString()+' / -'+c.totLoss.toLocaleString()+' ft':'+'+Math.round(c.totGain*0.3048)+' / -'+Math.round(c.totLoss*0.3048)+' m'}</div></div>
-      <div class="cell"><div class="lab">Carbs</div><div class="val">${c.totCarbs.toLocaleString()}<small>g</small></div><div class="sub">${(c.totCarbs/c.totHr).toFixed(0)} g/hr avg</div></div>
-      <div class="cell"><div class="lab">Sodium</div><div class="val">${(c.totNa/1000).toFixed(1)}<small>g</small></div><div class="sub">${(c.totNa/c.totHr).toFixed(0)} mg/hr avg · ${Math.round(c.totNa / (c.totFluid/1000))} mg/L</div></div>
+      <div class="cell"><div class="lab">On course</div><div class="val">${hhmm(c.totalElapsedHr)}<small>hr</small></div><div class="sub">moving ${hhmm(c.totHr)} · aid ${hhmm(c.totalDwellHr)}</div></div>
+      <div class="cell"><div class="lab">Distance</div><div class="val">${UNIT==='us' ? c.totMi.toFixed(1) : (c.totMi*MI_TO_KM).toFixed(1)}<small>${UNIT==='us'?'mi':'km'}</small></div><div class="sub">${UNIT==='us'?'+'+c.totGain.toLocaleString()+' / -'+c.totLoss.toLocaleString()+' ft':'+'+Math.round(c.totGain*0.3048)+' / -'+Math.round(c.totLoss*0.3048)+' m'}</div></div>
+      <div class="cell"><div class="lab">Carbs</div><div class="val">${c.totCarbs.toLocaleString()}<small>g</small></div><div class="sub">${(c.totCarbs/elapsedHr).toFixed(0)} g/hr avg</div></div>
+      <div class="cell"><div class="lab">Sodium</div><div class="val">${(c.totNa/1000).toFixed(1)}<small>g</small></div><div class="sub">${(c.totNa/elapsedHr).toFixed(0)} mg/hr avg · ${Math.round(c.totNa / (c.totFluid/1000))} mg/L</div></div>
       <div class="cell"><div class="lab">Fluid · ${FLUID_LAB[HEAT]}</div><div class="val">${fmtFluid(c.totFluid)}</div><div class="sub">${fluidSub}</div></div>
       <div class="cell"><div class="lab">Bottles drained</div><div class="val" style="font-size:18px">${Math.round(skBottles*100)/100}× <small>A</small> · ${Math.round(h2oBottles*100)/100}× <small>B</small> · ${Math.round(cBottles*100)/100}× <small>C</small></div><div class="sub">${c.totSk} scoops · ${c.totGels} gels · ${c.totSalt} salt</div></div>
     `;
@@ -1381,8 +1395,8 @@
       <td class="num-c">${fmtMi(c.totMi)}</td>
       <td class="num-c">+${fmtFt(c.totGain)}<br/><span style="color:var(--muted)">−${fmtFt(c.totLoss)}</span></td>
       <td class="num-c">${hhmm(c.totHr)}</td>
-      <td class="num-c"><span style="color:var(--muted);font-size:10px">${addClock(START_HOUR, 0)} →</span> ${addClock(START_HOUR, c.totHr)}</td>
-      <td class="num-c">${fmtPace(c.totHr*60/c.totMi)}${fmtPaceUnit()} avg</td>
+      <td class="num-c"><span style="color:var(--muted);font-size:10px">${addClock(START_HOUR, 0)} →</span> ${addClock(START_HOUR, c.totalElapsedHr)}</td>
+      <td class="num-c">${fmtPace(c.totalElapsedHr*60/c.totMi)}${fmtPaceUnit()} avg</td>
       <td class="num-c">${c.totCarbs} g</td>
       <td class="num-c">${fmtFluid(c.totFluid)}</td>
       <td class="num-c">${bottleTotalsCell(c)}</td>
@@ -1402,21 +1416,6 @@
     });
   }
 
-  // ====== Aid stations ======
-  const AID = [
-    { name: "Start: China Wall", crew: true, mile: 0.0, drop: [] },
-    { name: "Deadwood 1", crew: false, mile: 11.2, drop: [] },
-    { name: "Swinging Bridge", crew: false, mile: 13.5, drop: [] },
-    { name: "Deadwood 2", crew: false, mile: 15.8, drop: [] },
-    { name: "Michigan Bluff", crew: true, mile: 22.6, drop: ["Warm layer if not needed"] },
-    { name: "Foresthill", crew: true, mile: 28.5, drop: ["Morning layers", "Wrappers", "Swap socks if needed"] },
-    { name: "Cal 2", crew: false, mile: 36.7, drop: [] },
-    { name: "Driver's Flat", crew: true, mile: 46.0, drop: [] },
-    { name: "Mammoth Bar", crew: false, mile: 53.9, drop: [] },
-    { name: "Confluence", crew: false, mile: 57.6, drop: [] },
-    { name: "Finish", crew: true, mile: 61.6, drop: ["Everything"] },
-  ];
-
   function renderAid(c) {
     const g = document.getElementById('aidGrid');
     const aidStops = c.aidStops;
@@ -1424,7 +1423,7 @@
     const { startBags, handoffs } = crewRestocks(zactions);
     // AID[i] dispatches leg i (undefined for finish).
     g.innerHTML = aidStops.map((a, i) => {
-      const eta = addClock(START_HOUR, a.etaH);
+      const eta = addClock(START_HOUR, a.arrH);
       const r = c.rows[i];
       const z = zactions[i];
       const isFirst = i === 0;

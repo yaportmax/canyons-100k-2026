@@ -9,6 +9,8 @@ window.CANYONS = {
     targetHours: 17.5,
     cutoffHours: 20,
     basePlanHours: 17.5,
+    crewStopMinutes: 1.5,
+    soloStopMinutes: 0.5,
   },
   // crew: true = crew-accessible per the April 21, 2026 official aid chart
   aidMeta: {
@@ -272,6 +274,58 @@ window.CANYONS = {
     return lerp(valuesByHeat.moderate, valuesByHeat.hot, level - 1);
   }
 
+  function resolveAidFlags(aid, idx, total) {
+    const meta = CM.aidMeta?.[aid?.name] || {};
+    const isStart = idx === 0 || Boolean(aid?.start) || Boolean(meta.start);
+    const isFinish = idx === total - 1 || Boolean(aid?.finish) || Boolean(meta.finish);
+    return {
+      start: isStart,
+      finish: isFinish,
+      crew: isStart || isFinish ? true : Boolean(aid?.crew ?? meta.crew)
+    };
+  }
+
+  function dwellMinutesForAid(aid, idx, total, options = {}) {
+    const flags = resolveAidFlags(aid, idx, total);
+    if (flags.start || flags.finish) return 0;
+    const crewStopMinutes = Number.isFinite(options.crewStopMinutes) ? options.crewStopMinutes : (CM.meta.crewStopMinutes ?? 1.5);
+    const soloStopMinutes = Number.isFinite(options.soloStopMinutes) ? options.soloStopMinutes : (CM.meta.soloStopMinutes ?? 0.5);
+    return flags.crew ? crewStopMinutes : soloStopMinutes;
+  }
+
+  function totalAidStopMinutes(aids, options = {}) {
+    const list = Array.isArray(aids) ? aids : [];
+    return list.reduce((sum, aid, idx) => sum + dwellMinutesForAid(aid, idx, list.length, options), 0);
+  }
+
+  function buildAidSchedule(aids, legs, options = {}) {
+    const list = Array.isArray(aids) ? aids : [];
+    const movingLegs = Array.isArray(legs) ? legs : [];
+    const stops = [];
+    let departureElapsed = 0;
+
+    list.forEach((aid, idx) => {
+      const flags = resolveAidFlags(aid, idx, list.length);
+      const arrH = idx === 0 ? 0 : departureElapsed + (movingLegs[idx - 1]?.hr || 0);
+      const dwellMinutes = dwellMinutesForAid(aid, idx, list.length, options);
+      const depH = arrH + (dwellMinutes / 60);
+      stops.push({
+        ...aid,
+        ...flags,
+        arrH,
+        depH,
+        dwellMinutes
+      });
+      departureElapsed = depH;
+    });
+
+    return {
+      stops,
+      totalDwellHours: totalAidStopMinutes(list, options) / 60,
+      totalElapsedHours: stops.length ? stops[stops.length - 1].arrH : 0
+    };
+  }
+
   function buildDayProfilePlan(segments, targetHours, heatMode, options = {}) {
     const safeHeatMode = normalizeHeatMode(heatMode);
     const startHour = options.startHour ?? 5;
@@ -352,6 +406,8 @@ window.CANYONS = {
     findSegment,
     heatLevelAtHour,
     interpolateByHeatLevel,
+    totalAidStopMinutes,
+    buildAidSchedule,
     buildPlan: buildDayProfilePlan
   };
 })(window.CANYONS);

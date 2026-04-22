@@ -471,21 +471,22 @@
   // Helpers
   function fmtTime(hoursFromStart) {
     // start 05:00
-    const totalMin = 5 * 60 + hoursFromStart * 60;
+    const totalMin = Math.round((5 * 60) + (hoursFromStart * 60));
     const h = Math.floor(totalMin / 60) % 24;
-    const m = Math.round(totalMin % 60);
+    const m = ((totalMin % 60) + 60) % 60;
     const next = totalMin >= 24 * 60 ? '+1' : '';
     return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}${next}`;
   }
 
+  function movingTargetHours(planHours = currentH) {
+    return Math.max(0.25, planHours - (PROFILE.totalAidStopMinutes(aid) / 60));
+  }
+
   function buildSchedule(planHours = currentH) {
     const heatMode = localStorage.getItem(PROFILE.storageKey) || PROFILE.defaultHeat;
-    const legs = PROFILE.buildPlan(CM.segments, planHours, heatMode, { startHour: 5 });
-    const aidHours = [0];
-    legs.forEach((seg) => {
-      aidHours.push(seg.endH);
-    });
-    return { aidHours, legs, heatMode };
+    const legs = PROFILE.buildPlan(CM.segments, movingTargetHours(planHours), heatMode, { startHour: 5 });
+    const aidSchedule = PROFILE.buildAidSchedule(aid, legs);
+    return { stops: aidSchedule.stops, legs, heatMode, totalElapsedHours: aidSchedule.totalElapsedHours, totalDwellHours: aidSchedule.totalDwellHours };
   }
 
   // ====== TIMELINE ======
@@ -510,7 +511,7 @@
     aid.forEach((a, i) => {
       const m = CM.aidMeta[a.name] || {};
       const short = CM.short[a.name] || a.name;
-      const etaH = schedule.aidHours[i] || 0;
+      const etaH = schedule.stops[i]?.arrH || 0;
       const etaStr = fmtTime(etaH);
 
       // window: ±15 min for fast stations, ±30 for later
@@ -691,7 +692,7 @@
     const short = CM.short[a.name] || a.name;
     const schedule = buildSchedule(currentH);
     const aidIdx = AID_INDEX.get(a.name) ?? 0;
-    const etaH = schedule.aidHours[aidIdx] || 0;
+    const etaH = schedule.stops[aidIdx]?.arrH || 0;
     const etaStr = fmtTime(etaH);
     const bufMin = 15 + Math.round(a.miles / 5);
     const early = fmtTime(etaH - bufMin/60);
