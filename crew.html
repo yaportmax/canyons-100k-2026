@@ -563,24 +563,32 @@
     text-align: right;
   }
 
-  /* === Pre-race === */
-  .prerace {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+  /* === Notes === */
+  .notes-card {
     border: 1px solid var(--line);
     background: var(--paper);
+    padding: 24px 28px 26px;
+    max-width: 980px;
   }
-  .prerace .col {
-    padding: 26px 28px 28px;
-    border-right: 1px solid var(--line);
+  .notes-card ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-2);
   }
-  .prerace .col:last-child { border-right: 0; }
-  .prerace .col h3 {
-    font-family: var(--serif); font-size: 22px; letter-spacing: -0.015em; margin: 8px 0 14px; font-weight: 500;
+  .notes-card li { margin-bottom: 8px; }
+  .notes-card li::marker {
+    color: var(--ember);
+    font-family: var(--mono);
+    font-size: 11px;
   }
-  .prerace .col .t { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-  .prerace ol, .prerace ul { padding-left: 18px; margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-2); }
-  .prerace li { margin-bottom: 6px; }
-  .prerace li::marker { color: var(--ember); font-family: var(--mono); font-size: 11px; }
+  .notes-card a {
+    color: var(--ember-2);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212, 71, 138, 0.24);
+  }
+  .notes-card a:hover { border-bottom-color: var(--ember); }
 
   footer {
     padding: 36px 56px 56px;
@@ -600,9 +608,7 @@
     .drives-grid { grid-template-columns: 1fr 1fr; }
     .guide-grid { grid-template-columns: 1fr; }
     .guide-shots { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .prerace { grid-template-columns: 1fr 1fr; }
-    .prerace .col:nth-child(2) { border-right: 0; }
-    .prerace .col:nth-child(3) { grid-column: 1 / -1; border-top: 1px solid var(--line); }
+    .notes-card { max-width: none; }
   }
 
   @media (max-width: 720px) {
@@ -714,10 +720,8 @@
       gap: 6px;
     }
 
-    /* Pre-race — stack */
-    .prerace { grid-template-columns: 1fr; }
-    .prerace .col { border-right: 0; border-bottom: 1px solid var(--line); padding: 22px 20px; }
-    .prerace .col:last-child { border-bottom: 0; }
+    .notes-card { padding: 20px; }
+    .notes-card ul { font-size: 13px; }
 
     footer {
       flex-direction: column;
@@ -830,46 +834,18 @@
 
 <hr class="hairline" />
 
-<!-- ============== PRE-RACE ============== -->
+<!-- ============== NOTES ============== -->
 <section class="panel">
-  <h2><span class="num">§ 04 — PRE-RACE</span>Friday &amp; race morning.</h2>
-  <div class="prerace">
-    <div class="col">
-      <div class="t">Friday PM</div>
-      <h3>Pack the car.</h3>
-      <ol>
-        <li>One labeled crew bin per stop: Michigan Bluff, Foresthill, Driver's Flat, Finish</li>
-        <li>Pre-portion carb powder bags: 7 scoops = 100 g carbs per bag</li>
-        <li>Load plain water, ice, Flask A/B/C, gels, salt caps, and 5-Hour</li>
-        <li>Chair, shade, blanket, headlamps (×2), extra batteries, charging cable</li>
-        <li>Full tank of gas. Foresthill has no 24h pump.</li>
-        <li>Download offline maps for Auburn, Foresthill, Mosquito Ridge, Driver's Flat Rd</li>
-      </ol>
-    </div>
-    <div class="col">
-      <div class="t">Friday night</div>
-      <h3>Coordinate.</h3>
-      <ul>
-        <li>Confirm the runner's bib number — it's their tracker ID on live results</li>
-        <li>Bookmark the UTMB live-tracking page on every phone</li>
-        <li>Agree on a text check-in after every aid station</li>
-        <li>Confirm the target finish time and the weather mode you want the crew page to use</li>
-        <li>Runner in bed by 20:00. Set three alarms.</li>
-        <li>Crew meet-up time: 03:30 at the Auburn finish lot, or wherever you're staying</li>
-        <li>Runner breakfast around 03:15. Keep vest flasks and pocket fuel staged before bed.</li>
-      </ul>
-    </div>
-    <div class="col">
-      <div class="t">Saturday 04:00</div>
-      <h3>Race morning.</h3>
-      <ol>
-        <li>Shuttle to China Wall leaves from Auburn — check exact time in runner guide</li>
-        <li>Start is 05:00. Crew does <b>not</b> drive to China Wall — head directly to Michigan Bluff via Foresthill Rd</li>
-        <li>Plan to arrive Michigan Bluff early enough to park, walk in, and be ready before the runner arrives.</li>
-        <li>Keep the runner's phone charging in the car and the finish clothes bag ready.</li>
-        <li>Text the runner's family a live-tracking link once the race starts</li>
-      </ol>
-    </div>
+  <h2><span class="num">§ 04 — NOTES</span>Short notes.</h2>
+  <div class="notes-card">
+    <ul>
+      <li>One labeled kit per crew station: Michigan Bluff, Foresthill, Driver's Flat.</li>
+      <li>Download offline maps for Auburn, Foresthill, Mosquito Ridge, Driver's Flat Rd.</li>
+      <li>Confirm the runner's bib number: <b>1775</b> — it's the tracker ID on live results.</li>
+      <li>Bookmark <a href="https://live.utmb.world/canyons/2026/100k" target="_blank" rel="noreferrer noopener">UTMB Live 100K</a> on every phone and use bib <b>1775</b>.</li>
+      <li>Crew does <b>not</b> drive to China Wall — head directly to Michigan Bluff via Foresthill Rd.</li>
+      <li>Plan to arrive Michigan Bluff early enough to park, walk in, and be ready before the runner arrives.</li>
+    </ul>
   </div>
 </section>
 
