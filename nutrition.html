@@ -171,11 +171,26 @@
   .heat-toggle button:hover:not(.active) { background: var(--bg-2); }
 
   .seg-table { background: var(--paper); border: 1px solid var(--line); overflow-x: auto; }
-  .seg-table table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1080px; }
+  .seg-table table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1000px; }
   .seg-table thead th.col-leg,
   .seg-table tbody tr:not(.leg-expand) > td.col-leg {
-    width: 31%;
-    min-width: 250px;
+    width: 27%;
+    min-width: 220px;
+  }
+  .seg-table thead th.col-mi,
+  .seg-table tbody tr:not(.leg-expand) > td.col-mi {
+    width: 7%;
+    min-width: 70px;
+  }
+  .seg-table thead th.col-gain,
+  .seg-table tbody tr:not(.leg-expand) > td.col-gain {
+    width: 11%;
+    min-width: 110px;
+  }
+  .seg-table thead th.col-time,
+  .seg-table tbody tr:not(.leg-expand) > td.col-time {
+    width: 7%;
+    min-width: 70px;
   }
   .mobile-legs { display: none; }
   .mobile-legs .m-leg-card {
@@ -831,9 +846,9 @@
       <thead>
         <tr>
           <th class="col-leg">Leg</th>
-          <th class="num-c">Mi</th>
-          <th class="num-c">Gain / loss</th>
-          <th class="num-c">Time</th>
+          <th class="num-c col-mi">Mi</th>
+          <th class="num-c col-gain">Gain / loss</th>
+          <th class="num-c col-time">Time</th>
           <th class="num-c">Clock</th>
           <th class="num-c">Pace</th>
           <th class="num-c">Carbs</th>
@@ -1390,9 +1405,9 @@
         <td class="col-leg">
           <div class="seg-from"><span class="chev">▸</span>${L.from} → ${L.to}${L.crew?'<span class="crew-dot">● crew</span>':''}</div>
         </td>
-        <td class="num-c">${fmtMi(L.mi)}</td>
-        <td class="num-c">+${fmtFt(L.gain)}<br/><span style="color:var(--muted)">−${fmtFt(L.loss)}</span></td>
-        <td class="num-c">${hhmm(L.hr)}</td>
+        <td class="num-c col-mi">${fmtMi(L.mi)}</td>
+        <td class="num-c col-gain">+${fmtFt(L.gain)}<br/><span style="color:var(--muted)">−${fmtFt(L.loss)}</span></td>
+        <td class="num-c col-time">${hhmm(L.hr)}</td>
         <td class="num-c"><span style="color:var(--muted);font-size:10px">arr</span> ${addClock(START_HOUR, r.arrHr)}<br/><span style="color:var(--muted);font-size:10px">dep ${addClock(START_HOUR, r.depHr)}</span></td>
         <td class="num-c">${fmtPace(r.pace)}${fmtPaceUnit()}</td>
         <td class="num-c">${r.carbs} g<br/><span style="color:var(--muted);font-size:10px">${(r.carbs/L.hr).toFixed(0)} g/hr</span></td>
@@ -1448,9 +1463,9 @@
     });
     html += `<tr class="tot">
       <td>TOTAL — 10 legs</td>
-      <td class="num-c">${fmtMi(c.totMi)}</td>
-      <td class="num-c">+${fmtFt(c.totGain)}<br/><span style="color:var(--muted)">−${fmtFt(c.totLoss)}</span></td>
-      <td class="num-c">${hhmm(c.totHr)}</td>
+      <td class="num-c col-mi">${fmtMi(c.totMi)}</td>
+      <td class="num-c col-gain">+${fmtFt(c.totGain)}<br/><span style="color:var(--muted)">−${fmtFt(c.totLoss)}</span></td>
+      <td class="num-c col-time">${hhmm(c.totHr)}</td>
       <td class="num-c"><span style="color:var(--muted);font-size:10px">${addClock(START_HOUR, 0)} →</span> ${addClock(START_HOUR, c.totalElapsedHr)}</td>
       <td class="num-c">${fmtPace(c.totalElapsedHr*60/c.totMi)}${fmtPaceUnit()} avg</td>
       <td class="num-c">${c.totCarbs} g</td>
