@@ -446,7 +446,7 @@
       <ol>
         <li>Shuttle to China Wall leaves from Auburn — check exact time in runner guide</li>
         <li>Start is 05:00. Crew does <b>not</b> drive to China Wall — head directly to Michigan Bluff via Foresthill Rd</li>
-        <li>Plan to arrive Michigan Bluff by 10:30 (runner ETA ~11:39 on 17.5h pace — buffer for parking).</li>
+        <li>Plan to arrive Michigan Bluff early enough to park, walk in, and be ready before the runner arrives.</li>
         <li>Keep the runner's phone charging in the car. Weigh-in bag in the car.</li>
         <li>Text the runner's family a live-tracking link once the race starts</li>
       </ol>
@@ -464,6 +464,7 @@
   const course = await fetch('assets/course.json').then(r => r.json());
   const aid = course.aid;
   const CM = window.CANYONS;
+  const PROFILE = CM.dayProfile;
   const BASE_PLAN_HOURS = CM.meta.basePlanHours || CM.meta.targetHours || 17.5;
   const AID_INDEX = new Map(aid.map((a, i) => [a.name, i]));
 
@@ -478,12 +479,13 @@
   }
 
   function buildSchedule(planHours = currentH) {
-    const scale = planHours / BASE_PLAN_HOURS;
+    const heatMode = localStorage.getItem(PROFILE.storageKey) || PROFILE.defaultHeat;
+    const legs = PROFILE.buildPlan(CM.segments, planHours, heatMode, { startHour: 5 });
     const aidHours = [0];
-    CM.segments.forEach((seg) => {
-      aidHours.push(aidHours[aidHours.length - 1] + ((seg.hours || 0) * scale));
+    legs.forEach((seg) => {
+      aidHours.push(seg.endH);
     });
-    return { scale, aidHours };
+    return { aidHours, legs, heatMode };
   }
 
   // ====== TIMELINE ======
@@ -698,7 +700,7 @@
     body.innerHTML = `
       <div class="tag">${k.tag}</div>
       <h3>${short}</h3>
-      <div class="eta-line">Runner ETA at ${currentH}h pace · <b>${etaStr}</b> &nbsp;·&nbsp; arrival window ${early} – ${late} &nbsp;·&nbsp; ${Math.round(a.ele_ft).toLocaleString()} ft elevation</div>
+      <div class="eta-line">Runner ETA at ${currentH}h target · <b>${etaStr}</b> &nbsp;·&nbsp; arrival window ${early} – ${late} &nbsp;·&nbsp; ${Math.round(a.ele_ft).toLocaleString()} ft elevation</div>
 
       <div class="prompt"><b>Crew chief brief</b>${k.prompt}</div>
 

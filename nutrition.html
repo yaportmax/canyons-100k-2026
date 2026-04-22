@@ -821,10 +821,13 @@
   <span id="footTargetLine">80 g/hr · salty-sweater sodium profile · 17:30 target</span>
 </div>
 
+<script src="assets/course-meta.js"></script>
 <script>
+  const CM = window.CANYONS;
+  const PROFILE = CM.dayProfile;
   // ====== Grade-adjusted leg data (computed from the official alternate course) ======
-  // Base leg times are normalized to the 17:30 GPX plan and scale proportionally
-  // when the target-finish slider changes.
+  // Base leg times are then reshaped by the shared time-of-day profile so early legs can
+  // run a touch cooler/faster while exposed midday canyon legs absorb more heat penalty.
   const BASE_LEGS = [
     { from: "China Wall",        to: "Deadwood 1",       mi: 11.2, gain: 2382, loss: 3081, hr: 3.05, terrain: "Long opening descent on rolling singletrack. Stay relaxed and don't redline.", crew: false },
     { from: "Deadwood 1",        to: "Swinging Bridge",  mi: 2.3,  gain:  179, loss: 1770, hr: 0.47, terrain: "Steep drop into the canyon to the turnaround. Quick and controlled.", crew: false },
@@ -836,7 +839,14 @@
     { from: "Driver's Flat",     to: "Mammoth Bar",      mi: 7.9,  gain: 1219, loss: 2285, hr: 2.06, terrain: "Drop back to the river, then keep moving through the rollers.", crew: false },
     { from: "Mammoth Bar",       to: "Confluence",       mi: 3.7,  gain:  797, loss:  844, hr: 1.04, terrain: "Technical river singletrack through the No Hands section.", crew: false },
     { from: "Confluence",        to: "Finish",           mi: 4.0,  gain: 1093, loss:  401, hr: 1.29, terrain: "Robie Point and the last climb to Auburn. Empty the tank late.", crew: true  },
-  ];
+  ].map((leg) => {
+    const shared = PROFILE.findSegment(leg.from, leg.to);
+    return {
+      ...leg,
+      hr: shared?.hours ?? leg.hr,
+      exposure: shared?.exposure ?? 0.6
+    };
+  });
   const START_HOUR = 5;
   const BASE_TOTAL_HOURS = BASE_LEGS.reduce((sum, leg) => sum + leg.hr, 0);
   const TARGET_MIN_MINUTES = 15 * 60;
@@ -872,8 +882,8 @@
   // pushed toward endurance-drink / salty-sweater territory.
   const NA_MIN_PER_HR = { cool: 400, moderate: 500, hot: 575 };
   const NA_MIN_PER_L = { cool: 800, moderate: 875, hot: 925 };
-  const HEAT_STORAGE_KEY = 'canyons_nut_heat_v2';
-  const DEFAULT_HEAT = 'moderate';
+  const HEAT_STORAGE_KEY = PROFILE.storageKey || 'canyons_nut_heat_v2';
+  const DEFAULT_HEAT = PROFILE.defaultHeat || 'moderate';
 
   let HEAT = localStorage.getItem(HEAT_STORAGE_KEY) || DEFAULT_HEAT;
   let UNIT = localStorage.getItem('canyons_unit') || 'us';
@@ -895,8 +905,7 @@
     return TARGET_MINUTES / 60;
   }
   function currentLegs() {
-    const scale = currentTargetHours() / BASE_TOTAL_HOURS;
-    return BASE_LEGS.map(leg => ({ ...leg, hr: leg.hr * scale }));
+    return PROFILE.buildPlan(BASE_LEGS, currentTargetHours(), HEAT, { startHour: START_HOUR });
   }
   function buildAidStops(legs) {
     let elapsed = 0;
@@ -959,6 +968,16 @@
   function targetScaleLabel() {
     return `${Math.round((currentTargetHours() / BASE_TOTAL_HOURS) * 100)}% of baseline`;
   }
+  function legHydrationModel(leg) {
+    const heatLevel = leg.dayHeatLevel ?? PROFILE.heatLevelAtHour(HEAT, START_HOUR + (leg.startH || 0) + (leg.hr / 2));
+    return {
+      heatLevel,
+      fluidRate: PROFILE.interpolateByHeatLevel(FLUID_RATES, heatLevel),
+      carbCap: PROFILE.interpolateByHeatLevel(LEG_DRINK_CARB_CAP, heatLevel),
+      naMinPerHr: PROFILE.interpolateByHeatLevel(NA_MIN_PER_HR, heatLevel),
+      naMinPerL: PROFILE.interpolateByHeatLevel(NA_MIN_PER_L, heatLevel),
+    };
+  }
   function drinkCue(ml, capacity) {
     const pct = capacity > 0 ? ml / capacity : 0;
     if (ml <= 0) return 'skip it';
@@ -999,7 +1018,6 @@
   function computed() {
     const legs = currentLegs();
     const aidStops = buildAidStops(legs);
-    const fluidRate = FLUID_RATES[HEAT];
     let totMi=0, totHr=0, totCarbs=0, totFluid=0, totFluidIdeal=0, totNa=0, totGain=0, totLoss=0;
     let totGels=0, totSalt=0, totSk=0, totSkMl=0, totH2oMl=0, totCMl=0;
     const skPlan = simZiplocks(legs);
@@ -1017,8 +1035,8 @@
       const skNa = Math.round(skCarbsDrunk * (SK_NA_PER_SCOOP / SK_CARBS_PER_SCOOP));
       const gelsNa = gels * GEL_NA;
       const naTarget = Math.max(
-        Math.round(L.hr * NA_MIN_PER_HR[HEAT]),
-        Math.round((z.fluidMl / 1000) * NA_MIN_PER_L[HEAT])
+        Math.round(L.hr * z.naMinPerHr),
+        Math.round((z.fluidMl / 1000) * z.naMinPerL)
       );
       const naGap = Math.max(0, naTarget - skNa - gelsNa);
       const salt = Math.ceil(naGap / SS_NA);
@@ -1037,6 +1055,8 @@
         depHr, arrHr,
         L, addScoops, gels, salt, carbs, fluid: z.fluidMl, fluidIdeal: z.fluidIdeal,
         fluidShort: z.fluidIdeal - z.fluidMl, skMl: z.skMl, h2oMl: z.h2oMl, cMl: z.cMl, hasC: z.hasC, totalNa, pace,
+        fluidRate: z.fluidRate,
+        legHeatLevel: z.heatLevel,
         skCarbsDrunk: z.carbsDrunk,
         skFlaskCarbsStart: z.startCarbs,
         skFlaskCarbsLeft: z.endCarbs,
@@ -1088,7 +1108,8 @@
     const skBottles = c.totSkMl / SK_FLASK_ML;
     const h2oBottles = c.totH2oMl / H2O_FLASK_ML;
     const cBottles = c.totCMl / C_FLASK_ML;
-    const fluidSub = `${(c.totFluid/c.totHr).toFixed(0)} ml/hr avg · ${FLUID_RATES[HEAT]} ml/hr target${c.totFluidShort > 0 ? ` · ${fmtFluid(c.totFluidShort)} carry-limited` : ''}`;
+    const avgFluidTarget = c.totHr > 0 ? (c.totFluidIdeal / c.totHr).toFixed(0) : '0';
+    const fluidSub = `${(c.totFluid/c.totHr).toFixed(0)} ml/hr avg · ${avgFluidTarget} ml/hr target${c.totFluidShort > 0 ? ` · ${fmtFluid(c.totFluidShort)} carry-limited` : ''}`;
     document.getElementById('totalsStrip').innerHTML = `
       <div class="cell"><div class="lab">On course</div><div class="val">${hhmm(c.totHr)}<small>hr</small></div><div class="sub">${addClock(START_HOUR, 0)} → ${addClock(START_HOUR, c.totHr)}</div></div>
       <div class="cell"><div class="lab">Distance</div><div class="val">${UNIT==='us' ? c.totMi.toFixed(1) : (c.totMi*1.609).toFixed(1)}<small>${UNIT==='us'?'mi':'km'}</small></div><div class="sub">${UNIT==='us'?'+'+c.totGain.toLocaleString()+' / -'+c.totLoss.toLocaleString()+' ft':'+'+Math.round(c.totGain*0.3048)+' / -'+Math.round(c.totLoss*0.3048)+' m'}</div></div>
@@ -1429,8 +1450,6 @@
   // Bags are sourced from: vest at start (carry some), crew cooler at crew stops.
 
   function simZiplocks(legs) {
-    const rate = FLUID_RATES[HEAT];
-    const carbCap = LEG_DRINK_CARB_CAP[HEAT];
     const BAG_SCOOPS = 7;
     const BAG_CARBS = BAG_SCOOPS * SK_CARBS_PER_SCOOP; // 105g
     const MIN_LEAVE_THRESHOLD = SK_CARBS_PER_SCOOP;    // keep flask if >= 1 scoop left
@@ -1440,6 +1459,9 @@
 
     for (let i = 0; i < legs.length; i++) {
       const L = legs[i];
+      const heatModel = legHydrationModel(L);
+      const rate = heatModel.fluidRate;
+      const carbCap = heatModel.carbCap;
       const fluidIdeal = Math.round(L.hr * rate);
       const hasC = fluidIdeal > (SK_FLASK_ML + H2O_FLASK_ML);
       const target = Math.round(L.hr * CARB_HR);
@@ -1462,6 +1484,10 @@
         carbsDrunk: Math.round(carbsDrunk),
         fluidIdeal,
         fluidMl: fluid,
+        fluidRate: rate,
+        heatLevel: heatModel.heatLevel,
+        naMinPerHr: heatModel.naMinPerHr,
+        naMinPerL: heatModel.naMinPerL,
         hasC,
         skMl,
         h2oMl,
