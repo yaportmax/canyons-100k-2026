@@ -1124,12 +1124,59 @@
       : `space them about every ${everyMin} min`;
   }
 
+  const SHORT_LEG_CARB_FLOOR_HR = 70;
+  const FOLLOW_LEG_CARB_FLOOR_HR = 80;
+  const SHORT_LEG_MAX_PULL_G = 6;
+
+  function skSodiumForCarbs(carbs) {
+    return Math.round(carbs * (SK_NA_PER_SCOOP / SK_CARBS_PER_SCOOP));
+  }
+
+  function syncBottleDrain(row) {
+    row.skMl = row.skFlaskCarbsStart > 0
+      ? Math.round((row.skCarbsDrunk / row.skFlaskCarbsStart) * SK_FLASK_ML)
+      : 0;
+    const waterNeed = Math.max(0, row.fluid - row.skMl);
+    row.h2oMl = Math.min(H2O_FLASK_ML, waterNeed);
+    row.cMl = Math.min(row.hasC ? C_FLASK_ML : 0, Math.max(0, waterNeed - row.h2oMl));
+    row.skFlaskCarbsLeft = Math.max(0, row.skFlaskCarbsStart - row.skCarbsDrunk);
+    row.skFlaskMlLeft = Math.max(0, SK_FLASK_ML - row.skMl);
+    row.totalNa = skSodiumForCarbs(row.skCarbsDrunk) + (row.gels * GEL_NA) + (row.salt * SS_NA);
+  }
+
+  function smoothShortLegCarbs(rows) {
+    for (let i = 0; i < rows.length - 1; i += 1) {
+      const row = rows[i];
+      const next = rows[i + 1];
+      if (row.L.hr > 0.6) continue;
+      if (row.gels > 0) continue;
+      if (row.hasC) continue;
+      if (Math.abs(next.skFlaskCarbsStart - row.skFlaskCarbsLeft) > 1) continue;
+
+      const currentFloor = Math.ceil(row.L.hr * SHORT_LEG_CARB_FLOOR_HR);
+      const followFloor = Math.ceil(next.L.hr * FOLLOW_LEG_CARB_FLOOR_HR);
+      const needed = currentFloor - row.carbs;
+      const spare = next.carbs - followFloor;
+      const available = row.skFlaskCarbsLeft;
+      const grams = Math.min(SHORT_LEG_MAX_PULL_G, needed, spare, available);
+
+      if (!Number.isFinite(grams) || grams < 1) continue;
+
+      row.skCarbsDrunk += grams;
+      row.carbs += grams;
+      syncBottleDrain(row);
+
+      next.skFlaskCarbsStart = row.skFlaskCarbsLeft;
+      next.skCarbsDrunk = Math.max(0, next.skCarbsDrunk - grams);
+      next.carbs = Math.max(0, next.carbs - grams);
+      syncBottleDrain(next);
+    }
+  }
+
   function computed() {
     const legs = currentLegs();
     const aidSchedule = PROFILE.buildAidSchedule(AID, legs);
     const aidStops = aidSchedule.stops;
-    let totMi=0, totHr=0, totCarbs=0, totFluid=0, totFluidIdeal=0, totNa=0, totGain=0, totLoss=0;
-    let totGels=0, totSalt=0, totSk=0, totSkMl=0, totH2oMl=0, totCMl=0;
     const skPlan = simZiplocks(legs);
 
     const rows = legs.map((L, i) => {
@@ -1142,7 +1189,7 @@
       const carbs = Math.round(skCarbsDrunk + gels * GEL_CARBS);
 
       // --- sodium ---
-      const skNa = Math.round(skCarbsDrunk * (SK_NA_PER_SCOOP / SK_CARBS_PER_SCOOP));
+      const skNa = skSodiumForCarbs(skCarbsDrunk);
       const gelsNa = gels * GEL_NA;
       const naTarget = Math.max(
         Math.round(L.hr * z.naMinPerHr),
@@ -1157,10 +1204,6 @@
       const depHr = aidStops[i].depH;
       const arrHr = aidStops[i + 1].arrH;
 
-      totMi += L.mi; totHr += L.hr; totCarbs += carbs; totFluid += z.fluidMl; totFluidIdeal += z.fluidIdeal; totNa += totalNa;
-      totGain += L.gain; totLoss += L.loss;
-      totGels += gels; totSalt += salt; totSk += addScoops;
-      totSkMl += z.skMl; totH2oMl += z.h2oMl; totCMl += z.cMl;
       return {
         depHr, arrHr,
         L, addScoops, gels, salt, carbs, fluid: z.fluidMl, fluidIdeal: z.fluidIdeal,
@@ -1173,28 +1216,36 @@
         skFlaskMlLeft: Math.max(0, SK_FLASK_ML - z.skMl),
       };
     });
+    smoothShortLegCarbs(rows);
     const pockets = simPockets(rows);
     rows.forEach((row, i) => Object.assign(row, pockets[i]));
+    const totals = rows.reduce((acc, row) => {
+      acc.totMi += row.L.mi;
+      acc.totHr += row.L.hr;
+      acc.totCarbs += row.carbs;
+      acc.totFluid += row.fluid;
+      acc.totFluidIdeal += row.fluidIdeal;
+      acc.totNa += row.totalNa;
+      acc.totGain += row.L.gain;
+      acc.totLoss += row.L.loss;
+      acc.totGels += row.gels;
+      acc.totSalt += row.salt;
+      acc.totSk += row.addScoops;
+      acc.totSkMl += row.skMl;
+      acc.totH2oMl += row.h2oMl;
+      acc.totCMl += row.cMl;
+      return acc;
+    }, {
+      totMi: 0, totHr: 0, totCarbs: 0, totFluid: 0, totFluidIdeal: 0, totNa: 0,
+      totGain: 0, totLoss: 0, totGels: 0, totSalt: 0, totSk: 0, totSkMl: 0, totH2oMl: 0, totCMl: 0
+    });
     return {
       rows,
       legs,
       aidStops,
       skPlan,
-      totMi,
-      totHr,
-      totCarbs,
-      totFluid,
-      totFluidIdeal,
-      totFluidShort: Math.max(0, totFluidIdeal - totFluid),
-      totNa,
-      totGain,
-      totLoss,
-      totGels,
-      totSalt,
-      totSk,
-      totSkMl,
-      totH2oMl,
-      totCMl,
+      ...totals,
+      totFluidShort: Math.max(0, totals.totFluidIdeal - totals.totFluid),
       maxGels: Math.max(...rows.map(r => r.gels), 0),
       maxSalt: Math.max(...rows.map(r => r.salt), 0),
       carryLimitedLegs: rows.filter(r => r.fluidShort > 0),
