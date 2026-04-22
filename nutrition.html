@@ -1283,9 +1283,8 @@
         : 'use one in the first half and one in the second half';
     }
     const everyMin = Math.round(totalMin / (count + 1));
-    return kind === 'salt'
-      ? `spread them about every ${everyMin} min`
-      : `space them about every ${everyMin} min`;
+    const friendlyMin = everyMin <= 17 ? 15 : (everyMin <= 24 ? 20 : 30);
+    return `about every ${friendlyMin} min`;
   }
 
   const SHORT_LEG_CARB_FLOOR_HR = 70;
