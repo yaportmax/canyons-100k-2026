@@ -353,7 +353,7 @@
   }
   .expand-grid {
     display: grid;
-    grid-template-columns: 1.1fr 1fr 1fr;
+    grid-template-columns: 1.12fr 1fr;
     gap: 22px;
     max-width: 100%;
   }
@@ -1083,16 +1083,16 @@
   // Base leg times are then reshaped by the shared time-of-day profile so early legs can
   // run a touch cooler/faster while exposed midday canyon legs absorb more heat penalty.
   const BASE_LEGS = [
-    { from: "China Wall",        to: "Deadwood 1",       mi: 11.2, gain: 2382, loss: 3081, hr: 3.05, terrain: "Long opening descent on rolling singletrack. Stay relaxed and don't redline.", crew: false },
-    { from: "Deadwood 1",        to: "Swinging Bridge",  mi: 2.3,  gain:  179, loss: 1770, hr: 0.47, terrain: "Steep drop into the canyon to the turnaround. Quick and controlled.", crew: false },
-    { from: "Swinging Bridge",   to: "Deadwood 2",       mi: 2.3,  gain: 1767, loss:  176, hr: 1.11, terrain: "The climb back out. Power-hike the switchbacks and keep the effort capped.", crew: false },
-    { from: "Deadwood 2",        to: "Michigan Bluff",   mi: 6.8,  gain: 1937, loss: 2778, hr: 2.02, terrain: "Ridge running, creek drop, then the grind up to Michigan Bluff.", crew: false },
-    { from: "Michigan Bluff",    to: "Foresthill",       mi: 5.9,  gain: 1233, loss: 1430, hr: 1.74, terrain: "Volcano Canyon down, Bath Road back up. Stay smooth.", crew: false },
-    { from: "Foresthill",        to: "Cal 2",            mi: 8.2,  gain: 1103, loss: 2691, hr: 2.03, terrain: "Cal Street is runnable but expensive. Keep the governor on.", crew: false },
-    { from: "Cal 2",             to: "Driver's Flat",    mi: 9.3,  gain: 1938, loss: 1939, hr: 2.69, terrain: "Long exposed pull out of the canyon. This is a patience leg.", crew: false },
-    { from: "Driver's Flat",     to: "Mammoth Bar",      mi: 7.9,  gain: 1219, loss: 2285, hr: 2.06, terrain: "Drop back to the river, then keep moving through the rollers.", crew: false },
-    { from: "Mammoth Bar",       to: "Confluence",       mi: 3.7,  gain:  797, loss:  844, hr: 1.04, terrain: "Technical river singletrack through the No Hands section.", crew: false },
-    { from: "Confluence",        to: "Finish",           mi: 4.0,  gain: 1093, loss:  401, hr: 1.29, terrain: "Robie Point and the last climb to Auburn. Empty the tank late.", crew: false },
+    { from: "China Wall",        to: "Deadwood 1",       mi: 11.2, gain: 2382, loss: 3081, hr: 3.05, crew: false },
+    { from: "Deadwood 1",        to: "Swinging Bridge",  mi: 2.3,  gain:  179, loss: 1770, hr: 0.47, crew: false },
+    { from: "Swinging Bridge",   to: "Deadwood 2",       mi: 2.3,  gain: 1767, loss:  176, hr: 1.11, crew: false },
+    { from: "Deadwood 2",        to: "Michigan Bluff",   mi: 6.8,  gain: 1937, loss: 2778, hr: 2.02, crew: false },
+    { from: "Michigan Bluff",    to: "Foresthill",       mi: 5.9,  gain: 1233, loss: 1430, hr: 1.74, crew: false },
+    { from: "Foresthill",        to: "Cal 2",            mi: 8.2,  gain: 1103, loss: 2691, hr: 2.03, crew: false },
+    { from: "Cal 2",             to: "Driver's Flat",    mi: 9.3,  gain: 1938, loss: 1939, hr: 2.69, crew: false },
+    { from: "Driver's Flat",     to: "Mammoth Bar",      mi: 7.9,  gain: 1219, loss: 2285, hr: 2.06, crew: false },
+    { from: "Mammoth Bar",       to: "Confluence",       mi: 3.7,  gain:  797, loss:  844, hr: 1.04, crew: false },
+    { from: "Confluence",        to: "Finish",           mi: 4.0,  gain: 1093, loss:  401, hr: 1.29, crew: false },
   ].map((leg) => {
     const shared = PROFILE.findSegment(leg.from, leg.to);
     return {
@@ -1613,7 +1613,7 @@
         <td class="num-c">${r.totalNa} mg</td>
         <td>${pills}</td>
       </tr>
-      <tr class="leg-expand" data-expand="${idx}"><td colspan="11"><div class="expand-grid">${packListForLeg(c.rows, r, idx, z)}${drinkPlanForLeg(r)}<div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div></div></td></tr>`;
+      <tr class="leg-expand" data-expand="${idx}"><td colspan="11"><div class="expand-grid">${packListForLeg(c.rows, r, idx, z)}${drinkPlanForLeg(r)}</div></td></tr>`;
 
       mobileHtml += `<details class="m-leg-card ${L.crew?'crew':''}">
         <summary>
@@ -1653,7 +1653,6 @@
           <div class="expand-grid">
             ${packListForLeg(c.rows, r, idx, z)}
             ${drinkPlanForLeg(r)}
-            <div class="pack-list"><div class="pack-title">Terrain</div><p style="margin:0;color:var(--ink);line-height:1.5">${L.terrain}</p></div>
           </div>
         </div>
       </details>`;

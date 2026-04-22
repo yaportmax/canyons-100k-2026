@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Canyons 100K Race Card</title>
+<style>
+  :root {
+    --bg: #f7f1e6;
+    --paper: #fbf7ef;
+    --line: rgba(40, 28, 20, 0.18);
+    --line-strong: rgba(40, 28, 20, 0.3);
+    --ink: #1f1712;
+    --muted: #75685d;
+    --accent: #d4478a;
+    --gold: #c1932e;
+    --water: #5b7d93;
+    --crew: #b56f1d;
+    --shadow: 0 12px 28px rgba(28, 21, 15, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at top right, rgba(212, 71, 138, 0.06), transparent 24rem),
+      linear-gradient(180deg, #fbf7ef 0%, #f7f1e6 100%);
+    color: var(--ink);
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.45;
+  }
+  a { color: inherit; }
+  .wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 20px 14px 40px;
+  }
+  .hero {
+    background: rgba(251, 247, 239, 0.92);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    padding: 18px 16px 16px;
+    margin-bottom: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(14px);
+  }
+  .eyebrow,
+  .card-k,
+  .section-k,
+  .mini {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  h1 {
+    margin: 6px 0 8px;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: clamp(38px, 9vw, 54px);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+  }
+  .hero p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .summary-card {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 10px 11px 11px;
+    min-width: 0;
+  }
+  .summary-card .v {
+    margin-top: 5px;
+    display: block;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 25px;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+  }
+  .summary-card .sub {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .summary-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 9px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  .pill.carb { border-color: rgba(193, 147, 46, 0.55); background: rgba(193, 147, 46, 0.08); }
+  .pill.gel { border-color: rgba(212, 71, 138, 0.55); background: rgba(212, 71, 138, 0.08); color: #8f2f63; }
+  .pill.salt { border-color: rgba(91, 58, 110, 0.5); background: rgba(91, 58, 110, 0.08); color: #5b3a6e; }
+  .pill.crew { border-color: rgba(181, 111, 29, 0.55); background: rgba(181, 111, 29, 0.08); color: #8d5614; }
+  .jump-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .jump-row a {
+    text-decoration: none;
+    border: 1px solid var(--line);
+    padding: 7px 10px;
+    background: var(--paper);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .jump-row a:hover { background: #f3ede1; }
+  section { margin-top: 18px; }
+  .section-head {
+    margin-bottom: 10px;
+  }
+  .section-head h2 {
+    margin: 5px 0 0;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: clamp(28px, 6vw, 38px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+  .crew-grid,
+  .leg-list {
+    display: grid;
+    gap: 10px;
+  }
+  .crew-card,
+  .leg-card {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    box-shadow: var(--shadow);
+  }
+  .crew-card {
+    padding: 14px 14px 13px;
+  }
+  .crew-card.finish { border-color: rgba(212, 71, 138, 0.4); }
+  .crew-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .crew-name {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .crew-time {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 21px;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .crew-sub {
+    margin-top: 3px;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+  }
+  .crew-card ul,
+  .detail-block ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+  .crew-card li,
+  .detail-block li {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  details.leg-card {
+    overflow: hidden;
+  }
+  details.leg-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 14px 13px;
+  }
+  details.leg-card summary::-webkit-details-marker { display: none; }
+  details.leg-card[open] summary {
+    background: #f3ede1;
+    border-bottom: 1px solid var(--line);
+  }
+  .leg-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .leg-title {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 26px;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+  .leg-kicker {
+    margin-top: 5px;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+  }
+  .leg-time {
+    text-align: right;
+    white-space: nowrap;
+  }
+  .leg-time .v {
+    display: block;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 26px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .leg-time .sub {
+    margin-top: 4px;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+  }
+  .leg-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .meta-box {
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+    min-width: 0;
+  }
+  .meta-box .v {
+    display: block;
+    margin-top: 4px;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 20px;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .meta-box .sub {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .bottle-grid {
+    display: grid;
+    gap: 7px;
+    margin-top: 12px;
+    padding: 10px 11px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.28);
+  }
+  .bottle-row {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 44px;
+    gap: 8px;
+    align-items: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .bottle-row .label {
+    color: var(--ink);
+  }
+  .bar {
+    height: 8px;
+    border: 1px solid var(--line);
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    display: block;
+    height: 100%;
+  }
+  .bar.carb i { background: var(--gold); }
+  .bar.h2o i { background: rgba(91, 125, 147, 0.68); }
+  .leg-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .detail-grid {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+  }
+  .detail-block {
+    border-top: 1px solid var(--line);
+    padding-top: 10px;
+  }
+  .detail-block h3 {
+    margin: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer-note {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    background: rgba(251, 247, 239, 0.8);
+    color: var(--muted);
+    font-size: 13px;
+  }
+  @media (min-width: 760px) {
+    .wrap { padding: 24px 20px 52px; }
+    .summary-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .crew-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 440px) {
+    .wrap { padding-left: 10px; padding-right: 10px; }
+    .hero { padding-left: 12px; padding-right: 12px; }
+    .leg-head,
+    .crew-top { flex-direction: column; align-items: flex-start; }
+    .leg-time { text-align: left; }
+    .bottle-row { grid-template-columns: 44px minmax(0, 1fr) 38px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Canyons 100K 2026</div>
+    <h1>Race card.</h1>
+    <p>Offline mobile cheat sheet built from the current nutrition plan snapshot: moderate 60-75F, 17:30 target, 10 min crew stops, 5 min solo stops.</p>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <div class="summary-strip" id="summaryStrip"></div>
+    <div class="jump-row">
+      <a href="#crew">Crew stops</a>
+      <a href="#legs">Legs</a>
+      <a href="#leg-1">Start</a>
+      <a href="#leg-5">Foresthill</a>
+      <a href="#leg-8">Driver's Flat</a>
+      <a href="#leg-10">Finish push</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="crew">
+      <div class="section-head">
+        <div class="section-k">Section 1</div>
+        <h2>Crew handoffs.</h2>
+      </div>
+      <div class="crew-grid" id="crewGrid"></div>
+    </section>
+
+    <section id="legs">
+      <div class="section-head">
+        <div class="section-k">Section 2</div>
+        <h2>Leg by leg.</h2>
+      </div>
+      <div class="leg-list" id="legList"></div>
+    </section>
+
+    <div class="footer-note">
+      Keep this file in Files on your phone. It has no external assets, no network fetches, and no shared site dependencies.
+    </div>
+  </main>
+</div>
+
+<script>
+const DATA = {
+  "meta": {
+    "heat": "moderate",
+    "target": "17:30",
+    "start": "5:00 AM",
+    "finish": "10:30 PM",
+    "carbs": 1335,
+    "fluid": "9.03 L",
+    "sodium": 9045,
+    "gels": 25,
+    "salt": 27,
+    "scoops": 56
+  },
+  "crewStops": [
+    {
+      "name": "China Wall",
+      "start": true,
+      "finish": false,
+      "arr": "5:00 AM",
+      "dep": "5:00 AM",
+      "dwellMin": 0
+    },
+    {
+      "name": "Michigan Bluff",
+      "start": false,
+      "finish": false,
+      "arr": "11:26 AM",
+      "dep": "11:36 AM",
+      "dwellMin": 10
+    },
+    {
+      "name": "Foresthill",
+      "start": false,
+      "finish": false,
+      "arr": "1:16 PM",
+      "dep": "1:26 PM",
+      "dwellMin": 10
+    },
+    {
+      "name": "Driver's Flat",
+      "start": false,
+      "finish": false,
+      "arr": "6:05 PM",
+      "dep": "6:15 PM",
+      "dwellMin": 10
+    },
+    {
+      "name": "Finish",
+      "start": false,
+      "finish": true,
+      "arr": "10:30 PM",
+      "dep": null,
+      "dwellMin": 0
+    }
+  ],
+  "legs": [
+    {
+      "from": "China Wall",
+      "to": "Deadwood 1",
+      "crew": false,
+      "mile": 11.2,
+      "gain": 2382,
+      "loss": 3081,
+      "time": "2:49",
+      "dep": "5:00 AM",
+      "arr": "7:49 AM",
+      "pace": "15'06\"/mi",
+      "carbs": 232,
+      "fluidMl": 1343,
+      "sodium": 1284,
+      "bottles": { "A": 100, "B": 100, "C": 57 },
+      "topPills": { "bag": "carb powder - 100g", "gels": 6, "salt": 4 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "C H2O: fill water",
+        "Pockets: load 9 gels + 9 salt tabs"
+      ],
+      "onLeg": [
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 500 ml - finish it",
+        "C: 343 ml - drink about half",
+        "6 gels - space them about every 24 min",
+        "4 salt tabs - spread them about every 34 min"
+      ]
+    },
+    {
+      "from": "Deadwood 1",
+      "to": "Swinging Bridge",
+      "crew": false,
+      "mile": 2.3,
+      "gain": 179,
+      "loss": 1770,
+      "time": "0:26",
+      "dep": "7:54 AM",
+      "arr": "8:20 AM",
+      "pace": "11'22\"/mi",
+      "carbs": 29,
+      "fluidMl": 216,
+      "sodium": 331,
+      "bottles": { "A": 29, "B": 14, "C": null },
+      "topPills": { "bag": "carb powder - 100g", "gels": 0, "salt": 1 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water"
+      ],
+      "onLeg": [
+        "A: 145 ml - drink about 1/3 - ~29g carbs",
+        "B: 71 ml - just a few pulls",
+        "1 salt tab - take it late on the leg"
+      ]
+    },
+    {
+      "from": "Swinging Bridge",
+      "to": "Deadwood 2",
+      "crew": false,
+      "mile": 2.3,
+      "gain": 1767,
+      "loss": 176,
+      "time": "1:02",
+      "dep": "8:25 AM",
+      "arr": "9:27 AM",
+      "pace": "26'56\"/mi",
+      "carbs": 81,
+      "fluidMl": 526,
+      "sodium": 455,
+      "bottles": { "A": 83, "B": 22, "C": null },
+      "topPills": { "bag": "top off - 71g", "gels": 1, "salt": 1 },
+      "leaving": [
+        "A Carbs: keep carry-over + top off (71g left)",
+        "B H2O: top off water"
+      ],
+      "onLeg": [
+        "A: 415 ml - drink about 3/4 to 4/5 - ~59g carbs",
+        "B: 111 ml - just a few pulls",
+        "1 gel - use it around halfway",
+        "1 salt tab - take it around halfway"
+      ]
+    },
+    {
+      "from": "Deadwood 2",
+      "to": "Michigan Bluff",
+      "crew": false,
+      "mile": 6.8,
+      "gain": 1937,
+      "loss": 2778,
+      "time": "1:54",
+      "dep": "9:32 AM",
+      "arr": "11:26 AM",
+      "pace": "16'43\"/mi",
+      "carbs": 144,
+      "fluidMl": 1022,
+      "sodium": 1053,
+      "bottles": { "A": 100, "B": 100, "C": 4 },
+      "topPills": { "bag": "carb powder - 100g", "gels": 2, "salt": 3 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "C H2O: fill water"
+      ],
+      "onLeg": [
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 500 ml - finish it",
+        "C: 22 ml - just a few sips",
+        "2 gels - use one in the first half and one in the second half",
+        "3 salt tabs - spread them about every 29 min"
+      ]
+    },
+    {
+      "from": "Michigan Bluff",
+      "to": "Foresthill",
+      "crew": true,
+      "mile": 5.9,
+      "gain": 1233,
+      "loss": 1430,
+      "time": "1:40",
+      "dep": "11:36 AM",
+      "arr": "1:16 PM",
+      "pace": "16'57\"/mi",
+      "carbs": 144,
+      "fluidMl": 988,
+      "sodium": 1053,
+      "bottles": { "A": 100, "B": 98, "C": null },
+      "topPills": { "bag": "carb powder - 100g", "gels": 2, "salt": 3 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "Pockets: load 2 gels + 3 salt tabs"
+      ],
+      "onLeg": [
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 488 ml - drink almost all of it",
+        "2 gels - use one in the first half and one in the second half",
+        "3 salt tabs - spread them about every 25 min"
+      ]
+    },
+    {
+      "from": "Foresthill",
+      "to": "Cal 2",
+      "crew": true,
+      "mile": 8.2,
+      "gain": 1103,
+      "loss": 2691,
+      "time": "1:59",
+      "dep": "1:26 PM",
+      "arr": "3:24 PM",
+      "pace": "14'28\"/mi",
+      "carbs": 166,
+      "fluidMl": 1272,
+      "sodium": 1272,
+      "bottles": { "A": 100, "B": 100, "C": 45 },
+      "topPills": { "bag": "carb powder - 100g", "gels": 3, "salt": 4 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "C H2O: fill water",
+        "Pockets: load 8 gels + 9 salt tabs"
+      ],
+      "onLeg": [
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 500 ml - finish it",
+        "C: 272 ml - drink about half",
+        "3 gels - space them about every 30 min",
+        "4 salt tabs - spread them about every 24 min"
+      ]
+    },
+    {
+      "from": "Cal 2",
+      "to": "Driver's Flat",
+      "crew": false,
+      "mile": 9.3,
+      "gain": 1938,
+      "loss": 1939,
+      "time": "2:36",
+      "dep": "3:29 PM",
+      "arr": "6:05 PM",
+      "pace": "16'44\"/mi",
+      "carbs": 210,
+      "fluidMl": 1577,
+      "sodium": 1495,
+      "bottles": { "A": 100, "B": 100, "C": 96 },
+      "topPills": { "bag": "carb powder - 100g", "gels": 5, "salt": 5 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "C H2O: fill water"
+      ],
+      "onLeg": [
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 500 ml - finish it",
+        "C: 577 ml - drink almost all of it",
+        "5 gels - space them about every 26 min",
+        "5 salt tabs - spread them about every 26 min"
+      ]
+    },
+    {
+      "from": "Driver's Flat",
+      "to": "Mammoth Bar",
+      "crew": true,
+      "mile": 7.9,
+      "gain": 1219,
+      "loss": 2285,
+      "time": "1:56",
+      "dep": "6:15 PM",
+      "arr": "8:11 PM",
+      "pace": "14'38\"/mi",
+      "carbs": 144,
+      "fluidMl": 1028,
+      "sodium": 1053,
+      "bottles": { "A": 100, "B": 100, "C": 5 },
+      "topPills": { "bag": "carb powder - 100g", "gels": 2, "salt": 3 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water",
+        "C H2O: finish what's left (~23 ml)",
+        "Pockets: load 6 gels + 6 salt tabs"
+      ],
+      "onLeg": [
+        "A: 500 ml - finish it - ~100g carbs",
+        "B: 500 ml - finish it",
+        "C: 28 ml - just a few sips",
+        "2 gels - use one in the first half and one in the second half",
+        "3 salt tabs - spread them about every 29 min"
+      ]
+    },
+    {
+      "from": "Mammoth Bar",
+      "to": "Confluence",
+      "crew": false,
+      "mile": 3.7,
+      "gain": 797,
+      "loss": 844,
+      "time": "0:58",
+      "dep": "8:16 PM",
+      "arr": "9:13 PM",
+      "pace": "15'37\"/mi",
+      "carbs": 83,
+      "fluidMl": 478,
+      "sodium": 463,
+      "bottles": { "A": 61, "B": 35, "C": null },
+      "topPills": { "bag": "carb powder - 100g", "gels": 1, "salt": 1 },
+      "leaving": [
+        "A Carbs: use 1 carb powder bag + fill with water",
+        "B H2O: top off water"
+      ],
+      "onLeg": [
+        "A: 303 ml - drink about 2/3 - ~61g carbs",
+        "B: 175 ml - drink about 1/3",
+        "1 gel - use it around halfway",
+        "1 salt tab - take it around halfway"
+      ]
+    },
+    {
+      "from": "Confluence",
+      "to": "Finish",
+      "crew": false,
+      "mile": 4,
+      "gain": 1093,
+      "loss": 401,
+      "time": "1:12",
+      "dep": "9:18 PM",
+      "arr": "10:30 PM",
+      "pace": "17'53\"/mi",
+      "carbs": 102,
+      "fluidMl": 575,
+      "sodium": 586,
+      "bottles": { "A": 92, "B": 23, "C": null },
+      "topPills": { "bag": "top off - 39g", "gels": 3, "salt": 2 },
+      "leaving": [
+        "A Carbs: keep carry-over + top off (39g left)",
+        "B H2O: top off water"
+      ],
+      "onLeg": [
+        "A: 460 ml - drink almost all of it - ~36g carbs",
+        "B: 115 ml - just a few pulls",
+        "3 gels - space them about every 18 min",
+        "2 salt tabs - take one in the first half and one in the second half"
+      ]
+    }
+  ]
+};
+
+const summaryGrid = document.getElementById('summaryGrid');
+const summaryStrip = document.getElementById('summaryStrip');
+const crewGrid = document.getElementById('crewGrid');
+const legList = document.getElementById('legList');
+
+function esc(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
+
+function summaryCard(label, value, sub) {
+  return `<div class="summary-card"><span class="card-k">${label}</span><span class="v">${value}</span><div class="sub">${sub}</div></div>`;
+}
+
+function pill(label, cls) {
+  return `<span class="pill ${cls}">${esc(label)}</span>`;
+}
+
+summaryGrid.innerHTML = [
+  summaryCard('Target', DATA.meta.target, `${DATA.meta.heat} conditions`),
+  summaryCard('Start', DATA.meta.start, 'China Wall'),
+  summaryCard('Finish', DATA.meta.finish, 'Downtown Auburn'),
+  summaryCard('Totals', `${DATA.meta.carbs}g`, `${DATA.meta.fluid} fluid`)
+].join('');
+
+summaryStrip.innerHTML = [
+  pill(`${DATA.meta.scoops} scoops carbs`, 'carb'),
+  pill(`${DATA.meta.gels} gels`, 'gel'),
+  pill(`${DATA.meta.salt} salt tabs`, 'salt'),
+  pill(`${Math.round(DATA.meta.sodium / 1000 * 10) / 10}g sodium`, 'crew')
+].join('');
+
+const crewLegMap = new Map(DATA.legs.map((leg) => [leg.from, leg]));
+
+crewGrid.innerHTML = DATA.crewStops.map((stop) => {
+  const nextLeg = crewLegMap.get(stop.name);
+  const actions = [];
+  if (stop.finish) {
+    actions.push('Hand over vest and bottles.');
+    actions.push('Shotgun a beer.');
+  } else if (nextLeg) {
+    actions.push(...nextLeg.leaving);
+  }
+  const chips = [];
+  if (stop.start) chips.push(pill('start', 'crew'));
+  else if (stop.finish) chips.push(pill('finish', 'gel'));
+  else chips.push(pill(`${stop.dwellMin} min crew`, 'crew'));
+  return `
+    <article class="crew-card ${stop.finish ? 'finish' : ''}" id="crew-${stop.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}">
+      <div class="crew-top">
+        <div>
+          <div class="crew-name">${esc(stop.name)}</div>
+          <div class="crew-sub">${stop.finish ? `arr ${esc(stop.arr)}` : `arr ${esc(stop.arr)} - out ${esc(stop.dep)}`}</div>
+        </div>
+        <div class="crew-time">${stop.finish ? esc(stop.arr) : esc(stop.dep)}</div>
+      </div>
+      <div class="summary-strip">${chips.join('')}</div>
+      <ul>${actions.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+    </article>
+  `;
+}).join('');
+
+legList.innerHTML = DATA.legs.map((leg, idx) => {
+  const pills = [
+    pill(leg.topPills.bag, 'carb'),
+    leg.topPills.gels ? pill(`${leg.topPills.gels} gels`, 'gel') : '',
+    leg.topPills.salt ? pill(`${leg.topPills.salt} salt`, 'salt') : '',
+    leg.crew ? pill('leave crew', 'crew') : ''
+  ].filter(Boolean).join('');
+
+  const bottleRows = [
+    { key: 'A', label: 'A', pct: leg.bottles.A, cls: 'carb' },
+    { key: 'B', label: 'B', pct: leg.bottles.B, cls: 'h2o' },
+    { key: 'C', label: 'C', pct: leg.bottles.C, cls: 'h2o' }
+  ].map((item) => {
+    const pct = item.pct == null ? '--' : `${item.pct}%`;
+    const width = item.pct == null ? 0 : item.pct;
+    const opacity = item.pct == null ? ' style="opacity:0.35"' : '';
+    return `<div class="bottle-row"${opacity}><span class="label">${item.label}</span><div class="bar ${item.cls}"><i style="width:${width}%"></i></div><span>${pct}</span></div>`;
+  }).join('');
+
+  return `
+    <details class="leg-card" id="leg-${idx + 1}" ${idx < 2 ? 'open' : ''}>
+      <summary>
+        <div class="leg-head">
+          <div>
+            <div class="leg-title">${esc(leg.from)}<br />&rarr; ${esc(leg.to)}</div>
+            <div class="leg-kicker">dep ${esc(leg.dep)} - arr ${esc(leg.arr)}</div>
+          </div>
+          <div class="leg-time">
+            <span class="v">${esc(leg.time)}</span>
+            <span class="sub">${esc(leg.pace)}</span>
+          </div>
+        </div>
+        <div class="leg-meta">
+          <div class="meta-box"><span class="mini">Distance</span><span class="v">${leg.mile.toFixed(1)}mi</span><div class="sub">+${leg.gain}ft / -${leg.loss}ft</div></div>
+          <div class="meta-box"><span class="mini">Fuel</span><span class="v">${leg.carbs}g</span><div class="sub">${leg.fluidMl}ml - ${leg.sodium}mg Na</div></div>
+        </div>
+        <div class="bottle-grid">
+          <div class="mini">Bottles drained this leg</div>
+          ${bottleRows}
+        </div>
+        <div class="leg-pills">${pills}</div>
+      </summary>
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h3>Leaving ${esc(leg.from)}</h3>
+          <ul>${leg.leaving.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+        </div>
+        <div class="detail-block">
+          <h3>On the leg</h3>
+          <ul>${leg.onLeg.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </details>
+  `;
+}).join('');
+</script>
+</body>
+</html>
