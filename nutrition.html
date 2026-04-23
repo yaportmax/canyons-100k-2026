@@ -1082,6 +1082,14 @@
 
 </section>
 
+<hr class="hairline" />
+
+<section class="panel">
+  <h2><span class="num">§ 04</span>Prep &amp; packing.</h2>
+  <div class="ziplock-summary" id="prepSummary"></div>
+  <div class="pack-grid" id="prepGrid"></div>
+</section>
+
 <div class="foot">
   <span>§ Nutrition · Canyons 100K · 25 April 2026</span>
   <span id="footTargetLine">~80 g/hr avg · salty-sweater sodium profile · 17:30 target</span>
@@ -2146,6 +2154,85 @@
     }
     return { startBags, handoffs, isBagCrew };
   }
+  function bagCountLabel(count) {
+    return `${count} ${count === 1 ? 'bag' : 'bags'}`;
+  }
+  function renderPrep(c) {
+    const prepSummary = document.getElementById('prepSummary');
+    const prepGrid = document.getElementById('prepGrid');
+    const totalBags = c.skPlan.filter(z => z.useBag).length;
+    const totalScoops = totalBags * CARB_BAG_SCOOPS;
+    const totalCarbs = totalBags * CARB_BAG_CARBS;
+    const { startBags, handoffs } = crewRestocks(c.skPlan);
+    const stages = [
+      {
+        label: 'Start',
+        title: 'China Wall / vest',
+        total: startBags,
+        immediate: c.skPlan[0].useBag ? 1 : 0,
+        carry: Math.max(0, startBags - (c.skPlan[0].useBag ? 1 : 0)),
+        note: 'Prep Flask A with 1 full bag before the start. Carry the spares in the vest. This covers China Wall through Deadwood 2, with no refill at Swinging Bridge.'
+      },
+      {
+        label: 'Crew',
+        title: 'Michigan Bluff',
+        total: handoffs[4] || 0,
+        immediate: c.skPlan[4].useBag ? 1 : 0,
+        carry: Math.max(0, (handoffs[4] || 0) - (c.skPlan[4].useBag ? 1 : 0)),
+        note: 'Crew only needs the bag(s) for the next leg out. No extra spare is needed after leaving Michigan Bluff.'
+      },
+      {
+        label: 'Crew',
+        title: 'Foresthill',
+        total: handoffs[5] || 0,
+        immediate: c.skPlan[5].useBag ? 1 : 0,
+        carry: Math.max(0, (handoffs[5] || 0) - (c.skPlan[5].useBag ? 1 : 0)),
+        note: 'One bag goes straight into Flask A leaving Foresthill. The extra spare covers Cal 2 to Driver’s Flat.'
+      },
+      {
+        label: 'Crew',
+        title: 'Driver’s Flat',
+        total: handoffs[7] || 0,
+        immediate: c.skPlan[7].useBag ? 1 : 0,
+        carry: Math.max(0, (handoffs[7] || 0) - (c.skPlan[7].useBag ? 1 : 0)),
+        note: 'One bag is for Driver’s Flat to Mammoth Bar. The extra spare covers Mammoth Bar to Confluence. Finish is carry-over only.'
+      }
+    ];
+
+    prepSummary.innerHTML = `
+      <div class="cell">
+        <div class="lab">Total To Prep</div>
+        <div class="val">${totalBags}<small>bags</small></div>
+        <div class="sub">full Skratch carb bags for Flask A</div>
+      </div>
+      <div class="cell">
+        <div class="lab">Total Scoops</div>
+        <div class="val">${totalScoops}<small>scoops</small></div>
+        <div class="sub">7 scoops per bag</div>
+      </div>
+      <div class="cell">
+        <div class="lab">Total Carbs</div>
+        <div class="val">${totalCarbs}<small>g</small></div>
+        <div class="sub">100 g per bag</div>
+      </div>
+      <div class="cell">
+        <div class="lab">Split</div>
+        <div class="val">${startBags} / ${(handoffs[4] || 0) + (handoffs[5] || 0) + (handoffs[7] || 0)}<small>start / crew</small></div>
+        <div class="sub">${startBags} at the start · ${(handoffs[4] || 0)} MB · ${(handoffs[5] || 0)} FH · ${(handoffs[7] || 0)} DF</div>
+      </div>
+    `;
+
+    prepGrid.innerHTML = stages.map((stage) => `
+      <article class="pack-card">
+        <div class="lab">${stage.label}</div>
+        <h3>${stage.title}</h3>
+        <div class="row"><span class="what">Put here</span><span class="qty">${bagCountLabel(stage.total)}</span></div>
+        <div class="row"><span class="what">Use immediately</span><span class="qty">${bagCountLabel(stage.immediate)}</span></div>
+        <div class="row"><span class="what">${stage.label === 'Start' ? 'Carry out' : 'Leave with spare'}</span><span class="qty">${bagCountLabel(stage.carry)}</span></div>
+        <div class="note">${stage.note}</div>
+      </article>
+    `).join('');
+  }
 
   // ====== Toggles ======
   function setToggle(id, attr, current) {
@@ -2157,6 +2244,7 @@
     renderTotals(c);
     renderSegments(c);
     renderAid(c);
+    renderPrep(c);
   }
   const timeSlider = document.getElementById('timeSlider');
   timeSlider.min = String(TARGET_MIN_MINUTES);
