@@ -2183,7 +2183,7 @@
       <div class="cell">
         <div class="lab">Bag Setup</div>
         <div class="val">4<small>kits</small></div>
-        <div class="sub">1 start bag · 3 crew-stop bags</div>
+        <div class="sub">1 labeled start bag · 3 labeled crew-stop bags</div>
       </div>
       <div class="cell">
         <div class="lab">Carb Bags</div>
@@ -2203,27 +2203,34 @@
       <div class="cell">
         <div class="lab">Crew Backpack</div>
         <div class="val">3<small>crew bags</small></div>
-        <div class="sub">Michigan Bluff · Foresthill · Driver’s Flat inside one larger backpack</div>
+        <div class="sub">Michigan Bluff · Foresthill · Driver’s Flat inside one larger backpack · no Mammoth Bar bag</div>
       </div>
     `;
 
     prepGrid.innerHTML = [
       prepCardHtml('Start bag', 'China Wall / start', [
+        ['Label', 'START'],
         ['Carb bags', bagCountLabel(startBags)],
         ['Gels', `${startRow.reloadGels}`],
         ['Salt tabs', `${startRow.reloadSalt}`],
+        ['Flask A', 'pre-fill 1 bag'],
+        ['Flask B', 'fill 500 ml'],
+        ['Flask C', 'fill 600 ml'],
         ['5-Hour', '1'],
         ['Headlamp', '1']
-      ], 'Use 1 carb bag to pre-fill Flask A before the start. Put the other 2 carb bags in the vest as spares. Start with Flask B full, Flask C full, and the headlamp already on.'),
+      ], 'Use 1 carb bag to pre-fill Flask A before the start. Put the other 2 carb bags in the vest as spares. Load the gels and salt tabs into the vest at the start.'),
       prepCardHtml('Crew bag', 'Michigan Bluff', [
+        ['Label', 'MICHIGAN BLUFF'],
         ['Carb bags', bagCountLabel(handoffs[4] || 0)],
         ['Gels', `${mbRow.reloadGels}`],
         ['Salt tabs', `${mbRow.reloadSalt}`],
         ['Face wipes', '1 pack'],
         ['Sunscreen stick', '1'],
-        ['Dry hat', 'if wanted']
-      ], 'This bag only needs what gets you out of Michigan Bluff. Drop the headlamp here and clear wrappers/trash here.'),
+        ['Dry hat', 'if wanted'],
+        ['Trash ziplock', '1']
+      ], 'This bag only needs what gets you out of Michigan Bluff. Drop the headlamp here, clear wrappers/trash here, and leave with just the next-leg reload.'),
       prepCardHtml('Crew bag', 'Foresthill', [
+        ['Label', 'FORESTHILL'],
         ['Carb bags', bagCountLabel(handoffs[5] || 0)],
         ['Gels', `${fhRow.reloadGels}`],
         ['Salt tabs', `${fhRow.reloadSalt}`],
@@ -2231,10 +2238,13 @@
         ['Toothbrush + toothpaste', '1'],
         ['Fresh shirt', '1'],
         ['Fresh socks', '1 pair'],
+        ['Fresh shorts / underwear', 'if wanted'],
+        ['Fresh hat', 'if wanted'],
         ['Fresh shoes', 'if wanted'],
         ['Quick lube', '1']
       ], 'Use 1 carb bag leaving Foresthill and leave with 1 spare carb bag to cover the Cal 2 to Driver’s Flat leg. This is the main midday reset bag.'),
       prepCardHtml('Crew bag', 'Driver’s Flat', [
+        ['Label', 'DRIVER’S FLAT'],
         ['Carb bags', bagCountLabel(handoffs[7] || 0)],
         ['Gels', `${dfRow.reloadGels}`],
         ['Salt tabs', `${dfRow.reloadSalt}`],
@@ -2243,7 +2253,8 @@
         ['Face wipes', '1 pack'],
         ['Toothbrush + toothpaste', '1'],
         ['Chapstick', '1'],
-        ['Dry hat', 'if wanted']
+        ['Dry hat', 'if wanted'],
+        ['5-Hour', '1 if first one used']
       ], 'Use 1 carb bag leaving Driver’s Flat and leave with 1 spare carb bag for Mammoth Bar to Confluence. Put the headlamp and layer on here for the dark finish push.'),
       prepCardHtml('Shared backpack', 'Bring to every crew stop', [
         ['Michigan Bluff bag', '1'],
@@ -2252,8 +2263,9 @@
         ['Spare 5-Hour', '1'],
         ['Trash / wrapper ziplock', '1'],
         ['Phone / watch charger', '1'],
-        ['Backup wipes / lube', '1 small kit']
-      ], 'Keep all 3 labeled crew bags inside this one larger backpack so the crew only has to move one thing between stops.')
+        ['Backup wipes / lube', '1 small kit'],
+        ['Backup chapstick / sunscreen', '1 small kit']
+      ], 'Keep all 3 labeled crew bags inside this one larger backpack so the crew only has to move one thing between stops. No separate Mammoth Bar or finish nutrition bag is needed.')
     ].join('');
   }
 
