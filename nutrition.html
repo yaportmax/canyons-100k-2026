@@ -753,7 +753,7 @@
   }
   .aid-card .leave-with b { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 3px; font-weight: 500; }
 
-  .pack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .pack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
   .pack-card { background: var(--paper); border: 1px solid var(--line); padding: 20px 18px; }
   .pack-card .lab { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
   .pack-card h3 { font-family: var(--serif); font-size: 19px; margin: 0 0 10px; font-weight: 500; letter-spacing: -0.015em; }
@@ -790,7 +790,7 @@
   .ziplock-block .sub { margin-top: 0; margin-bottom: 18px; }
   .ziplock-summary {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     border: 1px solid var(--line);
     background: var(--paper);
     margin-bottom: 18px;
@@ -2157,81 +2157,104 @@
   function bagCountLabel(count) {
     return `${count} ${count === 1 ? 'bag' : 'bags'}`;
   }
+  function prepCardHtml(label, title, rows, note) {
+    return `
+      <article class="pack-card">
+        <div class="lab">${label}</div>
+        <h3>${title}</h3>
+        ${rows.map(([what, qty]) => `<div class="row"><span class="what">${what}</span><span class="qty">${qty}</span></div>`).join('')}
+        <div class="note">${note}</div>
+      </article>
+    `;
+  }
   function renderPrep(c) {
     const prepSummary = document.getElementById('prepSummary');
     const prepGrid = document.getElementById('prepGrid');
     const totalBags = c.skPlan.filter(z => z.useBag).length;
-    const totalScoops = totalBags * CARB_BAG_SCOOPS;
-    const totalCarbs = totalBags * CARB_BAG_CARBS;
     const { startBags, handoffs } = crewRestocks(c.skPlan);
-    const stages = [
-      {
-        label: 'Start',
-        title: 'China Wall / vest',
-        total: startBags,
-        immediate: c.skPlan[0].useBag ? 1 : 0,
-        carry: Math.max(0, startBags - (c.skPlan[0].useBag ? 1 : 0)),
-        note: 'Prep Flask A with 1 full bag before the start. Carry the spares in the vest. This covers China Wall through Deadwood 2, with no refill at Swinging Bridge.'
-      },
-      {
-        label: 'Crew',
-        title: 'Michigan Bluff',
-        total: handoffs[4] || 0,
-        immediate: c.skPlan[4].useBag ? 1 : 0,
-        carry: Math.max(0, (handoffs[4] || 0) - (c.skPlan[4].useBag ? 1 : 0)),
-        note: 'Crew only needs the bag(s) for the next leg out. No extra spare is needed after leaving Michigan Bluff.'
-      },
-      {
-        label: 'Crew',
-        title: 'Foresthill',
-        total: handoffs[5] || 0,
-        immediate: c.skPlan[5].useBag ? 1 : 0,
-        carry: Math.max(0, (handoffs[5] || 0) - (c.skPlan[5].useBag ? 1 : 0)),
-        note: 'One bag goes straight into Flask A leaving Foresthill. The extra spare covers Cal 2 to Driver’s Flat.'
-      },
-      {
-        label: 'Crew',
-        title: 'Driver’s Flat',
-        total: handoffs[7] || 0,
-        immediate: c.skPlan[7].useBag ? 1 : 0,
-        carry: Math.max(0, (handoffs[7] || 0) - (c.skPlan[7].useBag ? 1 : 0)),
-        note: 'One bag is for Driver’s Flat to Mammoth Bar. The extra spare covers Mammoth Bar to Confluence. Finish is carry-over only.'
-      }
-    ];
+    const startRow = c.rows[0];
+    const mbRow = c.rows[4];
+    const fhRow = c.rows[5];
+    const dfRow = c.rows[7];
+    const totalPackedGels = startRow.reloadGels + mbRow.reloadGels + fhRow.reloadGels + dfRow.reloadGels;
+    const totalPackedSalt = startRow.reloadSalt + mbRow.reloadSalt + fhRow.reloadSalt + dfRow.reloadSalt;
 
     prepSummary.innerHTML = `
       <div class="cell">
-        <div class="lab">Total To Prep</div>
+        <div class="lab">Bag Setup</div>
+        <div class="val">4<small>kits</small></div>
+        <div class="sub">1 start bag · 3 crew-stop bags</div>
+      </div>
+      <div class="cell">
+        <div class="lab">Carb Bags</div>
         <div class="val">${totalBags}<small>bags</small></div>
-        <div class="sub">full Skratch carb bags for Flask A</div>
+        <div class="sub">${startBags} start · ${(handoffs[4] || 0)} MB · ${(handoffs[5] || 0)} FH · ${(handoffs[7] || 0)} DF</div>
       </div>
       <div class="cell">
-        <div class="lab">Total Scoops</div>
-        <div class="val">${totalScoops}<small>scoops</small></div>
-        <div class="sub">7 scoops per bag</div>
+        <div class="lab">Gels To Pack</div>
+        <div class="val">${totalPackedGels}<small>gels</small></div>
+        <div class="sub">${startRow.reloadGels} start · ${mbRow.reloadGels} MB · ${fhRow.reloadGels} FH · ${dfRow.reloadGels} DF</div>
       </div>
       <div class="cell">
-        <div class="lab">Total Carbs</div>
-        <div class="val">${totalCarbs}<small>g</small></div>
-        <div class="sub">100 g per bag</div>
+        <div class="lab">Salt Tabs To Pack</div>
+        <div class="val">${totalPackedSalt}<small>tabs</small></div>
+        <div class="sub">${startRow.reloadSalt} start · ${mbRow.reloadSalt} MB · ${fhRow.reloadSalt} FH · ${dfRow.reloadSalt} DF</div>
       </div>
       <div class="cell">
-        <div class="lab">Split</div>
-        <div class="val">${startBags} / ${(handoffs[4] || 0) + (handoffs[5] || 0) + (handoffs[7] || 0)}<small>start / crew</small></div>
-        <div class="sub">${startBags} at the start · ${(handoffs[4] || 0)} MB · ${(handoffs[5] || 0)} FH · ${(handoffs[7] || 0)} DF</div>
+        <div class="lab">Crew Backpack</div>
+        <div class="val">3<small>crew bags</small></div>
+        <div class="sub">Michigan Bluff · Foresthill · Driver’s Flat inside one larger backpack</div>
       </div>
     `;
 
-    prepGrid.innerHTML = stages.map((stage) => `
-      <article class="pack-card">
-        <div class="lab">${stage.label}</div>
-        <h3>${stage.title}</h3>
-        <div class="row"><span class="what">Put here</span><span class="qty">${bagCountLabel(stage.total)}</span></div>
-        <div class="row"><span class="what">Use immediately</span><span class="qty">${bagCountLabel(stage.immediate)}</span></div>
-        <div class="row"><span class="what">${stage.label === 'Start' ? 'Carry out' : 'Leave with spare'}</span><span class="qty">${bagCountLabel(stage.carry)}</span></div>
-        <div class="note">${stage.note}</div>
-      </article>
-    `).join('');
+    prepGrid.innerHTML = [
+      prepCardHtml('Start bag', 'China Wall / start', [
+        ['Carb bags', bagCountLabel(startBags)],
+        ['Gels', `${startRow.reloadGels}`],
+        ['Salt tabs', `${startRow.reloadSalt}`],
+        ['5-Hour', '1'],
+        ['Headlamp', '1']
+      ], 'Use 1 carb bag to pre-fill Flask A before the start. Put the other 2 carb bags in the vest as spares. Start with Flask B full, Flask C full, and the headlamp already on.'),
+      prepCardHtml('Crew bag', 'Michigan Bluff', [
+        ['Carb bags', bagCountLabel(handoffs[4] || 0)],
+        ['Gels', `${mbRow.reloadGels}`],
+        ['Salt tabs', `${mbRow.reloadSalt}`],
+        ['Face wipes', '1 pack'],
+        ['Sunscreen stick', '1'],
+        ['Dry hat', 'if wanted']
+      ], 'This bag only needs what gets you out of Michigan Bluff. Drop the headlamp here and clear wrappers/trash here.'),
+      prepCardHtml('Crew bag', 'Foresthill', [
+        ['Carb bags', bagCountLabel(handoffs[5] || 0)],
+        ['Gels', `${fhRow.reloadGels}`],
+        ['Salt tabs', `${fhRow.reloadSalt}`],
+        ['Face wipes', '1 pack'],
+        ['Toothbrush + toothpaste', '1'],
+        ['Fresh shirt', '1'],
+        ['Fresh socks', '1 pair'],
+        ['Fresh shoes', 'if wanted'],
+        ['Quick lube', '1']
+      ], 'Use 1 carb bag leaving Foresthill and leave with 1 spare carb bag to cover the Cal 2 to Driver’s Flat leg. This is the main midday reset bag.'),
+      prepCardHtml('Crew bag', 'Driver’s Flat', [
+        ['Carb bags', bagCountLabel(handoffs[7] || 0)],
+        ['Gels', `${dfRow.reloadGels}`],
+        ['Salt tabs', `${dfRow.reloadSalt}`],
+        ['Headlamp', '1'],
+        ['Long-sleeve / jacket', '1'],
+        ['Face wipes', '1 pack'],
+        ['Toothbrush + toothpaste', '1'],
+        ['Chapstick', '1'],
+        ['Dry hat', 'if wanted']
+      ], 'Use 1 carb bag leaving Driver’s Flat and leave with 1 spare carb bag for Mammoth Bar to Confluence. Put the headlamp and layer on here for the dark finish push.'),
+      prepCardHtml('Shared backpack', 'Bring to every crew stop', [
+        ['Michigan Bluff bag', '1'],
+        ['Foresthill bag', '1'],
+        ['Driver’s Flat bag', '1'],
+        ['Spare 5-Hour', '1'],
+        ['Trash / wrapper ziplock', '1'],
+        ['Phone / watch charger', '1'],
+        ['Backup wipes / lube', '1 small kit']
+      ], 'Keep all 3 labeled crew bags inside this one larger backpack so the crew only has to move one thing between stops.')
+    ].join('');
   }
 
   // ====== Toggles ======
