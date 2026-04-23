@@ -2223,17 +2223,28 @@
         ['Label', 'MICHIGAN BLUFF'],
         ['Carb bags', bagCountLabel(handoffs[4] || 0)],
         ['Gels', `${mbRow.reloadGels}`],
-        ['Salt tabs', `${mbRow.reloadSalt}`],
-        ['Face wipes', '1 pack'],
-        ['Sunscreen stick', '1'],
-        ['Dry hat', 'if wanted'],
-        ['Trash ziplock', '1']
-      ], 'This bag only needs what gets you out of Michigan Bluff. Drop the headlamp here, clear wrappers/trash here, and leave with just the next-leg reload.'),
+        ['Salt tabs', `${mbRow.reloadSalt}`]
+      ], 'This bag is just the Michigan Bluff reload. Any cleanup or reset items come from the shared crew backpack.'),
       prepCardHtml('Crew bag', 'Foresthill', [
         ['Label', 'FORESTHILL'],
         ['Carb bags', bagCountLabel(handoffs[5] || 0)],
         ['Gels', `${fhRow.reloadGels}`],
-        ['Salt tabs', `${fhRow.reloadSalt}`],
+        ['Salt tabs', `${fhRow.reloadSalt}`]
+      ], 'Use 1 carb bag leaving Foresthill and leave with 1 spare carb bag to cover the Cal 2 to Driver’s Flat leg. Grab any clothing or reset items from the shared crew backpack.'),
+      prepCardHtml('Crew bag', 'Driver’s Flat', [
+        ['Label', 'DRIVER’S FLAT'],
+        ['Carb bags', bagCountLabel(handoffs[7] || 0)],
+        ['Gels', `${dfRow.reloadGels}`],
+        ['Salt tabs', `${dfRow.reloadSalt}`],
+        ['Headlamp', '1']
+      ], 'Use 1 carb bag leaving Driver’s Flat and leave with 1 spare carb bag for Mammoth Bar to Confluence. Grab the jacket, 5-Hour, and other night items from the shared crew backpack.'),
+      prepCardHtml('Shared backpack', 'Bring to every crew stop', [
+        ['Michigan Bluff bag', '1'],
+        ['Foresthill bag', '1'],
+        ['Driver’s Flat bag', '1'],
+        ['5-Hour', '1 spare / replacement'],
+        ['Trash / wrapper ziplock', '1'],
+        ['Phone / watch charger', '1'],
         ['Face wipes', '1 pack'],
         ['Toothbrush + toothpaste', '1'],
         ['Fresh shirt', '1'],
@@ -2241,31 +2252,12 @@
         ['Fresh shorts / underwear', 'if wanted'],
         ['Fresh hat', 'if wanted'],
         ['Fresh shoes', 'if wanted'],
-        ['Quick lube', '1']
-      ], 'Use 1 carb bag leaving Foresthill and leave with 1 spare carb bag to cover the Cal 2 to Driver’s Flat leg. This is the main midday reset bag.'),
-      prepCardHtml('Crew bag', 'Driver’s Flat', [
-        ['Label', 'DRIVER’S FLAT'],
-        ['Carb bags', bagCountLabel(handoffs[7] || 0)],
-        ['Gels', `${dfRow.reloadGels}`],
-        ['Salt tabs', `${dfRow.reloadSalt}`],
-        ['Headlamp', '1'],
-        ['Long-sleeve / jacket', '1'],
-        ['Face wipes', '1 pack'],
-        ['Toothbrush + toothpaste', '1'],
-        ['Chapstick', '1'],
+        ['Quick lube', '1'],
+        ['Sunscreen stick', '1'],
         ['Dry hat', 'if wanted'],
-        ['5-Hour', '1 if first one used']
-      ], 'Use 1 carb bag leaving Driver’s Flat and leave with 1 spare carb bag for Mammoth Bar to Confluence. Put the headlamp and layer on here for the dark finish push.'),
-      prepCardHtml('Shared backpack', 'Bring to every crew stop', [
-        ['Michigan Bluff bag', '1'],
-        ['Foresthill bag', '1'],
-        ['Driver’s Flat bag', '1'],
-        ['Spare 5-Hour', '1'],
-        ['Trash / wrapper ziplock', '1'],
-        ['Phone / watch charger', '1'],
-        ['Backup wipes / lube', '1 small kit'],
-        ['Backup chapstick / sunscreen', '1 small kit']
-      ], 'Keep all 3 labeled crew bags inside this one larger backpack so the crew only has to move one thing between stops. No separate Mammoth Bar or finish nutrition bag is needed.')
+        ['Long-sleeve / jacket', '1'],
+        ['Chapstick', '1']
+      ], 'Keep all 3 labeled crew bags plus the shared reset items inside this one larger backpack so the crew only has to move one thing between stops. No separate Mammoth Bar or finish nutrition bag is needed.')
     ].join('');
   }
 
