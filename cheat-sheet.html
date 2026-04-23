@@ -96,6 +96,46 @@
     gap: 8px;
     margin-top: 12px;
   }
+  .live-panel {
+    margin-top: 12px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 10px 11px 11px;
+  }
+  .live-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .live-top .mini {
+    color: var(--ink);
+  }
+  .live-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .live-stat {
+    border: 1px solid var(--line);
+    padding: 8px 9px;
+    min-width: 0;
+  }
+  .live-stat .v {
+    display: block;
+    margin-top: 3px;
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .live-stat .sub {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
   .pill {
     display: inline-flex;
     align-items: center;
@@ -183,10 +223,60 @@
     margin: 10px 0 0;
     padding-left: 18px;
   }
+  .crew-card .checklist,
+  .detail-block .checklist {
+    list-style: none;
+    padding-left: 0;
+  }
   .crew-card li,
   .detail-block li {
     margin-bottom: 6px;
     font-size: 14px;
+  }
+  .check-row {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .check-row input {
+    margin: 3px 0 0;
+  }
+  .check-row span {
+    min-width: 0;
+  }
+  .check-row input:checked + span {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .toggle-chip,
+  .reset-btn,
+  .step-btn {
+    appearance: none;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    color: var(--ink);
+    padding: 7px 10px;
+    font: inherit;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .reset-btn {
+    color: var(--muted);
+  }
+  .toggle-chip.is-on {
+    border-color: rgba(212, 71, 138, 0.55);
+    background: rgba(212, 71, 138, 0.08);
+    color: #8f2f63;
   }
   details.leg-card {
     overflow: hidden;
@@ -303,6 +393,46 @@
     gap: 8px;
     margin-top: 12px;
   }
+  .track-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .stepper {
+    display: inline-grid;
+    grid-template-columns: 28px minmax(0, auto) 28px;
+    align-items: stretch;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    min-width: 0;
+  }
+  .stepper.is-done {
+    border-color: rgba(212, 71, 138, 0.55);
+    background: rgba(212, 71, 138, 0.08);
+  }
+  .step-btn {
+    padding: 6px 0;
+    border: 0;
+    border-right: 1px solid var(--line);
+    background: transparent;
+  }
+  .stepper .step-btn:last-child {
+    border-right: 0;
+    border-left: 1px solid var(--line);
+  }
+  .step-value {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 9px;
+    min-width: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
   .detail-grid {
     display: grid;
     gap: 12px;
@@ -331,6 +461,7 @@
   @media (min-width: 760px) {
     .wrap { padding: 24px 20px 52px; }
     .summary-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .live-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .crew-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
@@ -352,6 +483,7 @@
     <p>Offline mobile cheat sheet built from the current nutrition plan snapshot: moderate 60-75F, 17:30 target, 10 min crew stops, 5 min solo stops.</p>
     <div class="summary-grid" id="summaryGrid"></div>
     <div class="summary-strip" id="summaryStrip"></div>
+    <div class="live-panel" id="livePanel"></div>
     <div class="jump-row">
       <a href="#crew">Crew stops</a>
       <a href="#legs">Legs</a>
@@ -704,8 +836,10 @@ const DATA = {
 
 const summaryGrid = document.getElementById('summaryGrid');
 const summaryStrip = document.getElementById('summaryStrip');
+const livePanel = document.getElementById('livePanel');
 const crewGrid = document.getElementById('crewGrid');
 const legList = document.getElementById('legList');
+const PROGRESS_KEY = 'canyons_cheat_progress_v1';
 
 function esc(value) {
   return String(value)
@@ -725,6 +859,258 @@ function pill(label, cls) {
 function countLabel(n, singular, plural = `${singular}s`) {
   return `${n} ${n === 1 ? singular : plural}`;
 }
+function slug(value) {
+  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return { legs: {}, crewDone: {}, crewChecks: {} };
+    const parsed = JSON.parse(raw);
+    return {
+      legs: parsed?.legs && typeof parsed.legs === 'object' ? parsed.legs : {},
+      crewDone: parsed?.crewDone && typeof parsed.crewDone === 'object' ? parsed.crewDone : {},
+      crewChecks: parsed?.crewChecks && typeof parsed.crewChecks === 'object' ? parsed.crewChecks : {}
+    };
+  } catch {
+    return { legs: {}, crewDone: {}, crewChecks: {} };
+  }
+}
+const progress = loadProgress();
+function saveProgress() {
+  try {
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  } catch {}
+}
+function getLegProgress(idx, leg) {
+  const key = String(idx);
+  const existing = progress.legs[key] || {};
+  const next = {
+    aDone: Boolean(existing.aDone),
+    done: Boolean(existing.done),
+    gels: Math.max(0, Math.min(leg.topPills.gels || 0, Number(existing.gels) || 0)),
+    salt: Math.max(0, Math.min(leg.topPills.salt || 0, Number(existing.salt) || 0))
+  };
+  progress.legs[key] = next;
+  return next;
+}
+function crewCheckKey(stopIdx, itemIdx) {
+  return `${stopIdx}:${itemIdx}`;
+}
+function progressTotals() {
+  const totals = { gels: 0, gelsMax: 0, salt: 0, saltMax: 0, legs: 0, legsMax: DATA.legs.length, crew: 0, crewMax: DATA.crewStops.length };
+  DATA.legs.forEach((leg, idx) => {
+    const state = getLegProgress(idx, leg);
+    totals.gels += state.gels;
+    totals.gelsMax += leg.topPills.gels || 0;
+    totals.salt += state.salt;
+    totals.saltMax += leg.topPills.salt || 0;
+    totals.legs += state.done ? 1 : 0;
+  });
+  DATA.crewStops.forEach((_, idx) => {
+    totals.crew += progress.crewDone[String(idx)] ? 1 : 0;
+  });
+  return totals;
+}
+function liveStat(label, value, sub) {
+  return `<div class="live-stat"><span class="mini">${label}</span><span class="v">${value}</span><div class="sub">${sub}</div></div>`;
+}
+function trackToggle(label, active, attrs) {
+  return `<button type="button" class="toggle-chip ${active ? 'is-on' : ''}" ${attrs}>${esc(label)}</button>`;
+}
+function stepper(label, count, total, attrsBase) {
+  return `<div class="stepper ${count >= total && total > 0 ? 'is-done' : ''}">
+    <button type="button" class="step-btn" ${attrsBase}="-1">−</button>
+    <span class="step-value">${esc(label)} ${count}/${total}</span>
+    <button type="button" class="step-btn" ${attrsBase}="1">+</button>
+  </div>`;
+}
+function renderLivePanel() {
+  const totals = progressTotals();
+  livePanel.innerHTML = `
+    <div class="live-top">
+      <span class="mini">Live race mode</span>
+      <button type="button" class="reset-btn" id="resetRaceBtn">Reset all</button>
+    </div>
+    <div class="live-grid">
+      ${liveStat('Gels', `${totals.gels}/${totals.gelsMax}`, 'taken so far')}
+      ${liveStat('Salt', `${totals.salt}/${totals.saltMax}`, 'tabs taken')}
+      ${liveStat('Legs', `${totals.legs}/${totals.legsMax}`, 'marked done')}
+      ${liveStat('Crew', `${totals.crew}/${totals.crewMax}`, 'stations cleared')}
+    </div>
+  `;
+}
+function renderCrew() {
+  const crewLegMap = new Map(DATA.legs.map((leg) => [leg.from, leg]));
+  crewGrid.innerHTML = DATA.crewStops.map((stop, stopIdx) => {
+    const nextLeg = crewLegMap.get(stop.name);
+    const actions = [];
+    if (stop.finish) {
+      actions.push('Hand over vest and bottles.');
+      actions.push('Shotgun a beer.');
+    } else if (nextLeg) {
+      actions.push(...nextLeg.leaving);
+    }
+    const chips = [];
+    if (stop.start) chips.push(pill('start', 'crew'));
+    else if (stop.finish) chips.push(pill('finish', 'gel'));
+    else chips.push(pill(`${stop.dwellMin} min crew`, 'crew'));
+    if (progress.crewDone[String(stopIdx)]) chips.push(pill('done', 'gel'));
+    const checklist = actions.map((item, itemIdx) => `
+      <li>
+        <label class="check-row">
+          <input type="checkbox" data-crew-check="${stopIdx}:${itemIdx}" ${progress.crewChecks[crewCheckKey(stopIdx, itemIdx)] ? 'checked' : ''} />
+          <span>${esc(item)}</span>
+        </label>
+      </li>
+    `).join('');
+    return `
+      <article class="crew-card ${stop.finish ? 'finish' : ''}" id="crew-${slug(stop.name)}">
+        <div class="crew-top">
+          <div>
+            <div class="crew-name">${esc(stop.name)}</div>
+            <div class="crew-sub">${stop.finish ? `arr ${esc(stop.arr)}` : `arr ${esc(stop.arr)} - out ${esc(stop.dep)}`}</div>
+          </div>
+          <div class="crew-time">${stop.finish ? esc(stop.arr) : esc(stop.dep)}</div>
+        </div>
+        <div class="summary-strip">${chips.join('')}</div>
+        <ul class="checklist">${checklist}</ul>
+        <div class="card-actions">
+          ${trackToggle(progress.crewDone[String(stopIdx)] ? 'Station done' : 'Mark station done', progress.crewDone[String(stopIdx)], `data-crew-done="${stopIdx}"`)}
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+function renderLegs() {
+  const openLegs = new Set(Array.from(document.querySelectorAll('details.leg-card[open]')).map((el) => el.id));
+  legList.innerHTML = DATA.legs.map((leg, idx) => {
+    const state = getLegProgress(idx, leg);
+    const pills = [
+      pill(leg.topPills.bag, 'carb'),
+      leg.topPills.gels ? pill(countLabel(leg.topPills.gels, 'gel'), 'gel') : '',
+      leg.topPills.salt ? pill(countLabel(leg.topPills.salt, 'salt tab', 'salt tabs'), 'salt') : '',
+      leg.crew ? pill('leave crew', 'crew') : ''
+    ].filter(Boolean).join('');
+
+    const bottleRows = [
+      { key: 'A', label: 'A', pct: leg.bottles.A, cls: 'carb' },
+      { key: 'B', label: 'B', pct: leg.bottles.B, cls: 'h2o' },
+      { key: 'C', label: 'C', pct: leg.bottles.C, cls: 'h2o' }
+    ].map((item) => {
+      const pct = item.pct == null ? '--' : `${item.pct}%`;
+      const width = item.pct == null ? 0 : item.pct;
+      const opacity = item.pct == null ? ' style="opacity:0.35"' : '';
+      return `<div class="bottle-row"${opacity}><span class="label">${item.label}</span><div class="bar ${item.cls}"><i style="width:${width}%"></i></div><span>${pct}</span></div>`;
+    }).join('');
+
+    const tracker = `
+      <div class="track-strip">
+        ${trackToggle(state.aDone ? 'A finished' : 'Mark A finished', state.aDone, `data-leg-toggle="${idx}:aDone"`)}
+        ${leg.topPills.gels ? stepper('Gels', state.gels, leg.topPills.gels, `data-leg-step="${idx}:gels:`) : ''}
+        ${leg.topPills.salt ? stepper('Salt', state.salt, leg.topPills.salt, `data-leg-step="${idx}:salt:`) : ''}
+        ${trackToggle(state.done ? 'Leg done' : 'Mark leg done', state.done, `data-leg-toggle="${idx}:done"`)}
+      </div>
+    `;
+
+    const legId = `leg-${idx + 1}`;
+    const isOpen = openLegs.size ? openLegs.has(legId) : idx < 2;
+    return `
+      <details class="leg-card" id="${legId}" ${isOpen ? 'open' : ''}>
+        <summary>
+          <div class="leg-head">
+            <div>
+              <div class="leg-title">${esc(leg.from)}<br />&rarr; ${esc(leg.to)}</div>
+              <div class="leg-kicker">dep ${esc(leg.dep)} - arr ${esc(leg.arr)}</div>
+            </div>
+            <div class="leg-time">
+              <span class="v">${esc(leg.time)}</span>
+              <span class="sub">${esc(leg.pace)}</span>
+            </div>
+          </div>
+          <div class="leg-meta">
+            <div class="meta-box"><span class="mini">Distance</span><span class="v">${leg.mile.toFixed(1)}mi</span><div class="sub">+${leg.gain}ft / -${leg.loss}ft</div></div>
+            <div class="meta-box"><span class="mini">Fuel</span><span class="v">${leg.carbs}g</span><div class="sub">${leg.fluidMl}ml - ${leg.sodium}mg Na</div></div>
+          </div>
+          <div class="bottle-grid">
+            <div class="mini">Bottles drained this leg</div>
+            ${bottleRows}
+          </div>
+          <div class="leg-pills">${pills}</div>
+          ${tracker}
+        </summary>
+        <div class="detail-grid">
+          <div class="detail-block">
+            <h3>Leaving ${esc(leg.from)}</h3>
+            <ul>${leg.leaving.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+          </div>
+          <div class="detail-block">
+            <h3>On the leg</h3>
+            <ul>${leg.onLeg.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
+          </div>
+        </div>
+      </details>
+    `;
+  }).join('');
+}
+function bindProgressEvents() {
+  const resetBtn = document.getElementById('resetRaceBtn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      progress.legs = {};
+      progress.crewDone = {};
+      progress.crewChecks = {};
+      saveProgress();
+      renderApp();
+    });
+  }
+  document.querySelectorAll('[data-crew-check]').forEach((input) => {
+    input.addEventListener('change', (event) => {
+      const key = event.currentTarget.getAttribute('data-crew-check');
+      progress.crewChecks[key] = event.currentTarget.checked;
+      saveProgress();
+      renderLivePanel();
+    });
+  });
+  document.querySelectorAll('[data-crew-done]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const idx = button.getAttribute('data-crew-done');
+      progress.crewDone[idx] = !progress.crewDone[idx];
+      saveProgress();
+      renderApp();
+    });
+  });
+  document.querySelectorAll('[data-leg-toggle]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const [idx, field] = button.getAttribute('data-leg-toggle').split(':');
+      const state = getLegProgress(Number(idx), DATA.legs[Number(idx)]);
+      state[field] = !state[field];
+      saveProgress();
+      renderApp();
+    });
+  });
+  document.querySelectorAll('[data-leg-step]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const [idx, field, delta] = button.getAttribute('data-leg-step').split(':');
+      const leg = DATA.legs[Number(idx)];
+      const state = getLegProgress(Number(idx), leg);
+      const max = leg.topPills[field] || 0;
+      state[field] = Math.max(0, Math.min(max, state[field] + Number(delta)));
+      saveProgress();
+      renderApp();
+    });
+  });
+}
+function renderApp() {
+  renderLivePanel();
+  renderCrew();
+  renderLegs();
+  bindProgressEvents();
+}
 
 summaryGrid.innerHTML = [
   summaryCard('Target', DATA.meta.target, `${DATA.meta.heat} conditions`),
@@ -739,92 +1125,7 @@ summaryStrip.innerHTML = [
   pill(`${DATA.meta.salt} salt tabs`, 'salt'),
   pill(`${Math.round(DATA.meta.sodium / 1000 * 10) / 10}g sodium`, 'crew')
 ].join('');
-
-const crewLegMap = new Map(DATA.legs.map((leg) => [leg.from, leg]));
-
-crewGrid.innerHTML = DATA.crewStops.map((stop) => {
-  const nextLeg = crewLegMap.get(stop.name);
-  const actions = [];
-  if (stop.finish) {
-    actions.push('Hand over vest and bottles.');
-    actions.push('Shotgun a beer.');
-  } else if (nextLeg) {
-    actions.push(...nextLeg.leaving);
-  }
-  const chips = [];
-  if (stop.start) chips.push(pill('start', 'crew'));
-  else if (stop.finish) chips.push(pill('finish', 'gel'));
-  else chips.push(pill(`${stop.dwellMin} min crew`, 'crew'));
-  return `
-    <article class="crew-card ${stop.finish ? 'finish' : ''}" id="crew-${stop.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}">
-      <div class="crew-top">
-        <div>
-          <div class="crew-name">${esc(stop.name)}</div>
-          <div class="crew-sub">${stop.finish ? `arr ${esc(stop.arr)}` : `arr ${esc(stop.arr)} - out ${esc(stop.dep)}`}</div>
-        </div>
-        <div class="crew-time">${stop.finish ? esc(stop.arr) : esc(stop.dep)}</div>
-      </div>
-      <div class="summary-strip">${chips.join('')}</div>
-      <ul>${actions.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
-    </article>
-  `;
-}).join('');
-
-legList.innerHTML = DATA.legs.map((leg, idx) => {
-  const pills = [
-    pill(leg.topPills.bag, 'carb'),
-    leg.topPills.gels ? pill(countLabel(leg.topPills.gels, 'gel'), 'gel') : '',
-    leg.topPills.salt ? pill(countLabel(leg.topPills.salt, 'salt tab', 'salt tabs'), 'salt') : '',
-    leg.crew ? pill('leave crew', 'crew') : ''
-  ].filter(Boolean).join('');
-
-  const bottleRows = [
-    { key: 'A', label: 'A', pct: leg.bottles.A, cls: 'carb' },
-    { key: 'B', label: 'B', pct: leg.bottles.B, cls: 'h2o' },
-    { key: 'C', label: 'C', pct: leg.bottles.C, cls: 'h2o' }
-  ].map((item) => {
-    const pct = item.pct == null ? '--' : `${item.pct}%`;
-    const width = item.pct == null ? 0 : item.pct;
-    const opacity = item.pct == null ? ' style="opacity:0.35"' : '';
-    return `<div class="bottle-row"${opacity}><span class="label">${item.label}</span><div class="bar ${item.cls}"><i style="width:${width}%"></i></div><span>${pct}</span></div>`;
-  }).join('');
-
-  return `
-    <details class="leg-card" id="leg-${idx + 1}" ${idx < 2 ? 'open' : ''}>
-      <summary>
-        <div class="leg-head">
-          <div>
-            <div class="leg-title">${esc(leg.from)}<br />&rarr; ${esc(leg.to)}</div>
-            <div class="leg-kicker">dep ${esc(leg.dep)} - arr ${esc(leg.arr)}</div>
-          </div>
-          <div class="leg-time">
-            <span class="v">${esc(leg.time)}</span>
-            <span class="sub">${esc(leg.pace)}</span>
-          </div>
-        </div>
-        <div class="leg-meta">
-          <div class="meta-box"><span class="mini">Distance</span><span class="v">${leg.mile.toFixed(1)}mi</span><div class="sub">+${leg.gain}ft / -${leg.loss}ft</div></div>
-          <div class="meta-box"><span class="mini">Fuel</span><span class="v">${leg.carbs}g</span><div class="sub">${leg.fluidMl}ml - ${leg.sodium}mg Na</div></div>
-        </div>
-        <div class="bottle-grid">
-          <div class="mini">Bottles drained this leg</div>
-          ${bottleRows}
-        </div>
-        <div class="leg-pills">${pills}</div>
-      </summary>
-      <div class="detail-grid">
-        <div class="detail-block">
-          <h3>Leaving ${esc(leg.from)}</h3>
-          <ul>${leg.leaving.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
-        </div>
-        <div class="detail-block">
-          <h3>On the leg</h3>
-          <ul>${leg.onLeg.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>
-        </div>
-      </div>
-    </details>
-  `;
-}).join('');
+renderApp();
 </script>
 </body>
 </html>
