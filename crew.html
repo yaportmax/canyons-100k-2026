@@ -4,12 +4,38 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Crew · Canyons 100K 2026</title>
+<script>
+  (() => {
+    try {
+      const saved = localStorage.getItem('canyons_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+    } catch {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=20260422c" />
+<link rel="icon" href="assets/maxyaport-logo.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="assets/styles.css?v=20260501a" />
 <style>
   body.topo-bg { background-attachment: scroll; }
+  html[data-theme="dark"] .tl-row.crew,
+  html[data-theme="dark"] .drive-card .warn,
+  html[data-theme="dark"] .chip.warn,
+  html[data-theme="dark"] .chip.finish {
+    background: rgba(255, 121, 184, 0.08);
+  }
+  html[data-theme="dark"] .drive-card .warn {
+    color: var(--ember-2);
+  }
+  html[data-theme="dark"] .chip.water,
+  html[data-theme="dark"] .chip.backup { color: #9cd2ea; }
+  html[data-theme="dark"] .chip.gel,
+  html[data-theme="dark"] .chip.finish { color: #ffb2d4; }
+  html[data-theme="dark"] .chip.salt { color: #d9b5eb; }
 
   .hero {
     padding: 64px 56px 40px;
@@ -704,12 +730,23 @@
 <body class="topo-bg">
 
 <header class="nav">
-  <div class="brand"><span class="mark">Canyons · 100K · 2026</span></div>
+  <a class="brand brand-link" href="https://maxyaport.com/" aria-label="Max Yaport home">
+    <img class="brand-logo" src="assets/maxyaport-logo.svg" alt="" />
+    <span>
+      <span class="brand-text">maxyaport.com</span>
+      <span class="mark">Canyons · 100K · 2026</span>
+    </span>
+  </a>
   <nav>
     <a href="index.html">Route</a>
     <a href="nutrition.html">Nutrition</a>
     <a href="crew.html" class="active">Crew</a>
   </nav>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+    <span class="icon" aria-hidden="true"></span>
+    <span class="mode-light">Light</span>
+    <span class="mode-dark">Dark</span>
+  </button>
 </header>
 
 <section class="hero" style="padding-bottom: 24px;">
@@ -823,6 +860,29 @@
 <script src="assets/course-meta.js?v=20260422b"></script>
 <script>
 (async () => {
+  const THEME_STORAGE_KEY = 'canyons_theme';
+  const themeToggle = document.getElementById('themeToggle');
+
+  function currentTheme() {
+    return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+  }
+
+  function setTheme(theme, persist = true) {
+    const next = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    themeToggle.setAttribute('aria-label', next === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    themeToggle.setAttribute('aria-pressed', String(next === 'dark'));
+    if (!persist) return;
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, next);
+    } catch {}
+  }
+
+  themeToggle.addEventListener('click', () => {
+    setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+  });
+  setTheme(currentTheme(), false);
+
   const course = await fetch('assets/course.json').then(r => r.json());
   const aid = course.aid;
   const CM = window.CANYONS;
