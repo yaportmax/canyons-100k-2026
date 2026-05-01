@@ -98,14 +98,8 @@ html[data-theme="dark"] .nav {
   text-decoration: none;
   border: 0;
 }
-.nav .brand-link:hover .brand-text,
-.nav .brand-link:focus-visible .brand-text { color: var(--ember); }
-.nav .brand-logo {
-  width: 28px;
-  height: 28px;
-  display: block;
-  border-radius: 7px;
-}
+.nav .brand-link:hover .brand-wordmark,
+.nav .brand-link:focus-visible .brand-wordmark { color: var(--ember); }
 .nav .brand .mark {
   font-family: var(--mono);
   font-size: 10.5px;
@@ -113,13 +107,15 @@ html[data-theme="dark"] .nav {
   text-transform: uppercase;
   color: var(--muted);
 }
-.nav .brand .brand-text {
+.nav .brand .brand-wordmark {
   display: block;
   color: var(--ink);
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
   text-transform: lowercase;
+  line-height: 1;
 }
 .nav a {
   color: var(--ink);
@@ -221,8 +217,7 @@ html[data-theme="light"] .theme-toggle .mode-dark { display: none; }
   .nav { padding: 12px 18px; }
   .nav .brand { font-size: 14px; }
   .nav .brand .mark { font-size: 9.5px; letter-spacing: 0.14em; }
-  .nav .brand-logo { width: 26px; height: 26px; }
-  .nav .brand .brand-text { font-size: 10px; letter-spacing: 0.1em; }
+  .nav .brand .brand-wordmark { font-size: 15px; }
   .nav nav { gap: 18px; }
   .nav a { font-size: 13px; padding: 4px 0; }
   .theme-toggle { margin-left: auto; padding: 5px 7px; font-size: 9.5px; }
